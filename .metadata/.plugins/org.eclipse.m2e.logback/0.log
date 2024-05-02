@@ -1,0 +1,10 @@
+2024-05-02 12:07:23,358 [Worker-6: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2024-05-02 12:07:43,897 [Worker-11: Creating project "TP-1C"] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: org.utn:TP-1C:0.0.1-SNAPSHOT @ C:\Users\farma\OneDrive\Escritorio\UTN\DISEÑO\TP\TP-1C\pom.xml.
+2024-05-02 12:07:44,487 [Worker-11: Creating project "TP-1C"] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /TP-1C/src/main/java
+2024-05-02 12:07:44,491 [Worker-11: Creating project "TP-1C"] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /TP-1C/src/main/resources
+2024-05-02 12:07:44,494 [Worker-11: Creating project "TP-1C"] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /TP-1C/src/test/java
+2024-05-02 12:07:44,495 [Worker-11: Creating project "TP-1C"] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /TP-1C/src/test/resources
+2024-05-02 12:07:45,365 [Worker-2: Building] WARN  o.a.m.s.f.DefaultMavenResourcesFiltering - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2024-05-02 12:07:45,372 [Worker-2: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-05-02 12:07:45,377 [Worker-2: Building] WARN  o.a.m.s.f.DefaultMavenResourcesFiltering - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2024-05-02 12:07:45,379 [Worker-2: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\test\resources to target\test-classes
