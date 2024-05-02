@@ -1,0 +1,85 @@
+package proyecto;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+
+public class login extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField textContrasenia;
+	private JTextField textUsuario;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					login frame = new login();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public login() {
+		setSize(350,500);
+		setResizable(false);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton inicarSeccion = new JButton("Iniciar Seccion");
+		inicarSeccion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		inicarSeccion.setBounds(103, 163, 120, 23);
+		contentPane.add(inicarSeccion);
+		
+		JButton btnRegistrarse = new JButton("Registrarse");
+		btnRegistrarse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnRegistrarse.setBounds(233, 163, 120, 23);
+		contentPane.add(btnRegistrarse);
+		
+		textContrasenia = new JTextField();
+		textContrasenia.setBounds(218, 110, 135, 20);
+		contentPane.add(textContrasenia);
+		textContrasenia.setColumns(10);
+		
+		textUsuario = new JTextField();
+		textUsuario.setColumns(10);
+		textUsuario.setBounds(218, 78, 135, 20);
+		contentPane.add(textUsuario);
+		
+		JLabel lblNewLabel = new JLabel("Usuario");
+		lblNewLabel.setBounds(121, 81, 46, 14);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblContrasea = new JLabel("Contraseña");
+		lblContrasea.setBounds(121, 113, 68, 14);
+		contentPane.add(lblContrasea);
+	}
+}
