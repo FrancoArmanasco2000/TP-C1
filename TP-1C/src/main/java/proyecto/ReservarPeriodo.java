@@ -128,6 +128,7 @@ public class ReservarPeriodo extends JFrame {
 		btnAceptar.setBounds(390, 607, 97, 24);
 		contentPane.add(btnAceptar);
 		
+		//esto es un boton
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
 		btnCancelar.setBounds(497, 607, 97, 24);
