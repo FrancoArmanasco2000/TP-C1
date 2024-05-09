@@ -50,7 +50,7 @@ public class login extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton inicarSeccion = new JButton("Iniciar");
+		JButton inicarSeccion = new JButton("Iniciar Seccion");
 		inicarSeccion.setBackground(new Color(255, 255, 255));
 		inicarSeccion.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 13));
 		inicarSeccion.addActionListener(new ActionListener() {
