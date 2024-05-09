@@ -1,0 +1,102 @@
+package interfaz;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.SwingConstants;
+import java.awt.SystemColor;
+import java.awt.Color;
+
+public class RegistrarReserva extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					RegistrarReserva frame = new RegistrarReserva();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public RegistrarReserva() {
+		setTitle("Registrar Reserva");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(240, 240, 240));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		setResizable(false);
+		setLocationRelativeTo(null);
+		
+		JPanel header = new JPanel();
+		header.setBackground(new Color(72, 61, 139));
+		header.setBounds(0, 0, 434, 50);
+		contentPane.add(header);
+		header.setLayout(null);
+		
+		
+		JLabel lblNewLabel = new JLabel("Seleccione el Tipo de Reserva:");
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setBounds(10, 0, 414, 48);
+		header.add(lblNewLabel);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
+		
+		JRadioButton rdbtnEsporadica = new JRadioButton("Esporádica");
+		rdbtnEsporadica.setForeground(new Color(0, 0, 0));
+		rdbtnEsporadica.setBackground(new Color(240, 240, 240));
+		rdbtnEsporadica.setHorizontalAlignment(SwingConstants.CENTER);
+		rdbtnEsporadica.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
+		rdbtnEsporadica.setBounds(157, 77, 120, 39);
+		
+		
+		JRadioButton rdbtnPeriodica = new JRadioButton("Periódica");
+		rdbtnPeriodica.setBackground(new Color(240, 240, 240));
+		rdbtnPeriodica.setForeground(new Color(0, 0, 0));
+		rdbtnPeriodica.setHorizontalAlignment(SwingConstants.CENTER);
+		rdbtnPeriodica.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
+		rdbtnPeriodica.setBounds(157, 132, 120, 31);
+		
+		
+		ButtonGroup tipoReserva = new ButtonGroup();
+		tipoReserva.add(rdbtnEsporadica);
+		tipoReserva.add(rdbtnPeriodica);
+		
+		contentPane.add(rdbtnEsporadica);
+		contentPane.add(rdbtnPeriodica);
+		
+		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+		btnAceptar.setBounds(224, 226, 97, 24);
+		contentPane.add(btnAceptar);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+		btnCancelar.setBounds(327, 226, 97, 24);
+		contentPane.add(btnCancelar);
+		
+	
+	}
+}
