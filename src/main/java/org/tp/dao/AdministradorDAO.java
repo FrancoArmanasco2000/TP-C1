@@ -8,11 +8,16 @@ import org.tp.entity.Administrador;
 
 import java.util.List;
 
+
+//LUEGO VOY A ENCONTRAR UNA MANERA DE OPTIMIZAR ESTO Y NO GENERAR TANTAS ENTIDADES
+//POR EL MOMENTO TOMEN COMO EJEMPLO ESTO PARA TRAER COSAS DE LA BASE DE DATOS
+
 public class AdministradorDAO {
 
     private static EntityManager manager; //Gestor de la base de datos
     private static EntityManagerFactory factory;
 
+    //HACES UN INSERT
     public void guardarAdministrador(Administrador admin) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
@@ -27,6 +32,7 @@ public class AdministradorDAO {
         }
     }
 
+    //HACES UN DELETE
     public void eliminarAdministrador(Administrador admin) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
@@ -41,6 +47,7 @@ public class AdministradorDAO {
         }
     }
 
+    //HACES UN SELECT PARTICULAR
     public Administrador traerAdministrador(int id) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
@@ -60,6 +67,7 @@ public class AdministradorDAO {
         }
     }
 
+    //HACES UN SELECT *
     public List<Administrador> traerAdministradores() {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
@@ -85,6 +93,7 @@ public class AdministradorDAO {
         }
     }
 
+    //HACES UN UPDATE
     public void actualizarAdministrador(Administrador adminNuevo) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();

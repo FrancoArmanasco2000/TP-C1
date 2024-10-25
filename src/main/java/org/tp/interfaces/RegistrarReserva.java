@@ -1,7 +1,5 @@
 package org.tp.interfaces;
 
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

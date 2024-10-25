@@ -1,21 +1,11 @@
 package org.tp.interfaces;
 
-import com.formdev.flatlaf.FlatDarculaLaf;
-import com.formdev.flatlaf.intellijthemes.FlatArcDarkIJTheme;
-import com.formdev.flatlaf.intellijthemes.FlatArcDarkOrangeIJTheme;
-import com.formdev.flatlaf.intellijthemes.FlatCarbonIJTheme;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
-import com.formdev.flatlaf.ui.FlatNativeMacLibrary;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class InicioSesion extends JFrame {
 

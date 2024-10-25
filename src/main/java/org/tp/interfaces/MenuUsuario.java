@@ -1,15 +1,8 @@
 package org.tp.interfaces;
 
-
-import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.intellijthemes.FlatMaterialDesignDarkIJTheme;
-import com.formdev.flatlaf.intellijthemes.FlatXcodeDarkIJTheme;
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
 
 public class MenuUsuario extends JFrame{
 

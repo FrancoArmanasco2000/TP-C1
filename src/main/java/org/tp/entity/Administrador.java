@@ -2,21 +2,22 @@ package org.tp.entity;
 
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "ADMINISTRADOR")
+@Entity //HIBERNATE RECONOCE QUE ESTO VA A SER UNA TABLA
+@Table(name = "ADMINISTRADOR") //NOMBRE QUE VA A TENER LA TABLA EN LA BASE DE DATOS
 public class Administrador {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id //DEJAS EN CLARO CUAL VA A SER EL ATRIBUTO QUE REPRESENTA EL ID
+    @GeneratedValue(strategy = GenerationType.SEQUENCE) //EL ID SE GENERA AUTOMATICAMENTE DE MANERA SECUENCIAL
     private Long idUsuario;
-    @Column
+    @Column //DEMAS COLUMNAS DE LA TABLA
     private String usuario;
     @Column
     private String contrasena;
 
-
+    //SIEMPRE GENERAR UN CONSTRUCTOR VACIO
     public Administrador() {}
 
+    //LUEGO GENEREN UNO CON LOS ATRIBUTOS
     public Administrador(String usuario, String contrasena) {
         this.usuario = usuario;
         this.contrasena = contrasena;
