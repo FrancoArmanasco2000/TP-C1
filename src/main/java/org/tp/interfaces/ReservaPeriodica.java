@@ -20,9 +20,9 @@ public class ReservaPeriodica extends JFrame {
         this.setTitle("Reserva periodica");
         this.setContentPane(this.reservaPeriodicaPanel);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setBounds(0,0,500,600);
-        this.setResizable(false);
-        this.setLocationRelativeTo(null);
+        this.setSize(500,600);
+        this.setResizable(false); // NO MODIFICA LA PESTAÑA
+        this.setLocationRelativeTo(null); // APARECE EN EL MEDIO
         this.setVisible(true);
     }
 
