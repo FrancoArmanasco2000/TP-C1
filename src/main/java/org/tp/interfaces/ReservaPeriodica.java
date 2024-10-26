@@ -1,8 +1,6 @@
 package org.tp.interfaces;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ReservaPeriodica extends JFrame {
     private JTextField inputCantidadAlumnos;

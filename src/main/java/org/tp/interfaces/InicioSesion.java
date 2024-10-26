@@ -58,8 +58,9 @@ public class InicioSesion extends JFrame {
         botonIniciarSesion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(contraseniaInput.getText().equals("") || usuarioInput.getText().equals("")) {
-                    System.out.println("Ingresa algo");
+                if(contraseniaInput.getText().equals("Admin") && usuarioInput.getText().equals("Admin")) {
+                    ventana.dispose();
+                    MenuAdministrador mu = new MenuAdministrador();
                 }else {
                     ventana.dispose();
                     String usuario = usuarioInput.getText();
