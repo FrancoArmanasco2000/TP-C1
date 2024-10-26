@@ -4,23 +4,71 @@ public class GestorPoliticas {
 
     public GestorPoliticas() {}
 
-    public boolean comprobarTODO(String password) {
-        return comprobarLongitud(password) && comprobarCaracteres(password) && comprobarDigitos(password) && comprobarMayusculas(password);
+    public String comprobarTODO(String password) {
+        StringBuilder respuesta = new StringBuilder();
+
+        String longitud = comprobarLongitud(password);
+        if (!longitud.isEmpty()) {
+            respuesta.append(longitud).append("\n");
+        }
+
+        String caracteres = comprobarCaracteres(password);
+        if (!caracteres.isEmpty()) {
+            respuesta.append(caracteres).append("\n");
+        }
+
+        String digitos = comprobarDigitos(password);
+        if (!digitos.isEmpty()) {
+            respuesta.append(digitos).append("\n");
+        }
+
+        String mayusculas = comprobarMayusculas(password);
+        if (!mayusculas.isEmpty()) {
+            respuesta.append(mayusculas).append("\n");
+        }
+
+        // Eliminar el último salto de línea si existe
+        if (respuesta.length() > 0 && respuesta.charAt(respuesta.length() - 1) == '\n') {
+            respuesta.deleteCharAt(respuesta.length() - 1);
+        }
+
+        return respuesta.toString();
     }
 
-    public boolean comprobarLongitud(String password) {
-        return password.length() >= 8 && password.length() <= 24;
+
+    public String comprobarLongitud(String password) {
+        if(password.length() < 8)
+        return "Longitud mínima 8 caracteres.";
+        else{
+            return "";
+        }
     }
 
-    public boolean comprobarCaracteres(String password) {
-        return password.matches(".*[@#$%&*].*");
+    public String comprobarCaracteres(String password) {
+        if(password.matches(".*[@#$%&*].*")){
+            return "";
+        }
+        else{
+            return "No incluye caracteres especiales.";
+        }
     }
 
-    public boolean comprobarMayusculas(String password) {
-        return password.matches(".*[A-Z].*");
+    public String comprobarMayusculas(String password) {
+        if(password.matches(".*[A-Z].*")){
+            return "";
+        }
+        else{
+            return "No incluye una mayuscula.";
+        }
+
     }
 
-    public boolean comprobarDigitos(String password) {
-        return password.matches(".*[0-9].*");
+    public String comprobarDigitos(String password) {
+        if(password.matches(".*[0-9].*")){
+            return "";
+        }
+        else{
+            return "No incluye digitos.";
+        }
     }
 }

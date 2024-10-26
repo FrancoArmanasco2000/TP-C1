@@ -1,9 +1,11 @@
 package org.tp.interfaces;
 
+import org.tp.gestores.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
 
 public class RegistrarBedel extends JFrame{
     private JPanel registrarBedel;
@@ -47,12 +49,21 @@ public class RegistrarBedel extends JFrame{
     }
 
     private void setRegistrarBedel() {
+        //Usuario no registrado
         idUsuarios.add("Cristian");
         if (verificarUsuarioExiste()) {
             MensajeDeError me = new MensajeDeError("El idUsuario ya se encuentra registrado.");
             return;
         }
         //Agregar validacion politicas
+        GestorPoliticas gp = new GestorPoliticas();
+
+
+        if(!gp.comprobarTODO(inputContrasenia.getText()).equals("")){
+            MensajeDeError me = new MensajeDeError(gp.comprobarTODO(inputContrasenia.getText()));
+            return;
+        }
+
 
         if (!inputContrasenia.getText().equals(confirmarContrasenia.getText())) {
             MensajeDeError me = new MensajeDeError("Las contraseñas no coinciden.");
