@@ -16,6 +16,7 @@ public class RegistrarReserva extends JFrame {
         this.setContentPane(this.seleccionarTipoReserva);
         this.setBounds(0,0,350,450);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
 
         periodicaRadioButton.addActionListener(new ActionListener() {
