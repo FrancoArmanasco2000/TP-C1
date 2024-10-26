@@ -15,8 +15,7 @@ public class RegistrarBedel extends JFrame{
     private JComboBox seleccionarTurno;
     private JTextField inputUsuario;
     private JTextField inputApellido;
-    private ArrayList<String> idUsuarios = {};
-
+    private ArrayList<String> idUsuarios = new ArrayList<>();
 
     public RegistrarBedel() {
 
@@ -25,7 +24,7 @@ public class RegistrarBedel extends JFrame{
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setVisible(true);
-
+    
 
 
         cancelarButton.addActionListener(new ActionListener() {
@@ -38,10 +37,9 @@ public class RegistrarBedel extends JFrame{
         confirmarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                verificarUsuarioExiste();
+                setRegistrarBedel();
             }
         });
-
     }
 
     private boolean verificarUsuarioExiste() {
@@ -49,12 +47,29 @@ public class RegistrarBedel extends JFrame{
     }
 
     private void setRegistrarBedel() {
+        idUsuarios.add("Cristian");
         if (verificarUsuarioExiste()) {
-            MensajeDeError ma = new MensajeDeError("El idUsuario ya se encuentra registrado.");
+            MensajeDeError me = new MensajeDeError("El idUsuario ya se encuentra registrado.");
+            return;
+        }
+        //Agregar validacion politicas
+
+        if (!inputContrasenia.getText().equals(confirmarContrasenia.getText())) {
+            MensajeDeError me = new MensajeDeError("Las contraseñas no coinciden.");
+            return;
         }
         else{
-            idUsuarios.add(inputUsuario.getText());
+            //Se guarda contraseña
+            if(!inputContrasenia.getText().isBlank()) {
+                System.out.println("Contraseña guardada.");
+            }
+            guardarBedel();
+            dispose();
         }
+
+    }
+
+    private void guardarBedel() {
     }
 
 //    public static void main(String[] args) {

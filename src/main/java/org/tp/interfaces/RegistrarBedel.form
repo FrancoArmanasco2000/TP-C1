@@ -104,6 +104,7 @@
             </constraints>
             <properties>
               <font name="Segoe UI" size="14" style="0"/>
+              <text value=""/>
             </properties>
           </component>
           <vspacer id="55053">
