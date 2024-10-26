@@ -25,7 +25,7 @@ public class MenuAdministrador extends JFrame {
         registrarBedelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                RegistrarBedel rb = new RegistrarBedel();
             }
         });
     }
