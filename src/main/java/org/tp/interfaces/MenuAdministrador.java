@@ -16,7 +16,8 @@ public class MenuAdministrador extends JFrame {
         FlatMacDarkLaf.setup();
         MenuAdministrador mu = new MenuAdministrador();
         mu.setContentPane(new MenuAdministrador().menuAdministrador);
-        mu.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        mu.setSize(500,600);
+        mu.setLocationRelativeTo(null);
         mu.setVisible(true);
     }
 }

@@ -23,7 +23,8 @@ public class MenuUsuario extends JFrame{
         this.setSubtituloNombreUsuario(usuario);
         this.setContentPane(this.menuUsuario);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setSize(500,600);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
 
         registrarReservaButton.addActionListener(new ActionListener() {
