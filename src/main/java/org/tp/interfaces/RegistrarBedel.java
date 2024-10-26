@@ -1,7 +1,5 @@
 package org.tp.interfaces;
 
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +15,7 @@ public class RegistrarBedel extends JFrame{
     private JComboBox seleccionarTurno;
     private JTextField inputUsuario;
     private JTextField inputApellido;
-    private ArrayList<String> nombreUsuarios;
+    private ArrayList<String> idUsuarios = {};
 
 
     public RegistrarBedel() {
@@ -29,12 +27,34 @@ public class RegistrarBedel extends JFrame{
         this.setVisible(true);
 
 
+
         cancelarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MensajeDeAlerta ma = new MensajeDeAlerta("¿Estas seguro que deseas cancelar el registro?", RegistrarBedel.this);
             }
         });
+
+        confirmarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                verificarUsuarioExiste();
+            }
+        });
+
+    }
+
+    private boolean verificarUsuarioExiste() {
+        return idUsuarios.contains(inputUsuario.getText());
+    }
+
+    private void setRegistrarBedel() {
+        if (verificarUsuarioExiste()) {
+            MensajeDeError ma = new MensajeDeError("El idUsuario ya se encuentra registrado.");
+        }
+        else{
+            idUsuarios.add(inputUsuario.getText());
+        }
     }
 
 //    public static void main(String[] args) {
