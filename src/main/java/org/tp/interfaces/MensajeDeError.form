@@ -50,11 +50,14 @@
       <component id="ed0e4" class="javax.swing.JTextArea" binding="mensajeError">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="2" indent="0" use-parent-layout="false">
-            <preferred-size width="200" height="50"/>
+            <minimum-size width="250" height="50"/>
+            <preferred-size width="250" height="50"/>
+            <maximum-size width="250" height="50"/>
           </grid>
         </constraints>
         <properties>
           <font name="Segoe UI" size="16" style="0"/>
+          <text value=""/>
         </properties>
       </component>
     </children>

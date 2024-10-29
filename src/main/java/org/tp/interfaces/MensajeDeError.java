@@ -13,7 +13,7 @@ public class MensajeDeError extends JFrame {
     private JTextArea mensajeError;
 
     public MensajeDeError(String texto){
-        mensajeError.setText("⚠\uFE0F "+texto);
+        mensajeError.setText(texto);
         mensajeError.setWrapStyleWord(true);
         mensajeError.setLineWrap(true);
         mensajeError.setEditable(false);
@@ -22,7 +22,7 @@ public class MensajeDeError extends JFrame {
         mensajeError.setCursor(null);
 
         this.setContentPane(this.panelError);
-        this.setSize(250,200);
+        this.setSize(350,200);
         this.setTitle("⚠\uFE0F ERROR ⚠\uFE0F");
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setResizable(false);

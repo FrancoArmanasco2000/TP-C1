@@ -6,8 +6,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class InicioSesion extends JFrame {
+
+    private static Boolean mostrar;
 
     public InicioSesion() {
 
@@ -24,8 +28,6 @@ public class InicioSesion extends JFrame {
         titulo.setFont(new Font("Segoe UI", Font.BOLD, 50 ));
         Dimension sizeTitulo = titulo.getPreferredSize();
         titulo.setBounds(250-(sizeTitulo.width/2)-10,90,sizeTitulo.width,sizeTitulo.height);
-        System.out.println(sizeTitulo.width);
-        System.out.println(ventana.getWidth());
         ventana.add(titulo);
 
         //FORMULARIO INICIAR SESION
@@ -35,7 +37,7 @@ public class InicioSesion extends JFrame {
         usuario.setBounds(100,200,sizeUsuario.width,sizeUsuario.height);
         ventana.add(usuario);
 
-        JTextArea usuarioInput = new JTextArea();
+        JTextField usuarioInput = new JTextField();
         usuarioInput.setFont(new Font("Segoe UI", Font.BOLD, 15 ));
         usuarioInput.setBounds(100,240,280,30);
         ventana.add(usuarioInput);
@@ -46,10 +48,17 @@ public class InicioSesion extends JFrame {
         contrasenia.setBounds(100,300,sizeContrasenia.width,sizeContrasenia.height);
         ventana.add(contrasenia);
 
-        JTextArea contraseniaInput = new JTextArea();
+        JPasswordField contraseniaInput = new JPasswordField();
         contraseniaInput.setFont(new Font("Segoe UI", Font.BOLD, 15 ));
         contraseniaInput.setBounds(100,340,280,30);
+        contraseniaInput.setEchoChar('*');
         ventana.add(contraseniaInput);
+
+        JButton botonMostrarContrasenia = new JButton("\uD83D\uDC41");
+        botonMostrarContrasenia.setFont(new Font("Segoe UI", Font.BOLD, 15 ));
+        botonMostrarContrasenia.setBounds(380,340,40,40);
+        this.mostrar = true;
+        ventana.add(botonMostrarContrasenia);
 
         //BOTON INICIAR SESION
         JButton botonIniciarSesion = new JButton("Iniciar Sesion");
@@ -69,10 +78,27 @@ public class InicioSesion extends JFrame {
             }
         });
 
+        botonMostrarContrasenia.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cambiar(contraseniaInput);
+
+            }
+        });
+
         //AÑADIMOS EL BOTON Y MOSTRAMOS LA PANTALLA
         ventana.add(botonIniciarSesion);
         ventana.setVisible(true);
 
+    }
+
+    public static void cambiar (JPasswordField password) {
+        if(mostrar){
+            password.setEchoChar((char) 0);
+        } else {
+            password.setEchoChar('*');
+        }
+        mostrar = !mostrar;
     }
 
     //LA RAIZ PADRE DE TODA LA APLICACION
