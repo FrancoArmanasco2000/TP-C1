@@ -1,33 +1,44 @@
 package org.tp.interfaces;
 
+import org.tp.dto.BedelDTO;
 import org.tp.gestores.*;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 
 public class RegistrarBedel extends JFrame{
     private JPanel registrarBedel;
-    private JTextField confirmarContrasenia;
-    private JTextField inputContrasenia;
+    private JPasswordField confirmarContrasenia;
+    private JPasswordField inputContrasenia;
     private JButton confirmarButton;
     private JButton cancelarButton;
     private JTextField inputNombre;
     private JComboBox seleccionarTurno;
     private JTextField inputUsuario;
     private JTextField inputApellido;
-    private ArrayList<String> idUsuarios = new ArrayList<>();
+    private JButton ojoButton2;
+    private JButton ojoButton;
+    private GestorUsuario gestorUsuario;
+    private GestorPoliticas gestorPoliticas;
+    private static Boolean mostrar;
+    private static Boolean mostrar2;
 
     public RegistrarBedel() {
 
+        this.mostrar = true;
+        this.mostrar2 = true;
+        this.gestorUsuario = new GestorUsuario();
+        this.gestorPoliticas = new GestorPoliticas();
         this.setContentPane(this.registrarBedel);
         this.setSize(800,400);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setVisible(true);
-    
 
+        this.inputContrasenia.setEchoChar('*');
+        this.confirmarContrasenia.setEchoChar('*');
 
         cancelarButton.addActionListener(new ActionListener() {
             @Override
@@ -42,55 +53,66 @@ public class RegistrarBedel extends JFrame{
                 setRegistrarBedel();
             }
         });
+
+        ojoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cambiar(inputContrasenia);
+            }
+        });
+        ojoButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cambiar2(confirmarContrasenia);
+            }
+        });
     }
 
-    private boolean verificarUsuarioExiste() {
-        return idUsuarios.contains(inputUsuario.getText());
+    private boolean verificarUsuarioExiste(String usuario) {
+        return this.gestorUsuario.listarUsuarios().contains(usuario);
     }
 
     private void setRegistrarBedel() {
-        //Usuario no registrado
-        idUsuarios.add("Cristian");
-        if (verificarUsuarioExiste()) {
-            MensajeDeError me = new MensajeDeError("El idUsuario ya se encuentra registrado.");
-            return;
-        }
-        //Agregar validacion politicas
-        GestorPoliticas gp = new GestorPoliticas();
 
-
-        if(!gp.comprobarTODO(inputContrasenia.getText()).equals("")){
-            MensajeDeError me = new MensajeDeError(gp.comprobarTODO(inputContrasenia.getText()));
-            return;
-        }
-
-
-        if (!inputContrasenia.getText().equals(confirmarContrasenia.getText())) {
-            MensajeDeError me = new MensajeDeError("Las contraseñas no coinciden.");
-            return;
-        }
-        else{
-            //Se guarda contraseña
-            if(!inputContrasenia.getText().isBlank()) {
-                System.out.println("Contraseña guardada.");
+        if(this.inputApellido.getText().isBlank() || this.inputNombre.getText().isBlank() || this.inputContrasenia.getText().isBlank() || this.inputUsuario.getText().isBlank() || this.seleccionarTurno.getSelectedIndex() == 0) {
+            System.out.println("HOLA"+this.seleccionarTurno.getSelectedIndex());
+        } else {
+            if (verificarUsuarioExiste(this.inputUsuario.getText())) {
+                MensajeDeError me = new MensajeDeError("El idUsuario ya se encuentra registrado.");
+            } else if(!this.gestorPoliticas.comprobarTODO(this.inputContrasenia.getText()).equals("")){
+                MensajeDeError me = new MensajeDeError(this.gestorPoliticas.comprobarTODO(this.inputContrasenia.getText()));
+            } else if (!this.inputContrasenia.getText().equals(this.confirmarContrasenia.getText())) {
+                MensajeDeError me = new MensajeDeError("Las contraseñas no coinciden.");
+            } else {
+                registrarBedel(this.inputNombre.getText(),this.inputApellido.getText(),this.inputUsuario.getText(),this.inputContrasenia.getText(), (String) this.seleccionarTurno.getSelectedItem());
+                dispose();
             }
-            guardarBedel();
-            dispose();
         }
 
+
     }
 
-    private void guardarBedel() {
+    private void registrarBedel(String nombre, String apellido, String usuario, String contrasenia, String turno){
+        BedelDTO bedelDTO = new BedelDTO(nombre, apellido, usuario, contrasenia, turno);
+        this.gestorUsuario.registrarBedel(bedelDTO);
     }
 
-//    public static void main(String[] args) {
-//        FlatMacDarkLaf.setup();
-//        RegistrarBedel rb = new RegistrarBedel();
-//        rb.setContentPane(rb.registrarBedel);
-//        rb.setSize(800,400);
-//        rb.setLocationRelativeTo(null);
-//        rb.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-//        rb.setVisible(true);
-//    }
+    public static void cambiar (JPasswordField password) {
+        if(mostrar){
+            password.setEchoChar((char) 0);
+        } else {
+            password.setEchoChar('*');
+        }
+        mostrar = !mostrar;
+    }
+
+    public static void cambiar2 (JPasswordField password) {
+        if(mostrar2){
+            password.setEchoChar((char) 0);
+        } else {
+            password.setEchoChar('*');
+        }
+        mostrar2 = !mostrar2;
+    }
 
 }

@@ -4,27 +4,31 @@ public class GestorPoliticas {
 
     public GestorPoliticas() {}
 
+    public Boolean comprobarCoincidencia(String password1, String password2) {
+        return password1.equals(password2);
+    }
+
     public String comprobarTODO(String password) {
         StringBuilder respuesta = new StringBuilder();
 
         String longitud = comprobarLongitud(password);
         if (!longitud.isEmpty()) {
-            respuesta.append(longitud).append("\n");
+            respuesta.append("⚠\uFE0F ").append(longitud).append("\n");
         }
 
         String caracteres = comprobarCaracteres(password);
         if (!caracteres.isEmpty()) {
-            respuesta.append(caracteres).append("\n");
+            respuesta.append("⚠\uFE0F ").append(caracteres).append("\n");
         }
 
         String digitos = comprobarDigitos(password);
         if (!digitos.isEmpty()) {
-            respuesta.append(digitos).append("\n");
+            respuesta.append("⚠\uFE0F ").append(digitos).append("\n");
         }
 
         String mayusculas = comprobarMayusculas(password);
         if (!mayusculas.isEmpty()) {
-            respuesta.append(mayusculas).append("\n");
+            respuesta.append("⚠\uFE0F ").append(mayusculas).append("\n");
         }
 
         // Eliminar el último salto de línea si existe
@@ -38,7 +42,7 @@ public class GestorPoliticas {
 
     public String comprobarLongitud(String password) {
         if(password.length() < 8)
-        return "Longitud mínima 8 caracteres.";
+            return "Longitud mínima 8 caracteres.";
         else{
             return "";
         }

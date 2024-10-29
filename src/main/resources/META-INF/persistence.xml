@@ -8,6 +8,7 @@
     <persistence-unit name="Aplicacion">
 
         <class>org.tp.entity.Administrador</class>
+        <class>org.tp.entity.Bedel</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
