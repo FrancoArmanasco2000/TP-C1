@@ -54,4 +54,31 @@ public class UsuarioDAO implements UsuarioDAOImpl{
         }
         return null;
     }
+
+    public Bedel getBedelByUsuario(String usuarioInterfaz) {
+        factory = Persistence.createEntityManagerFactory("Aplicacion");
+        manager = factory.createEntityManager();
+        try {
+            manager.getTransaction().begin();
+            // Corregir la consulta HQL para usar un parámetro nombrado
+            String hql = "SELECT b FROM Bedel b WHERE b.usuario = :usuarioInterfaz";
+            Query query = manager.createQuery(hql);
+            query.setParameter("usuarioInterfaz", usuarioInterfaz);
+
+            // Usar getSingleResult en lugar de getResult para obtener un solo objeto
+            Bedel bedelByUsuario = (Bedel) query.getSingleResult();
+            System.out.println(bedelByUsuario);
+            manager.getTransaction().commit();
+            return bedelByUsuario;
+        } catch (Exception e) {
+            if (manager.getTransaction().isActive()) {
+                manager.getTransaction().rollback();
+            }
+            e.printStackTrace();
+            return null;
+        } finally {
+            manager.close();
+            factory.close();
+        }
+    }
 }
