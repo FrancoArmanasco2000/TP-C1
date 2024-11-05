@@ -6,6 +6,7 @@ import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
 import org.tp.entity.Administrador;
 import org.tp.entity.Bedel;
+import jakarta.persistence.NoResultException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,13 @@ public class UsuarioDAO implements UsuarioDAOImpl{
             System.out.println(bedelByUsuario);
             manager.getTransaction().commit();
             return bedelByUsuario;
+        } catch (NoResultException e) {
+            System.out.println("No se encontró un usuario con ese nombre.");
+            if (manager != null && manager.getTransaction().isActive()) {
+                manager.getTransaction().rollback();
+            }
+            return null;
+
         } catch (Exception e) {
             if (manager.getTransaction().isActive()) {
                 manager.getTransaction().rollback();

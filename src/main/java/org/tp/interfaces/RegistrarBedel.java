@@ -53,22 +53,11 @@ public class RegistrarBedel extends JFrame {
         confirmarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (inputApellido.getText().isBlank() || inputNombre.getText().isBlank() || inputContrasenia.getText().isBlank() || inputUsuario.getText().isBlank() || seleccionarTurno.getSelectedIndex() == 0) {
-                   /* BedelDTO bDTO = new BedelDTO(
-                            inputNombre.getText(),
-                            inputApellido.getText(),
-                            inputUsuario.getText(),
-                            confirmarContrasenia.getText(),
-                            seleccionarTurno.getSelectedItem().toString()
-                    );*/
+                if (!(inputApellido.getText().isBlank() || inputNombre.getText().isBlank() || inputContrasenia.getText().isBlank() || confirmarContrasenia.getText().isBlank() || inputUsuario.getText().isBlank() || seleccionarTurno.getSelectedIndex() == 0)) {
                     try {
-                        //gestorUsuario.registrarBedel(bDTO, confirmarContrasenia.getText());
-                        registrarBedel(inputNombre.getText(), inputApellido.getText(), inputUsuario.getText(), confirmarContrasenia.getText(), seleccionarTurno.getSelectedItem().toString());
-                    } catch (UsuarioYaRegistradoException ex) {
-                        MensajeDeError me = new MensajeDeError(ex.getMessage());
-                    } catch (ContraseniaInvalidaException ex) {
-                        MensajeDeError me = new MensajeDeError(ex.getMessage());
-                    } catch (ContraseniasNoCoincidenException ex) {
+                        registrarBedel(inputNombre.getText(), inputApellido.getText(), inputUsuario.getText(), inputContrasenia.getText(), confirmarContrasenia.getText(), seleccionarTurno.getSelectedItem().toString());
+                    } catch (UsuarioYaRegistradoException | ContraseniaInvalidaException |
+                             ContraseniasNoCoincidenException ex) {
                         MensajeDeError me = new MensajeDeError(ex.getMessage());
                     }
                 }
@@ -90,9 +79,9 @@ public class RegistrarBedel extends JFrame {
         });
     }
 
-    private void registrarBedel(String nombre, String apellido, String usuario, String contrasenia, String turno) throws ContraseniasNoCoincidenException, UsuarioYaRegistradoException, ContraseniaInvalidaException {
+    private void registrarBedel(String nombre, String apellido, String usuario, String contrasenia, String confirmarcontrasenia, String turno) throws ContraseniasNoCoincidenException, UsuarioYaRegistradoException, ContraseniaInvalidaException {
         BedelDTO bedelDTO = new BedelDTO(nombre, apellido, usuario, contrasenia, turno);
-        this.gestorUsuario.registrarBedel(bedelDTO, String.valueOf(confirmarContrasenia));
+        this.gestorUsuario.registrarBedel(bedelDTO, confirmarcontrasenia);
     }
 
     public static void cambiar(JPasswordField password) {
