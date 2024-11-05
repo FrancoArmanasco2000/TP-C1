@@ -1,6 +1,7 @@
 package org.tp.interfaces;
 
 import org.tp.dto.BedelDTO;
+import org.tp.entity.Bedel;
 import org.tp.gestores.*;
 import javax.swing.*;
 import java.awt.*;
@@ -60,6 +61,7 @@ public class RegistrarBedel extends JFrame{
                 cambiar(inputContrasenia);
             }
         });
+
         ojoButton2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -68,8 +70,8 @@ public class RegistrarBedel extends JFrame{
         });
     }
 
-    private boolean verificarUsuarioExiste(String usuario) {
-        return this.gestorUsuario.listarUsuarios().contains(usuario);
+    private Boolean verificarUsuarioExiste(String usuario) {
+        return this.gestorUsuario.getBedelByUsuario(usuario) != null;
     }
 
     private void setRegistrarBedel() {

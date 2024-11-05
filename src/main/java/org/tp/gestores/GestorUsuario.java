@@ -25,7 +25,7 @@ public class GestorUsuario {
         usuarioDAO.crearUsuario(bedelEntity);
     }
 
-    public List<String> listarUsuarios () {
-       return  usuarioDAO.listaNombreUsuarios();
+    public Bedel getBedelByUsuario (String usuario) {
+       return  usuarioDAO.getBedelByUsuario(usuario);
     }
 }

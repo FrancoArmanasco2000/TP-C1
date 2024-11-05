@@ -54,7 +54,8 @@ public class InicioSesion extends JFrame {
         contraseniaInput.setEchoChar('*');
         ventana.add(contraseniaInput);
 
-        JButton botonMostrarContrasenia = new JButton("\uD83D\uDC41");
+        JButton botonMostrarContrasenia = new JButton();
+        botonMostrarContrasenia.setText("👁");
         botonMostrarContrasenia.setFont(new Font("Segoe UI", Font.BOLD, 15 ));
         botonMostrarContrasenia.setBounds(380,340,40,40);
         this.mostrar = true;
