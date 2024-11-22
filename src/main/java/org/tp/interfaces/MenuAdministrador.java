@@ -1,6 +1,7 @@
 package org.tp.interfaces;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import org.tp.interfaces.BuscarBedel.BuscarBedel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -27,6 +28,10 @@ public class MenuAdministrador extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 RegistrarBedel rb = new RegistrarBedel();
             }
+        });
+        buscarBedelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { BuscarBedel bd = new BuscarBedel(); }
         });
     }
 }
