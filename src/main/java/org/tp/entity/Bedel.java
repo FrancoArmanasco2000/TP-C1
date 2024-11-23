@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class Bedel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
     @Column
     private String nombre;

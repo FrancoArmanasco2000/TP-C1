@@ -1,8 +1,5 @@
 package org.tp.interfaces;
 
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import org.tp.interfaces.BuscarBedel.BuscarBedel;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

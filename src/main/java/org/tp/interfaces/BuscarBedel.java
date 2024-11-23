@@ -1,10 +1,12 @@
-package org.tp.interfaces.BuscarBedel;
+package org.tp.interfaces;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class BuscarBedel extends JFrame {
-    private JPanel mainPanel;
+    private JPanel buscarBedel;
     private JPanel headerPanel;
     private JRadioButton nombreRadioButton;
     private JRadioButton turnoRadioButton;
@@ -22,9 +24,7 @@ public class BuscarBedel extends JFrame {
         this.setSize(800,600);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
-        this.setContentPane(mainPanel);
-
-
+        this.setContentPane(buscarBedel);
 
         ButtonGroup searchGroup = new ButtonGroup();
         searchGroup.add(nombreRadioButton);
@@ -36,13 +36,22 @@ public class BuscarBedel extends JFrame {
         JTable tablaBedeles = new JTable(datos, columnas);
         JScrollPane scrollPane = new JScrollPane(tablaBedeles);
 
-
-
-
         // Añadir tabla al CENTRO del BorderLayout
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        buscarBedel.add(scrollPane, BorderLayout.CENTER);
 
 
+        modificarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ModificarBedel mb = new ModificarBedel(1L);//Se modifica solo el de id 1 para testear, luego se deberá pasar el id del bedel de la fila seleccionada
+            }
+        });
 
+        cancelarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
     }
 }
