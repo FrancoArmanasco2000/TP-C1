@@ -35,7 +35,30 @@ public class GestorUsuario {
             usuarioDAO.crearUsuario(bedelEntity);
         }
     }
+
     public List<String> listarUsuarios() {
         return usuarioDAO.listaNombreUsuarios();
     }
+
+    public Bedel modificarBedel(BedelDTO bedel) throws ContraseniaInvalidaException, ContraseniasNoCoincidenException{
+        Bedel bedelModificado = new Bedel();
+        bedelModificado.setNombre(bedel.getNombre());
+        bedelModificado.setApellido(bedel.getApellido());
+        bedelModificado.setUsuario(bedel.getUsuario());
+        bedelModificado.setContrasenia(bedel.getContrasenia());
+        bedelModificado.setTurno(bedel.getTurno());
+        if (!gestorPoliticas.comprobarTODO(bedel.getContrasenia()).isBlank()) {
+            throw new ContraseniaInvalidaException(gestorPoliticas.comprobarTODO(bedel.getContrasenia()));
+        }
+        return bedelModificado;
+    }
+
+    public void actualizarBedel (Bedel bedel){
+        usuarioDAO.actualizarBedel(bedel);
+    }
+    public Bedel getUsuarioById(Long idBedel){
+        Bedel bedel = usuarioDAO.getBedelByidUsuario(idBedel);
+        return bedel;
+    }
+
 }
