@@ -83,7 +83,6 @@ public class BuscarBedel extends JFrame {
         }
     }
 
-
     private void buscarBedeles() {
         String criterio = buscadorTextField.getText().trim();
         if (criterio.isEmpty()) {
@@ -116,6 +115,7 @@ public class BuscarBedel extends JFrame {
         buscadorTextField.setText("");
         cargarDatosBedeles();
     }
+
     private void eliminarBedel() {
         int filaSeleccionada = tablaBedeles.getSelectedRow(); // Obtener la fila seleccionada
 
@@ -123,6 +123,7 @@ public class BuscarBedel extends JFrame {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione un bedel para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+
         Long idUsuario = (Long) modeloTabla.getValueAt(filaSeleccionada, 0);
 
         // Confirmación antes de eliminar
@@ -132,10 +133,8 @@ public class BuscarBedel extends JFrame {
                 JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
-            // Llamar al gestor para marcar el bedel como "borrado"
             gestorUsuario.eliminarBedel(idUsuario);
 
-            // Refrescar la tabla
             cargarDatosBedeles();
             JOptionPane.showMessageDialog(this, "Bedel eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         }

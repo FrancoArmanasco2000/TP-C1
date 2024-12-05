@@ -215,6 +215,7 @@ public class UsuarioDAO implements UsuarioDAOImpl{
 
         return bedeles;
     }
+
     public void eliminarBedel(Long idUsuario) {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         Bedel bedel = usuarioDAO.getBedelByidUsuario(idUsuario);
@@ -226,6 +227,5 @@ public class UsuarioDAO implements UsuarioDAOImpl{
             System.out.println("No se encontró el Bedel con ID: " + idUsuario);
         }
     }
-
 
 }
