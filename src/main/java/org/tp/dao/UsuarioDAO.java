@@ -1,12 +1,8 @@
 package org.tp.dao;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.Query;
+import jakarta.persistence.*;
 import org.tp.entity.Administrador;
 import org.tp.entity.Bedel;
-import jakarta.persistence.NoResultException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +13,6 @@ public class UsuarioDAO implements UsuarioDAOImpl{
     private static EntityManagerFactory factory;
 
     public UsuarioDAO() {
-
     }
 
     @Override
@@ -129,8 +124,13 @@ public class UsuarioDAO implements UsuarioDAOImpl{
         try {
             manager.getTransaction().begin();
 
-            // Actualizar directamente con merge
-            manager.merge(bedel);
+            Bedel bedelExistente = manager.find(Bedel.class, bedel.getIdUsuario());
+            if (bedelExistente != null) {
+                bedelExistente.setBorrado(bedel.getBorrado());
+                manager.merge(bedelExistente);
+            } else {
+                System.out.println("El Bedel no se encontró para actualizar.");
+            }
 
             manager.getTransaction().commit();
         } catch (Exception e) {
@@ -147,5 +147,85 @@ public class UsuarioDAO implements UsuarioDAOImpl{
             }
         }
     }
+
+    public List<Bedel> obtenerTodosLosBedeles() {
+        factory = Persistence.createEntityManagerFactory("Aplicacion");
+        manager = factory.createEntityManager();
+        List<Bedel> bedeles = null;
+
+        try {
+            manager.getTransaction().begin();
+            TypedQuery<Bedel> query = manager.createQuery("SELECT b FROM Bedel b WHERE b.borrado = false", Bedel.class);
+            bedeles = query.getResultList();
+            manager.getTransaction().commit();
+        } catch (Exception e) {
+            manager.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            manager.close();
+        }
+
+        return bedeles;
+    }
+
+    public List<Bedel> buscarBedelesPorNombre(String nombre) {
+        factory = Persistence.createEntityManagerFactory("Aplicacion");
+        manager = factory.createEntityManager();
+        List<Bedel> bedeles = null;
+
+        try {
+            manager.getTransaction().begin();
+            TypedQuery<Bedel> query = manager.createQuery(
+                    "SELECT b FROM Bedel b WHERE b.nombre LIKE :nombre AND b.borrado = false",
+                    Bedel.class
+            );
+            query.setParameter("nombre", "%" + nombre + "%");
+            bedeles = query.getResultList();
+            manager.getTransaction().commit();
+        } catch (Exception e) {
+            manager.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            manager.close();
+        }
+
+        return bedeles;
+    }
+
+    public List<Bedel> buscarBedelesPorTurno(String turno) {
+        factory = Persistence.createEntityManagerFactory("Aplicacion");
+        manager = factory.createEntityManager();
+        List<Bedel> bedeles = null;
+
+        try {
+            manager.getTransaction().begin();
+            TypedQuery<Bedel> query = manager.createQuery(
+                    "SELECT b FROM Bedel b WHERE b.turno = :turno AND b.borrado = false",
+                    Bedel.class
+            );
+            query.setParameter("turno", turno);
+            bedeles = query.getResultList();
+            manager.getTransaction().commit();
+        } catch (Exception e) {
+            manager.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            manager.close();
+        }
+
+        return bedeles;
+    }
+    public void eliminarBedel(Long idUsuario) {
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        Bedel bedel = usuarioDAO.getBedelByidUsuario(idUsuario);
+
+        if (bedel != null) {
+            bedel.setBorrado(true);
+            usuarioDAO.actualizarBedel(bedel);
+        } else {
+            System.out.println("No se encontró el Bedel con ID: " + idUsuario);
+        }
+    }
+
 
 }

@@ -1,9 +1,13 @@
 package org.tp.interfaces;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import org.tp.entity.Bedel;
+import org.tp.gestores.GestorUsuario;
+import java.util.List;
 
 public class BuscarBedel extends JFrame {
     private JPanel buscarBedel;
@@ -18,40 +22,122 @@ public class BuscarBedel extends JFrame {
     private JButton eliminarButton;
     private JButton cancelarButton;
 
+    private JTable tablaBedeles;
+    private DefaultTableModel modeloTabla;
+    private GestorUsuario gestorUsuario;
+
     public BuscarBedel() {
         this.setTitle("Buscar Bedel");
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        this.setSize(800,600);
+        this.setSize(800, 600);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setContentPane(buscarBedel);
+        gestorUsuario = new GestorUsuario();
 
         ButtonGroup searchGroup = new ButtonGroup();
         searchGroup.add(nombreRadioButton);
         searchGroup.add(turnoRadioButton);
 
-        //Crear la tabla de bedeles
-        String[] columnas = {"Nombre", "Apellido", "Turno", "Usuario"};
-        Object[][] datos = {};
-        JTable tablaBedeles = new JTable(datos, columnas);
+        String[] columnas = {"ID", "Nombre", "Apellido", "Turno", "Usuario"};
+        modeloTabla = new DefaultTableModel(columnas, 0);
+        tablaBedeles = new JTable(modeloTabla);
         JScrollPane scrollPane = new JScrollPane(tablaBedeles);
-
-        // Añadir tabla al CENTRO del BorderLayout
         buscarBedel.add(scrollPane, BorderLayout.CENTER);
 
+        cargarDatosBedeles();
 
-        modificarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ModificarBedel mb = new ModificarBedel(1L);//Se modifica solo el de id 1 para testear, luego se deberá pasar el id del bedel de la fila seleccionada
-            }
-        });
+        buscarButton.addActionListener(e -> buscarBedeles());
+        limpiarButton.addActionListener(e -> limpiarBusqueda());
+        modificarButton.addActionListener(e -> {
+            int filaSeleccionada = tablaBedeles.getSelectedRow();
 
-        cancelarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
+            if (filaSeleccionada == -1) {
+                JOptionPane.showMessageDialog(this, "Por favor, selecciona un bedel para modificar.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
+            Long idBedel = (Long) modeloTabla.getValueAt(filaSeleccionada, 0);
+            ModificarBedel mb = new ModificarBedel(idBedel);
         });
+        eliminarButton.addActionListener(e -> eliminarBedel());
+        cancelarButton.addActionListener(e -> dispose());
+    }
+
+    private void cargarDatosBedeles() {
+        modeloTabla.setRowCount(0);
+        List<Bedel> bedeles = gestorUsuario.obtenerTodosLosBedeles();
+
+        if (bedeles == null || bedeles.isEmpty()) {
+            System.out.println("No se encontraron bedeles.");
+            return;
+        }
+
+        for (Bedel bedel : bedeles) {
+            modeloTabla.addRow(new Object[]{
+                    bedel.getIdUsuario(),
+                    bedel.getNombre(),
+                    bedel.getApellido(),
+                    bedel.getTurno(),
+                    bedel.getUsuario()
+            });
+        }
+    }
+
+
+    private void buscarBedeles() {
+        String criterio = buscadorTextField.getText().trim();
+        if (criterio.isEmpty()) {
+            cargarDatosBedeles();
+            return;
+        }
+
+        List<Bedel> resultados;
+        if (nombreRadioButton.isSelected()) {
+            resultados = gestorUsuario.buscarBedelesPorNombre(criterio);
+        } else if (turnoRadioButton.isSelected()) {
+            resultados = gestorUsuario.buscarBedelesPorTurno(criterio);
+        } else {
+            resultados = gestorUsuario.obtenerTodosLosBedeles();
+        }
+
+        modeloTabla.setRowCount(0);
+        for (Bedel bedel : resultados) {
+            modeloTabla.addRow(new Object[]{
+                    bedel.getIdUsuario(),
+                    bedel.getNombre(),
+                    bedel.getApellido(),
+                    bedel.getTurno(),
+                    bedel.getUsuario()
+            });
+        }
+    }
+
+    private void limpiarBusqueda() {
+        buscadorTextField.setText("");
+        cargarDatosBedeles();
+    }
+    private void eliminarBedel() {
+        int filaSeleccionada = tablaBedeles.getSelectedRow(); // Obtener la fila seleccionada
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un bedel para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Long idUsuario = (Long) modeloTabla.getValueAt(filaSeleccionada, 0);
+
+        // Confirmación antes de eliminar
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "¿Está seguro de que desea eliminar este bedel?",
+                "Confirmar eliminación",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            // Llamar al gestor para marcar el bedel como "borrado"
+            gestorUsuario.eliminarBedel(idUsuario);
+
+            // Refrescar la tabla
+            cargarDatosBedeles();
+            JOptionPane.showMessageDialog(this, "Bedel eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 }

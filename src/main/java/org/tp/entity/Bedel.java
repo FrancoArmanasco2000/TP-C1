@@ -9,6 +9,7 @@ public class Bedel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idusuario", nullable = false)
     private Long idUsuario;
     @Column
     private String nombre;

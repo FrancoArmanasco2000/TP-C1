@@ -14,7 +14,7 @@ public class GestorUsuario {
     private static UsuarioDAO usuarioDAO = new UsuarioDAO();
     private GestorPoliticas gestorPoliticas;
 
-    public GestorUsuario (){ this.gestorPoliticas = new GestorPoliticas();}
+    public GestorUsuario (){ this.gestorPoliticas = new GestorPoliticas(); usuarioDAO = new UsuarioDAO();}
 
     public void registrarBedel (BedelDTO bedel, String confirmarContrasenia) throws UsuarioYaRegistradoException, ContraseniaInvalidaException, ContraseniasNoCoincidenException {
         Bedel bedelEntity = new Bedel(
@@ -59,6 +59,22 @@ public class GestorUsuario {
     public Bedel getUsuarioById(Long idBedel){
         Bedel bedel = usuarioDAO.getBedelByidUsuario(idBedel);
         return bedel;
+    }
+
+    public List<Bedel> obtenerTodosLosBedeles() {
+        return usuarioDAO.obtenerTodosLosBedeles();
+    }
+
+    public List<Bedel> buscarBedelesPorNombre(String nombre) {
+        return usuarioDAO.buscarBedelesPorNombre(nombre);
+    }
+
+    public List<Bedel> buscarBedelesPorTurno(String turno) {
+        return usuarioDAO.buscarBedelesPorTurno(turno);
+    }
+
+    public void eliminarBedel(Long idUsuario) {
+        usuarioDAO.eliminarBedel(idUsuario);
     }
 
 }
