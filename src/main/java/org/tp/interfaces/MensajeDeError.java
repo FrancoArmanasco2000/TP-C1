@@ -1,18 +1,13 @@
 package org.tp.interfaces;
 
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MensajeDeError extends JFrame {
     private JButton aceptarButton;
     private JPanel panelError;
     private JTextArea mensajeError;
 
-    public MensajeDeError(String texto){
+    public MensajeDeError(String texto) {
         mensajeError.setText(texto);
         mensajeError.setWrapStyleWord(true);
         mensajeError.setLineWrap(true);
@@ -21,19 +16,17 @@ public class MensajeDeError extends JFrame {
         mensajeError.setFocusable(false);
         mensajeError.setCursor(null);
 
+        int ancho = Math.min(Math.max(300, texto.length() * 7), 500);
+        int alto = Math.min(200 + texto.split("\n").length * 20, 400);
+
         this.setContentPane(this.panelError);
-        this.setSize(350,200);
+        this.setSize(ancho, alto);
         this.setTitle("⚠\uFE0F ERROR ⚠\uFE0F");
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        this.setResizable(false);
+        this.setResizable(true);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
 
-        aceptarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                MensajeDeError.this.dispose();
-            }
-        });
+        aceptarButton.addActionListener(e -> MensajeDeError.this.dispose());
     }
 }

@@ -4,27 +4,27 @@ package org.tp.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "BEDEL")
+@Table(name = "bedel")
 public class Bedel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idusuario", nullable = false)
     private Long idUsuario;
-    @Column
+    @Column(name = "nombre", nullable = false, length = 31)
     private String nombre;
-    @Column
+    @Column(name = "apellido", nullable = false, length = 31)
     private String apellido;
-    @Column
+    @Column(name = "usuario", nullable = false, length = 21, unique = true)
     private String usuario;
-    @Column
+    @Column(name = "contrasenia", nullable = false, length = 25)
     private String contrasenia;
-    @Column
-    private Boolean borrado;
-    @Column
+    @Column(name = "borrado", nullable = false)
+    private Boolean borrado = false;
+    @Column(name = "turno", nullable = false, length = 11)
     private String turno;
 
-    public Bedel () {};
+    public Bedel () {}
 
     public Bedel (String nombre, String apellido, String usuario, String contrasenia, Boolean borrado, String turno) {
         this.nombre = nombre;
