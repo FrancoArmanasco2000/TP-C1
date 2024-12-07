@@ -110,7 +110,7 @@
       </vspacer>
       <component id="e53b4" class="javax.swing.JComboBox" binding="periodoComboBox">
         <constraints>
-          <grid row="3" column="5" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="5" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <font name="Segoe UI" size="14" style="0"/>
@@ -118,7 +118,7 @@
       </component>
       <component id="b506a" class="javax.swing.JComboBox" binding="tipoAulaComboBox">
         <constraints>
-          <grid row="7" column="5" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="7" column="5" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <font name="Segoe UI" size="14" style="0"/>
