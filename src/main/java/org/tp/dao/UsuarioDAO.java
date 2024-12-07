@@ -14,7 +14,7 @@ public class UsuarioDAO implements UsuarioDAOImpl{
     }
 
     @Override
-    public void crearUsuario(Bedel bedel) { //Esto tendria que ser un dto
+    public void crearUsuario(Bedel bedel) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
         try {
