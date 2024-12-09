@@ -1,5 +1,4 @@
 package org.tp;
 
-main
-
+public class Main {
 }
