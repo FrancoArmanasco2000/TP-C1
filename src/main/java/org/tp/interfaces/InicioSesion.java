@@ -1,7 +1,6 @@
 package org.tp.interfaces;
 
 import javax.swing.*;
-import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
 import java.awt.event.ActionEvent;
@@ -27,17 +26,14 @@ public class InicioSesion extends JFrame {
         this.setVisible(true);
         contraseniaInput.setEchoChar('*');
 
-        botonIniciarSesion.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(contraseniaInput.getText().equals("Admin") && usuarioInput.getText().equals("Admin")) {
-                    dispose();
-                    MenuAdministrador mu = new MenuAdministrador();
-                }else {
-                    dispose();
-                    String usuario = usuarioInput.getText();
-                    MenuUsuario mu = new MenuUsuario(usuario);
-                }
+        botonIniciarSesion.addActionListener(e -> {
+            if(contraseniaInput.getText().equals("Admin") && usuarioInput.getText().equals("Admin")) {
+                dispose();
+                MenuAdministrador mu = new MenuAdministrador();
+            }else {
+                dispose();
+                String usuario = usuarioInput.getText();
+                MenuUsuario mu = new MenuUsuario(usuario);
             }
         });
         botonMostrarContrasenia.addActionListener(new ActionListener() {
