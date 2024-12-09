@@ -9,7 +9,7 @@ import java.util.List;
 
 public class UsuarioDAO implements UsuarioDAOImpl{
 
-    private static EntityManager manager; //Gestor de la base de datos
+    private static EntityManager manager;
     private static EntityManagerFactory factory;
 
     public UsuarioDAO() {
@@ -27,6 +27,9 @@ public class UsuarioDAO implements UsuarioDAOImpl{
             if(manager.getTransaction().isActive()) {
                 manager.getTransaction().rollback();
             }
+        } finally {
+            manager.close();
+            factory.close();
         }
     }
 
@@ -47,6 +50,9 @@ public class UsuarioDAO implements UsuarioDAOImpl{
                 manager.getTransaction().rollback();
                 return null;
             }
+        } finally {
+            manager.close();
+            factory.close();
         }
         return null;
     }
