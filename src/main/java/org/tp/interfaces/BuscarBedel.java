@@ -1,10 +1,14 @@
 package org.tp.interfaces;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import org.tp.entity.Bedel;
 import org.tp.gestores.GestorUsuario;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 public class BuscarBedel extends JFrame {
@@ -64,9 +68,9 @@ public class BuscarBedel extends JFrame {
             Long idBedel = (Long) modeloTabla.getValueAt(filaSeleccionada, 0);
 
             ModificarBedel modificarBedel = new ModificarBedel(idBedel);
-            modificarBedel.addWindowListener(new java.awt.event.WindowAdapter() {
+            modificarBedel.addWindowListener(new WindowAdapter() {
                 @Override
-                public void windowClosed(java.awt.event.WindowEvent e) {
+                public void windowClosed(WindowEvent e) {
                     cargarDatosBedeles();
                 }
             });
@@ -153,4 +157,5 @@ public class BuscarBedel extends JFrame {
             JOptionPane.showMessageDialog(this, "Bedel eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
 }

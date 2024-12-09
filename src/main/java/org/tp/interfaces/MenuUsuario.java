@@ -1,10 +1,14 @@
 package org.tp.interfaces;
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.text.StyleContext;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
 
-public class MenuUsuario extends JFrame{
+public class MenuUsuario extends JFrame {
 
     private JPanel menuUsuario;
     private JButton buscarAulaButton;
@@ -19,11 +23,11 @@ public class MenuUsuario extends JFrame{
         SubtituloNombreUsuario.setText(subtituloNombreUsuario);
     }
 
-    public MenuUsuario(String usuario){
+    public MenuUsuario(String usuario) {
         this.setSubtituloNombreUsuario(usuario);
         this.setContentPane(this.menuUsuario);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        this.setSize(500,600);
+        this.setSize(500, 600);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
 

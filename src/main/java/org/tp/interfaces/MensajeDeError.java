@@ -1,6 +1,10 @@
 package org.tp.interfaces;
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.text.StyleContext;
+import java.awt.*;
+import java.util.Locale;
 
 public class MensajeDeError extends JFrame {
     private JButton aceptarButton;
@@ -29,4 +33,5 @@ public class MensajeDeError extends JFrame {
 
         aceptarButton.addActionListener(e -> MensajeDeError.this.dispose());
     }
+
 }

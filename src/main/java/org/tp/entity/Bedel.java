@@ -11,17 +11,17 @@ public class Bedel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idusuario", nullable = false)
     private Long idUsuario;
-    @Column(name = "nombre", nullable = false, length = 31)
+    @Column(name = "nombre", nullable = false, length = 30)
     private String nombre;
-    @Column(name = "apellido", nullable = false, length = 31)
+    @Column(name = "apellido", nullable = false, length = 30)
     private String apellido;
-    @Column(name = "usuario", nullable = false, length = 21, unique = true)
+    @Column(name = "usuario", nullable = false, length = 20, unique = true)
     private String usuario;
-    @Column(name = "contrasenia", nullable = false, length = 25)
+    @Column(name = "contrasenia", nullable = false, length = 24)
     private String contrasenia;
     @Column(name = "borrado", nullable = false)
     private Boolean borrado = false;
-    @Column(name = "turno", nullable = false, length = 11)
+    @Column(name = "turno", nullable = false, length = 10)
     private String turno;
 
     public Bedel () {}

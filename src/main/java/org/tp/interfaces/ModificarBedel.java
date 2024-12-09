@@ -7,6 +7,10 @@ import org.tp.excepciones.ContraseniasNoCoincidenException;
 import org.tp.gestores.GestorUsuario;
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.text.StyleContext;
+import java.awt.*;
+import java.util.Locale;
 
 public class ModificarBedel extends JFrame {
     private JPanel modificarBedel;
@@ -26,7 +30,7 @@ public class ModificarBedel extends JFrame {
     private static Boolean mostrar;
     private static Boolean mostrar2;
 
-    public ModificarBedel(Long idBedel){
+    public ModificarBedel(Long idBedel) {
         mostrar = true;
         mostrar2 = true;
         this.gestorUsuario = new GestorUsuario();
@@ -51,13 +55,14 @@ public class ModificarBedel extends JFrame {
         });
         confirmarButton.addActionListener(e -> {
             if (!(inputApellido.getText().isBlank() || inputNombre.getText().isBlank() || inputContrasenia.getText().isBlank() || confirmarContrasenia.getText().isBlank() || inputUsuario.getText().isBlank() || seleccionarTurno.getSelectedIndex() == 0)) {
-                try{
-                    BedelDTO bedel = new BedelDTO( inputNombre.getText(), inputApellido.getText(), inputUsuario.getText(), inputContrasenia.getText(), seleccionarTurno.getSelectedItem().toString() );
-                    Bedel bedelActual=modificarBedel(bedel);
+                try {
+                    BedelDTO bedel = new BedelDTO(inputNombre.getText(), inputApellido.getText(), inputUsuario.getText(), inputContrasenia.getText(), seleccionarTurno.getSelectedItem().toString());
+                    Bedel bedelActual = modificarBedel(bedel);
                     bedelActual.setIdUsuario(idBedel);
                     actualizarBedel(bedelActual);
                     dispose();
-                } catch (ContraseniaInvalidaException | ContraseniasNoCoincidenException | IllegalArgumentException ex) {
+                } catch (ContraseniaInvalidaException | ContraseniasNoCoincidenException |
+                         IllegalArgumentException ex) {
                     MensajeDeError me = new MensajeDeError(ex.getMessage());
                 }
             }
@@ -68,19 +73,19 @@ public class ModificarBedel extends JFrame {
 
     }
 
-    private void actualizarBedel(Bedel bedel){
+    private void actualizarBedel(Bedel bedel) {
         this.gestorUsuario.actualizarBedel(bedel);
     }
 
 
     private Bedel modificarBedel(BedelDTO bedel) throws ContraseniaInvalidaException, ContraseniasNoCoincidenException, IllegalArgumentException {
-        if(!confirmarContrasenia.getText().equals(inputContrasenia.getText())){
+        if (!confirmarContrasenia.getText().equals(inputContrasenia.getText())) {
             throw new ContraseniasNoCoincidenException();
         }
         return this.gestorUsuario.modificarBedel(bedel);
     }
 
-    private Bedel getUsuarioById(Long idBedel){
+    private Bedel getUsuarioById(Long idBedel) {
         return this.gestorUsuario.getUsuarioById(idBedel);
     }
 
@@ -101,4 +106,5 @@ public class ModificarBedel extends JFrame {
         }
         mostrar2 = !mostrar2;
     }
+
 }
