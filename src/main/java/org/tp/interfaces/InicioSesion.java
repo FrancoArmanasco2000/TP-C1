@@ -12,6 +12,7 @@ import java.util.function.Supplier;
 public class InicioSesion extends JFrame {
 
     private static Boolean mostrar;
+    private JPanel panel1;
 
     public InicioSesion() {
 

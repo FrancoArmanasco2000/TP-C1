@@ -105,4 +105,6 @@ public class Reserva {
     public void setTipoAula(String tipoAula) {
         this.tipoAula = tipoAula;
     }
+
+
 }

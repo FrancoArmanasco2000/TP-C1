@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.List;
 
-
 public class GestorReserva {
 
 
@@ -40,7 +39,6 @@ public class GestorReserva {
             }
         }
     }
-
 
     public String validarDia(ReservaDTO reserva){ //Valida que los dias especificos sean posteriores a la fecha actual
         LocalDate fechaActual = LocalDate.now();

@@ -71,6 +71,17 @@ public class Periodo {
     public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
+
+    @Override
+    public String toString() {
+        return "Periodo{" +
+                "anio=" + anio +
+                ", idPeriodo=" + idPeriodo +
+                ", nombre='" + nombre + '\'' +
+                ", fechaInicio=" + fechaInicio +
+                ", fechaFin=" + fechaFin +
+                '}';
+    }
 }
 
 

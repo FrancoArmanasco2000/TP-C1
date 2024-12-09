@@ -22,15 +22,35 @@ public class Fecha {
     @ManyToOne
     @JoinColumn(name="idAula")
     private Aula aula;
+    private String dia;
+    private Integer duracion;
 
     public Fecha() {
     }
 
-    public Fecha(Aula aula, LocalDate fecha, String horarioInicio, Reserva reserva) {
+    public Fecha(Aula aula, LocalDate fecha, String horarioInicio, Reserva reserva, String dia, Integer duracion) {
         this.aula = aula;
         this.fecha = fecha;
         this.horarioInicio = horarioInicio;
         this.reserva = reserva;
+        this.dia = dia;
+        this.duracion = duracion;
+    }
+
+    public String getDia() {
+        return dia;
+    }
+
+    public void setDia(String dia) {
+        this.dia = dia;
+    }
+
+    public Integer getDuracion() {
+        return duracion;
+    }
+
+    public void setDuracion(Integer duracion) {
+        this.duracion = duracion;
     }
 
     public Aula getAula() {
