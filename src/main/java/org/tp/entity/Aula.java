@@ -146,4 +146,22 @@ public class Aula {
     public void setVentiladores(Boolean ventiladores) {
         this.ventiladores = ventiladores;
     }
+
+    @Override
+    public String toString() {
+        return "Aula{" +
+                "aire_acondicionado=" + aire_acondicionado +
+                ", idAula=" + idAula +
+                ", nombre='" + nombre + '\'' +
+                ", ubicacion='" + ubicacion + '\'' +
+                ", capacidad=" + capacidad +
+                ", tipo=" + tipo +
+                ", nro_aula=" + nro_aula +
+                ", piso='" + piso + '\'' +
+                ", cantidad_pcs=" + cantidad_pcs +
+                ", tipo_pizarron='" + tipo_pizarron + '\'' +
+                ", canion=" + canion +
+                ", ventiladores=" + ventiladores +
+                '}';
+    }
 }
