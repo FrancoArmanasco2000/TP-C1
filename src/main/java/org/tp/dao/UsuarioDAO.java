@@ -1,10 +1,8 @@
 package org.tp.dao;
 
 import jakarta.persistence.*;
-import org.tp.entity.Administrador;
 import org.tp.entity.Bedel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioDAO implements UsuarioDAOImpl{
@@ -127,15 +125,24 @@ public class UsuarioDAO implements UsuarioDAOImpl{
     public void actualizarBedel(Bedel bedel) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
+
         try {
             manager.getTransaction().begin();
 
+            // Verificar si el Bedel existe en la base de datos
             Bedel bedelExistente = manager.find(Bedel.class, bedel.getIdUsuario());
             if (bedelExistente != null) {
+                // Actualizar todos los campos del Bedel existente
+                bedelExistente.setNombre(bedel.getNombre());
+                bedelExistente.setApellido(bedel.getApellido());
+                bedelExistente.setUsuario(bedel.getUsuario());
+                bedelExistente.setContrasenia(bedel.getContrasenia());
+                bedelExistente.setTurno(bedel.getTurno());
                 bedelExistente.setBorrado(bedel.getBorrado());
-                manager.merge(bedelExistente);
+
+                // Sin necesidad de llamar explícitamente a `merge`, el objeto gestionado se actualiza
             } else {
-                System.out.println("El Bedel no se encontró para actualizar.");
+                System.out.println("El Bedel con ID " + bedel.getIdUsuario() + " no existe en la base de datos.");
             }
 
             manager.getTransaction().commit();
@@ -153,6 +160,7 @@ public class UsuarioDAO implements UsuarioDAOImpl{
             }
         }
     }
+
 
     public List<Bedel> obtenerTodosLosBedeles() {
         factory = Persistence.createEntityManagerFactory("Aplicacion");

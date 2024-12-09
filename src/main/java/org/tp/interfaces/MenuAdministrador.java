@@ -1,8 +1,12 @@
 package org.tp.interfaces;
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.text.StyleContext;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
 
 public class MenuAdministrador extends JFrame {
 
@@ -16,7 +20,7 @@ public class MenuAdministrador extends JFrame {
         this.setContentPane(menuAdministrador);
         this.setTitle("Menu Administrador");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setSize(500,600);
+        this.setSize(500, 600);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
 
@@ -28,7 +32,10 @@ public class MenuAdministrador extends JFrame {
         });
         buscarBedelButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { BuscarBedel bd = new BuscarBedel(); }
+            public void actionPerformed(ActionEvent e) {
+                BuscarBedel bd = new BuscarBedel();
+            }
         });
     }
+
 }
