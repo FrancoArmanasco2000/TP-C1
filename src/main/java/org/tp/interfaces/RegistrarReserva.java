@@ -18,10 +18,23 @@ public class RegistrarReserva extends JFrame {
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-        ButtonGroup grupoReservas = new ButtonGroup();
-        grupoReservas.add(periodicaRadioButton);
-        grupoReservas.add(esporadicaRadioButton);
 
+        periodicaRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (periodicaRadioButton.isSelected()) {
+                    esporadicaRadioButton.setSelected(false);
+                }
+            }
+        });
+        esporadicaRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(esporadicaRadioButton.isSelected()) {
+                    periodicaRadioButton.setSelected(false);
+                }
+            }
+        });
         aceptarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
