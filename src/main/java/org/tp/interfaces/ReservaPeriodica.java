@@ -1,9 +1,6 @@
 package org.tp.interfaces;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ReservaPeriodica extends JFrame {
     private JTextField inputCantidadAlumnos;
@@ -37,33 +34,6 @@ public class ReservaPeriodica extends JFrame {
         }
 
 
-
-        //no valide si las longitudes son correctas, es necesario? lo dice el word
-        periodoComboBox.setModel(new DefaultComboBoxModel<>(new String[]{
-                "Seleccionar", "Anual", "1er Cuatrimestre", "2do Cuatrimestre"
-        }));
-
-        tipoAulaComboBox.setModel(new DefaultComboBoxModel<>(new String[]{
-                "Seleccionar", "Multimedios", "Informatica", "Sin adicionales"
-        }));
-
-        agregarDiaButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new AgregarDia(ReservaPeriodica.this, tablaDiasReserva);
-            }
-        });
-
-        cancelarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ReservaPeriodica.this.dispose();
-            }
-        });
-
-        tablaDiasReserva.setModel(new DefaultTableModel(
-                new Object[][]{},
-                new String[]{"Día", "Horario Inicio", "Horario Fin"}
-        ));
     }
+
 }
