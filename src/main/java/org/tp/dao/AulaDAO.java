@@ -6,6 +6,7 @@ import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
 import org.tp.entity.Aula;
 import org.tp.entity.Periodo;
+import org.tp.utils.TipoAula;
 
 import java.util.List;
 
@@ -43,15 +44,16 @@ public class AulaDAO implements AulaDAOImpl {
     }
 
     @Override
-    public List<Aula> getAulasByCapacidad (Integer capacidad) {
+    public List<Aula> getAulasByCapacidadYTipo (Integer capacidad, TipoAula tipo) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
 
         try {
             manager.getTransaction().begin();
-            String hql = "SELECT a FROM Aula a WHERE a.capacidad >= :capacidad";
+            String hql = "SELECT a FROM Aula a WHERE a.capacidad >= :capacidad AND a.tipo == :tipo";
             Query query = manager.createQuery(hql);
             query.setParameter("capacidad", capacidad);
+            query.setParameter("tipo", tipo);
 
             List<Aula> aulasByCapacidad =  query.getResultList();
             manager.getTransaction().commit();
