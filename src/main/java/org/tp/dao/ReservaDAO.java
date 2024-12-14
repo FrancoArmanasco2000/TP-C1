@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ReservaDAO implements ReservaDAOImpl{
 
@@ -48,35 +49,59 @@ public class ReservaDAO implements ReservaDAOImpl{
 
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
+
         try {
-        List<Integer> horariosA = FechaUtils.convertirHoras(fechas.get(0).getHorarioInicio(), fechas.get(0));
 
-        List<Aula> aulasDefinitivas = new ArrayList<>();
+            List<Aula> aulasDefinitivas = new ArrayList<>();
 
-        for(Aula aula: aulasFiltradas) {
-            Boolean flag = true;
-            Long idAulaAux = aula.getIdAula();
-            for(FechaDTO fecha: fechas) {
-                LocalDate fechaAux = fecha.getFecha();
-                manager.getTransaction().begin();
-                String hql = "SELECT f FROM Fecha f WHERE f.fecha == :fechaAux AND f.aula.idAula == :idAulaAux";
-                Query query = manager.createQuery(hql);
-                query.setParameter("fechaAux", fechaAux);
-                query.setParameter("idAulaAux", idAulaAux);
-                List<Fecha> reservas  =  query.getResultList();
+            List<Integer> horariosA = FechaUtils.convertirHoras(fechas.get(0).getHorarioInicio(), fechas.get(0));
 
-                for(Fecha f : reservas) {
+            List<LocalDate> fechasLista = fechas.stream()
+                    .map(FechaDTO::getFecha)
+                    .collect(Collectors.toList());
+            List<Long> idsAulas = aulasFiltradas.stream()
+                    .map(Aula::getIdAula)
+                    .collect(Collectors.toList());
+
+            manager.getTransaction().begin();
+            String hql = "SELECT f FROM Fecha f WHERE f.fecha IN :fechas AND f.aula.idAula IN :idsAulas";
+            Query query = manager.createQuery(hql);
+            query.setParameter("fechas", fechasLista);
+            query.setParameter("idsAulas", idsAulas);
+            List<Fecha> fechasReservas = query.getResultList();
+
+            Map<Long, List<Fecha>> fechasPorAula = new HashMap<>();
+
+            for(Fecha f : fechasReservas) {
+                if(fechasPorAula.containsKey(f.getAula().getIdAula())) {
+                    fechasPorAula.get(f.getAula().getIdAula()).add(f);
+                }else {
+                    fechasPorAula.put(f.getAula().getIdAula(), new ArrayList<>());
+                    fechasPorAula.get(f.getAula().getIdAula()).add(f);
+                }
+            }
+
+            for(Aula a: aulasFiltradas) {
+                if(!fechasPorAula.containsKey(a.getIdAula())) {
+                    aulasDefinitivas.add(a);
+                }
+            }
+
+            for(int i = 0; i<fechasPorAula.keySet().size(); i++) { //RECORREMOS TODAS LAS LLAVES DEL MAP (OSEA AULAS)
+                boolean flag = true;
+                List<Fecha> fechasAula = fechasPorAula.get(fechasPorAula.keySet().toArray()[i]); //AGARRAMOS LA LISTA DE FECHAS QUE TIENE CADA LLAVA (AULA) EN EL MAP
+                for(Fecha f : fechasAula) { //RECORREMOS TODAS LAS FEHCAS
                     List<Integer> horariosB = FechaUtils.convertirHoras(f.getHorarioInicio(),f);
                     if(horariosA.get(0) > horariosB.get(0) && horariosA.get(0) < horariosB.get(1)
                         || horariosA.get(1) > horariosB.get(0) && horariosA.get(1) < horariosB.get(1)) {
                         flag = false;
-                    }
-                    if(!flag) {
-                        break;
+                   }
+                   if(!flag) {
+                       break;
                     }
                 }
-                if(!flag) {
-                    break;
+                if(flag) {
+                    aulasDefinitivas.add(aulasFiltradas.get(i));
                 }
             }
             if(flag) {

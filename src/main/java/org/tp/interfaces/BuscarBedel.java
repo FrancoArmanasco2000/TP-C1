@@ -1,12 +1,14 @@
 package org.tp.interfaces;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import org.tp.entity.Bedel;
 import org.tp.gestores.GestorUsuario;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 public class BuscarBedel extends JFrame {
@@ -22,9 +24,9 @@ public class BuscarBedel extends JFrame {
     private JButton eliminarButton;
     private JButton cancelarButton;
 
-    private JTable tablaBedeles;
-    private DefaultTableModel modeloTabla;
-    private GestorUsuario gestorUsuario;
+    private final JTable tablaBedeles;
+    private final DefaultTableModel modeloTabla;
+    private final GestorUsuario gestorUsuario;
 
     public BuscarBedel() {
         this.setTitle("Buscar Bedel");
@@ -40,7 +42,13 @@ public class BuscarBedel extends JFrame {
         searchGroup.add(turnoRadioButton);
 
         String[] columnas = {"ID", "Nombre", "Apellido", "Turno", "Usuario"};
-        modeloTabla = new DefaultTableModel(columnas, 0);
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Hacer que todas las celdas no sean editables
+                return false;
+            }
+        };
         tablaBedeles = new JTable(modeloTabla);
         JScrollPane scrollPane = new JScrollPane(tablaBedeles);
         buscarBedel.add(scrollPane, BorderLayout.CENTER);
@@ -56,8 +64,18 @@ public class BuscarBedel extends JFrame {
                 JOptionPane.showMessageDialog(this, "Por favor, selecciona un bedel para modificar.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+
             Long idBedel = (Long) modeloTabla.getValueAt(filaSeleccionada, 0);
-            ModificarBedel mb = new ModificarBedel(idBedel);
+
+            ModificarBedel modificarBedel = new ModificarBedel(idBedel);
+            modificarBedel.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    cargarDatosBedeles();
+                }
+            });
+
+            modificarBedel.setVisible(true);
         });
         eliminarButton.addActionListener(e -> eliminarBedel());
         cancelarButton.addActionListener(e -> dispose());
@@ -139,4 +157,5 @@ public class BuscarBedel extends JFrame {
             JOptionPane.showMessageDialog(this, "Bedel eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
 }
