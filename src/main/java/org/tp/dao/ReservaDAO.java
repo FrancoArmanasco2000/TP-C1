@@ -83,7 +83,6 @@ public class ReservaDAO implements ReservaDAOImpl{
                 aulasDefinitivas.add(aula);
             }
         }
-
         return aulasDefinitivas;
 
         } catch (Exception e){
