@@ -104,8 +104,11 @@ public class ReservaDAO implements ReservaDAOImpl{
                     aulasDefinitivas.add(aulasFiltradas.get(i));
                 }
             }
-
-            return aulasDefinitivas;
+            if(flag) {
+                aulasDefinitivas.add(aula);
+            }
+        }
+        return aulasDefinitivas;
 
         } catch (Exception e){
             if (manager.getTransaction().isActive()) {
