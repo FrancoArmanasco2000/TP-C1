@@ -82,6 +82,9 @@ public class AgregarDia extends JFrame {
                 DefaultTableModel model = (DefaultTableModel) tablaDiasReserva.getModel();
                 model.addRow(new Object[]{dia, horarioInicio, horarioFin});
 
+                //ACA VA A LO DE ASIGNAR AULA
+                new AsignarAula();
+
                 // Confirmar y cerrar
                 JOptionPane.showMessageDialog(
                         null,
@@ -89,7 +92,7 @@ public class AgregarDia extends JFrame {
                         "Confirmación",
                         JOptionPane.INFORMATION_MESSAGE
                 );
-                dispose();
+                //dispose();
             }
         });
 
