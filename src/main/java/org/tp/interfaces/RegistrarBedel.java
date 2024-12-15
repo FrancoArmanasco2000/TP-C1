@@ -58,7 +58,7 @@ public class RegistrarBedel extends JFrame {
                     dispose();
                 } catch (UsuarioYaRegistradoException | ContraseniaInvalidaException |
                          ContraseniasNoCoincidenException | IllegalArgumentException ex) {
-                    MensajeDeError me = new MensajeDeError(ex.getMessage());
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

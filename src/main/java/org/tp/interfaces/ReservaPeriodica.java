@@ -38,6 +38,7 @@ public class ReservaPeriodica extends JFrame {
         agregarDiaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AgregarDia ad = new AgregarDia(ReservaPeriodica.this, tablaDiasReserva);
                 if (!(inputCantidadAlumnos.getText().equals("") || inputNombreApellido.getText().equals("") || inputAsignatura.getText().equals("") || inputCorreo.getText().equals("")) && validarDatos()) {
                     //Como los datos de la reserva estan completos, se bloquean los campos para evitar que se modifiquen a la hora de agregar el siguiente día
                     periodoComboBox.setEnabled(false);
@@ -52,9 +53,6 @@ public class ReservaPeriodica extends JFrame {
                 } else {
                     JOptionPane.showMessageDialog(null, "Debe completar todos los campos antes de agregar un día.");
                 }
-
-
-
             }
         });
         String[] columnas = {"Dia", "Horario Inicio", "Horario Fin"};
