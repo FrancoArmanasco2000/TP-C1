@@ -5,7 +5,7 @@ import java.util.List;
 public class ReservaDTO {
     private int idReserva;
     private int idCliente;
-    private int idPeriodo;
+    private Long idPeriodo;
     private int cantAlumnos;
     private String tipoAula;
     private int idDocente;
@@ -78,11 +78,11 @@ public class ReservaDTO {
         this.tipoAula = tipoAula;
     }
 
-    public int getIdPeriodo() {
+    public Long getIdPeriodo() {
         return idPeriodo;
     }
 
-    public void setIdPeriodo(int idPeriodo) {
+    public void setIdPeriodo(Long idPeriodo) {
         this.idPeriodo = idPeriodo;
     }
 

@@ -2,16 +2,19 @@ package org.tp.interfaces;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import org.tp.utils.HorarioUtils;
 
 public class AgregarDia extends JFrame {
     private JComboBox<String> diaComboBox;
-    private JTextField horarioInicioTextField;
-    private JTextField horarioFinTextField;
     private JButton asignarAulaButton;
     private JButton cancelarButton;
     private JPanel agregarDiaPanel;
+    private JFormattedTextField formattedTextFieldHoraInicio;
+    private JFormattedTextField formattedTextFieldHoraFin;
 
     public AgregarDia(JFrame parentFrame, JTable tablaDiasReserva) {
         this.setTitle("Agregar Día");
@@ -22,26 +25,29 @@ public class AgregarDia extends JFrame {
         this.setLocationRelativeTo(parentFrame);
         this.setVisible(true);
 
-        // Configurar ComboBox para días
         diaComboBox.setModel(new DefaultComboBoxModel<>(new String[]{
-                "Seleccionar", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes"
+                "Lunes", "Martes", "Miércoles", "Jueves", "Viernes"
         }));
-        diaComboBox.setEditable(false); // No editable, como indica la tabla
+        diaComboBox.setEditable(false);
 
-        // Configurar campos de texto para horarios
-        horarioInicioTextField.setColumns(5);
-        horarioInicioTextField.setToolTipText("Formato: HH:mm");
-        horarioFinTextField.setColumns(5);
-        horarioFinTextField.setToolTipText("Formato: HH:mm");
+        formattedTextFieldHoraInicio.setColumns(5);
+        formattedTextFieldHoraFin.setColumns(5);
+        try{
+            MaskFormatter mascara = new MaskFormatter("##:##");
+            formattedTextFieldHoraInicio.setFormatterFactory(new DefaultFormatterFactory(mascara));
+            formattedTextFieldHoraFin.setFormatterFactory(new DefaultFormatterFactory(mascara));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
 
         asignarAulaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String dia = (String) diaComboBox.getSelectedItem();
-                String horarioInicio = horarioInicioTextField.getText();
-                String horarioFin = horarioFinTextField.getText();
+                String horarioInicio = formattedTextFieldHoraInicio.getText();
+                String horarioFin = formattedTextFieldHoraFin.getText();
 
-                // Validar campos obligatorios
                 if (dia == null || horarioInicio.isEmpty() || horarioFin.isEmpty()) {
                     JOptionPane.showMessageDialog(
                             null,
@@ -52,27 +58,27 @@ public class AgregarDia extends JFrame {
                     return;
                 }
 
-                // Validar formato y longitud de los horarios
-                if (!horarioInicio.matches("\\d{2}:\\d{2}") || !horarioFin.matches("\\d{2}:\\d{2}")) {
+                if(HorarioUtils.noEsHorarioValido(horarioInicio) || HorarioUtils.noEsHorarioValido(horarioFin)) {
                     JOptionPane.showMessageDialog(
                             null,
-                            "Por favor, ingrese el horario en el formato correcto (HH:mm).",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE
-                    );
-                    return;
-                }
-                if (horarioInicio.length() > 5 || horarioFin.length() > 5) {
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "El horario no puede exceder los 5 caracteres.",
+                            "Por favor, seleccione un horario valido (formato HH:mm)",
                             "Error",
                             JOptionPane.ERROR_MESSAGE
                     );
                     return;
                 }
 
-                // Agregar fila a la tabla en ReservaPeriódica
+                if(HorarioUtils.noEsDuracionValida(horarioInicio) || HorarioUtils.noEsDuracionValida(horarioFin)) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "La duracion de la clase debe ser un multiplo de 30 minutos",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                    return;
+                }
+
+
                 DefaultTableModel model = (DefaultTableModel) tablaDiasReserva.getModel();
                 model.addRow(new Object[]{dia, horarioInicio, horarioFin});
 

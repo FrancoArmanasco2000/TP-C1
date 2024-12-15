@@ -1,11 +1,13 @@
 package org.tp.dto;
 
 import java.time.LocalDate;
+import org.tp.utils.FechaInterface;
 
-public class FechaDTO {
+public class FechaDTO implements FechaInterface {
     private LocalDate fecha;
     private String horarioInicio;
-    private int duracion;
+    private Integer duracion;
+    private String dia;
 
     public LocalDate getFecha() {
         return fecha;
@@ -15,6 +17,7 @@ public class FechaDTO {
         this.fecha = fecha;
     }
 
+    @Override
     public String getHorarioInicio() {
         return horarioInicio;
     }
@@ -23,11 +26,20 @@ public class FechaDTO {
         this.horarioInicio = horarioInicio;
     }
 
-    public int getDuracion() {
+    @Override
+    public Integer getDuracion() {
         return duracion;
     }
 
     public void setDuracion(int duracion) {
         this.duracion = duracion;
+    }
+
+    public String getDia() {
+        return dia;
+    }
+
+    public void setDia(String dia) {
+        this.dia = dia;
     }
 }

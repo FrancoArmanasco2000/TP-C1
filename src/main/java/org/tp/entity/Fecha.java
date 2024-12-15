@@ -2,6 +2,7 @@ package org.tp.entity;
 
 import jakarta.persistence.*;
 import org.tp.entity.PKSCompuestas.PkFecha;
+import org.tp.utils.FechaInterface;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 @Entity
 @Table (name = "fecha")
 @IdClass(PkFecha.class)
-public class Fecha {
+public class Fecha implements FechaInterface{
 
     @Id
     private LocalDate fecha;
@@ -46,6 +47,7 @@ public class Fecha {
         this.dia = dia;
     }
 
+    @Override
     public Integer getDuracion() {
         return duracion;
     }
@@ -70,6 +72,7 @@ public class Fecha {
         this.reserva = reserva;
     }
 
+    @Override
     public String getHorarioInicio() {
         return horarioInicio;
     }

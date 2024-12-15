@@ -4,11 +4,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
-import jdk.jfr.Timestamp;
 import org.tp.dto.FechaDTO;
 import org.tp.entity.Aula;
 import org.tp.entity.Fecha;
-import org.tp.entity.Periodo;
 import org.tp.entity.Reserva;
 import org.tp.utils.FechaUtils;
 
@@ -53,8 +51,7 @@ public class ReservaDAO implements ReservaDAOImpl{
         try {
 
             List<Aula> aulasDefinitivas = new ArrayList<>();
-
-            List<Integer> horariosA = FechaUtils.convertirHoras(fechas.get(0).getHorarioInicio(), fechas.get(0));
+            List<Integer> horariosA = FechaUtils.convertirHoras(fechas.getFirst().getHorarioInicio(), fechas.getFirst()); //Arreglo de horarioInicio y horarioFin para cada fecha dentro de la lista listaFechasDTO
 
             List<LocalDate> fechasLista = fechas.stream()
                     .map(FechaDTO::getFecha)
@@ -63,16 +60,16 @@ public class ReservaDAO implements ReservaDAOImpl{
                     .map(Aula::getIdAula)
                     .collect(Collectors.toList());
 
-            manager.getTransaction().begin();
-            String hql = "SELECT f FROM Fecha f WHERE f.fecha IN :fechas AND f.aula.idAula IN :idsAulas";
+            //manager.getTransaction().begin(); No es necesario ya que hacemos solo lectura
+            String hql = "SELECT f FROM Fecha f WHERE f.fecha IN :fechas AND f.aula.idAula IN :idsAulas"; //Devuelve todas las fechas que tengan asignadas las aulas filtradas
             Query query = manager.createQuery(hql);
             query.setParameter("fechas", fechasLista);
             query.setParameter("idsAulas", idsAulas);
-            List<Fecha> fechasReservas = query.getResultList();
+            List<Fecha> fechasReservadas = query.getResultList();
 
             Map<Long, List<Fecha>> fechasPorAula = new HashMap<>();
 
-            for(Fecha f : fechasReservas) {
+            for(Fecha f : fechasReservadas) {     //Agrega al map cada par key-value usando como key el idAula y como value la lista de fechas
                 if(fechasPorAula.containsKey(f.getAula().getIdAula())) {
                     fechasPorAula.get(f.getAula().getIdAula()).add(f);
                 }else {
@@ -81,44 +78,43 @@ public class ReservaDAO implements ReservaDAOImpl{
                 }
             }
 
-            for(Aula a: aulasFiltradas) {
+            for(Aula a: aulasFiltradas) {   //Las aulas que no tengan asignadas ninguna fecha coincidente estan disponibles: las agregamos a la lista final
                 if(!fechasPorAula.containsKey(a.getIdAula())) {
                     aulasDefinitivas.add(a);
                 }
             }
 
-            for(int i = 0; i<fechasPorAula.keySet().size(); i++) { //RECORREMOS TODAS LAS LLAVES DEL MAP (OSEA AULAS)
-                boolean flag = true;
-                List<Fecha> fechasAula = fechasPorAula.get(fechasPorAula.keySet().toArray()[i]); //AGARRAMOS LA LISTA DE FECHAS QUE TIENE CADA LLAVA (AULA) EN EL MAP
-                for(Fecha f : fechasAula) { //RECORREMOS TODAS LAS FEHCAS
+            for(Long idAula: fechasPorAula.keySet()) { //Recorremos todas las llaves del map (todos los idAulas)
+                boolean flagDisponible = true;
+                List<Fecha> fechasAula = fechasPorAula.get(idAula); //Guardamos la lista de fechas que tiene cada llave (aula) en el map
+                for(Fecha f : fechasAula) { //Recorremos las fechas de cada aula y comparamos horarios
                     List<Integer> horariosB = FechaUtils.convertirHoras(f.getHorarioInicio(),f);
-                    if(horariosA.get(0) > horariosB.get(0) && horariosA.get(0) < horariosB.get(1)
-                        || horariosA.get(1) > horariosB.get(0) && horariosA.get(1) < horariosB.get(1)) {
-                        flag = false;
+                    if(FechaUtils.solapa(horariosA,horariosB)) {
+                        flagDisponible = false;
+                        break;
                    }
-                   if(!flag) {
-                       break;
-                    }
                 }
-                if(flag) {
-                    aulasDefinitivas.add(aulasFiltradas.get(i));
+                if(flagDisponible) {
+                    aulasDefinitivas.add(aulasFiltradas.stream()
+                            .filter(a -> a.getIdAula().equals(idAula))
+                            .findFirst()
+                            .orElse(null));
                 }
             }
-            if(flag) {
-                aulasDefinitivas.add(aula);
-            }
-        }
-        return aulasDefinitivas;
 
-        } catch (Exception e){
+            return aulasDefinitivas;
+        }
+        catch (Exception e){
             if (manager.getTransaction().isActive()) {
                 manager.getTransaction().rollback();
             }
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException("Error al obtener las aulas disponibles", e);
         } finally {
             manager.close();
             factory.close();
         }
     }
+
+
+
 }
