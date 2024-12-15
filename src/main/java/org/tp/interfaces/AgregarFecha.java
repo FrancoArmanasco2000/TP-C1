@@ -1,23 +1,29 @@
-/*package org.tp.interfaces;
+package org.tp.interfaces;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import com.toedter.calendar.JDateChooser;  // Importamos JDateChooser
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import org.tp.utils.HorarioUtils;
 
 public class AgregarFecha extends JFrame {
-    private JDateChooser fechaDateChooser;  // Utilizamos JDateChooser en lugar de JTextField
-    private JTextField horaInicioTextField;
-    private JTextField horaFinTextField;
+    private JComboBox<String> diaComboBox;
     private JButton asignarAulaButton;
     private JButton cancelarButton;
     private JPanel agregarFechaPanel;
+    private JFormattedTextField formattedTextFieldHoraInicio;
+    private JFormattedTextField formattedTextFieldHoraFin;
+    //private JFormattedTextField formattedFecha;
+    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+    JFormattedTextField formattedFecha = new JFormattedTextField(format);
 
-    public AgregarFecha(JFrame parentFrame, JTable tablaFechasReserva) {
-        this.setTitle("Agregar Fecha");
+    public AgregarFecha(JFrame parentFrame, JTable tablaDiasReserva) {
+        this.setTitle("Agregar Día");
         this.setContentPane(this.agregarFechaPanel);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setSize(400, 300);
@@ -25,46 +31,87 @@ public class AgregarFecha extends JFrame {
         this.setLocationRelativeTo(parentFrame);
         this.setVisible(true);
 
-        // Configura el JDateChooser
-        fechaDateChooser.setDateFormatString("dd/MM/yyyy");
+        formattedTextFieldHoraInicio.setColumns(5);
+        formattedTextFieldHoraFin.setColumns(5);
+        try{
+            MaskFormatter mascara = new MaskFormatter("##:##");
+            formattedTextFieldHoraInicio.setFormatterFactory(new DefaultFormatterFactory(mascara));
+            formattedTextFieldHoraFin.setFormatterFactory(new DefaultFormatterFactory(mascara));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
-        // Configuración de los campos de hora
-        horaInicioTextField.setColumns(5);
-        horaInicioTextField.setToolTipText("Formato: HH:mm");
-        horaFinTextField.setColumns(5);
-        horaFinTextField.setToolTipText("Formato: HH:mm");
+        formattedFecha.setColumns(10);
+        try{
+            MaskFormatter mascara = new MaskFormatter("##/##/####");
+            formattedFecha.setFormatterFactory(new DefaultFormatterFactory(mascara));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         asignarAulaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Date fechaSeleccionada = fechaDateChooser.getDate();  // Obtenemos la fecha seleccionada
-                String horaInicio = horaInicioTextField.getText();
-                String horaFin = horaFinTextField.getText();
+                String dia = (String) diaComboBox.getSelectedItem();
+                String horarioInicio = formattedTextFieldHoraInicio.getText();
+                String horarioFin = formattedTextFieldHoraFin.getText();
 
-                if (fechaSeleccionada != null && !horaInicio.isEmpty() && !horaFin.isEmpty()) {
-                    // Convertimos la fecha seleccionada a formato String
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                    String fechaFormateada = sdf.format(fechaSeleccionada);
-
-                    // Agregar la fecha, horario y aula a la tabla de reservas
-                    Object[] fila = {fechaFormateada, horaInicio, horaFin};  // Datos a agregar en la fila
-                    // Supongo que la tablaFechasReserva es una instancia de JTable de la ventana de "Reserva Esporádica"
-                    ((DefaultTableModel) tablaFechasReserva.getModel()).addRow(fila);  // Agregamos la fila
-
-                    // Cerrar la ventana después de agregar la fecha
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(AgregarFecha.this, "Por favor, complete todos los campos.",
-                            "Campos incompletos", JOptionPane.WARNING_MESSAGE);
+                if (dia == null || horarioInicio.isEmpty() || horarioFin.isEmpty()) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Por favor, complete todos los campos obligatorios.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                    return;
                 }
+
+                if(HorarioUtils.noEsHorarioValido(horarioInicio) || HorarioUtils.noEsHorarioValido(horarioFin)) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Por favor, seleccione un horario valido (formato HH:mm)",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                    return;
+                }
+
+                if(HorarioUtils.noEsDuracionValida(horarioInicio) || HorarioUtils.noEsDuracionValida(horarioFin)) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "La duracion de la clase debe ser un multiplo de 30 minutos",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                    return;
+                }
+
+
+                DefaultTableModel model = (DefaultTableModel) tablaDiasReserva.getModel();
+                model.addRow(new Object[]{dia, horarioInicio, horarioFin});
+
+                // Confirmar y cerrar
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Día agregado correctamente.",
+                        "Confirmación",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+                dispose();
             }
         });
 
         cancelarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();  // Cerramos la ventana sin agregar nada
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Se ha cancelado la operación.",
+                        "Cancelación",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                dispose();
             }
         });
     }
-}*/
+}
