@@ -38,10 +38,6 @@ public class GestorUsuario {
         }
     }
 
-    public List<String> listarUsuarios() {
-        return usuarioDAO.listaNombreUsuarios();
-    }
-
     public Bedel modificarBedel(BedelDTO bedel) throws ContraseniaInvalidaException, IllegalArgumentException {
         validarDatos(bedel);
 
@@ -65,6 +61,7 @@ public class GestorUsuario {
     public void actualizarBedel (Bedel bedel){
         usuarioDAO.actualizarBedel(bedel);
     }
+
     public Bedel getUsuarioById(Long idBedel){
         return usuarioDAO.getBedelByidUsuario(idBedel);
     }
@@ -113,6 +110,10 @@ public class GestorUsuario {
         if (bedel.getTurno() == null || bedel.getTurno().length() >= 10) {
             throw new IllegalArgumentException("El turno no puede estar vacío y debe tener como máximo 10 caracteres.");
         }
+    }
+
+    public boolean validarSesion(String usuario, String contrasenia) {
+        return usuarioDAO.getBedelByUsuario(usuario) != null && usuarioDAO.getBedelByUsuario(usuario).getContrasenia().equals(contrasenia);
     }
 
 }

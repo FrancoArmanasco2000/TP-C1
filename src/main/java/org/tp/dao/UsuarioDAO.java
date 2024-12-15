@@ -42,6 +42,7 @@ public class UsuarioDAO implements UsuarioDAOImpl{
 
             List<String> nombreUsuarios = query.getResultList();
             manager.getTransaction().commit();
+            System.out.println( nombreUsuarios );
             return nombreUsuarios;
         }catch (Exception e) {
             if(manager.getTransaction().isActive()) {

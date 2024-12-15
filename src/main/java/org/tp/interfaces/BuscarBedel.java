@@ -102,7 +102,7 @@ public class BuscarBedel extends JFrame {
     }
 
     private void buscarBedeles() {
-        String criterio = buscadorTextField.getText().trim();
+        String criterio = buscadorTextField.getText().trim().substring(0, 1).toUpperCase() + buscadorTextField.getText().trim().substring(1).toLowerCase();
         if (criterio.isEmpty()) {
             cargarDatosBedeles();
             return;
