@@ -1,6 +1,8 @@
 package org.tp.gestores;
 
+import org.tp.dto.FechaDTO;
 import org.tp.dto.ReservaDTO;
+import org.tp.entity.Periodo;
 
 import java.util.ArrayList;
 import java.time.LocalDate;
@@ -53,5 +55,9 @@ public class GestorReserva {
         }
     }
 
+    public List<FechaDTO> calcularFechasDelPeriodo(ReservaDTO reserva, Periodo periodo) {
+        List<FechaDTO> fechasDelPeriodo = new ArrayList<>();
+        return fechasDelPeriodo;
+    }
 
 }

@@ -1,6 +1,9 @@
 package org.tp.interfaces;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ReservaPeriodica extends JFrame {
     private JTextField inputCantidadAlumnos;
@@ -16,7 +19,7 @@ public class ReservaPeriodica extends JFrame {
     private JPanel reservaPeriodicaPanel;
 
 
-    public ReservaPeriodica() {
+    public ReservaPeriodica(){
         this.setTitle("Reserva periodica");
         this.setContentPane(this.reservaPeriodicaPanel);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -32,6 +35,22 @@ public class ReservaPeriodica extends JFrame {
         for(String tipo: tipos) {
             tipoAulaComboBox.addItem(tipo);
         }
+        agregarDiaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AgregarDia ad = new AgregarDia(ReservaPeriodica.this,tablaDiasReserva);
+                ad.setVisible(true);
+            }
+        });
+        String[] columnas = {"Dia", "Horario Inicio", "Horario Fin"};
+        DefaultTableModel modeloTabla= new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tablaDiasReserva.setModel(modeloTabla);
+
 
 
     }
