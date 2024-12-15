@@ -12,14 +12,14 @@ public class ReservaEsporadica extends JFrame {
     private JTextField inputCorreo;
     private JComboBox tipoAulaComboBox;
     private JButton agregarFechaButton;
-    private JTable tablaDiasReserva;
+    private JTable tablaFechasReserva;
     private JButton confirmarButton;
     private JButton cancelarButton;
     private JPanel reservaEsporadicaPanel;
 
 
     public ReservaEsporadica() {
-        this.setTitle("Reserva esporadica");
+        this.setTitle("Reserva Esporadica");
         this.setContentPane(this.reservaEsporadicaPanel);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setSize(500,600);
@@ -31,12 +31,12 @@ public class ReservaEsporadica extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!(inputCantidadAlumnos.getText().equals("") || inputNombreApellido.getText().equals("") || inputAsignatura.getText().equals("") || inputCorreo.getText().equals("")) && validarDatos()) {
-                    AgregarFecha af = new AgregarFecha(ReservaEsporadica.this, tablaDiasReserva);
+                    AgregarFecha af = new AgregarFecha(ReservaEsporadica.this, tablaFechasReserva);
                     af.setVisible(true);
                     af.addWindowListener(new WindowAdapter() {
                         @Override
                         public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                            if (tablaDiasReserva.getRowCount() > 0) {
+                            if (tablaFechasReserva.getRowCount() > 0) {
                                 //Como los datos de la reserva estan completos, se bloquean los campos para evitar que se modifiquen a la hora de agregar la fecha
                                 tipoAulaComboBox.setEnabled(false);
                                 inputCantidadAlumnos.setEditable(false);
