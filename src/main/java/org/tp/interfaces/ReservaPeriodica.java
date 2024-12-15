@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ReservaPeriodica extends JFrame {
     private JTextField inputCantidadAlumnos;
@@ -35,26 +37,38 @@ public class ReservaPeriodica extends JFrame {
         for (String tipo : tipos) {
             tipoAulaComboBox.addItem(tipo);
         }
+        if(tablaDiasReserva.getRowCount()>0) {
+            //Como los datos de la reserva estan completos, se bloquean los campos para evitar que se modifiquen a la hora de agregar el siguiente día
+            periodoComboBox.setEnabled(false);
+            tipoAulaComboBox.setEnabled(false);
+            inputCantidadAlumnos.setEditable(false);
+            inputNombreApellido.setEditable(false);
+            inputAsignatura.setEditable(false);
+            inputCorreo.setEditable(false);
+        }
         agregarDiaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!(inputCantidadAlumnos.getText().equals("") || inputNombreApellido.getText().equals("") || inputAsignatura.getText().equals("") || inputCorreo.getText().equals("")) && validarDatos()) {
-                    //Como los datos de la reserva estan completos, se bloquean los campos para evitar que se modifiquen a la hora de agregar el siguiente día
-                    periodoComboBox.setEnabled(false);
-                    tipoAulaComboBox.setEnabled(false);
-                    inputCantidadAlumnos.setEditable(false);
-                    inputNombreApellido.setEditable(false);
-                    inputAsignatura.setEditable(false);
-                    inputCorreo.setEditable(false);
-
                     AgregarDia ad = new AgregarDia(ReservaPeriodica.this, tablaDiasReserva);
                     ad.setVisible(true);
-                } else {
+                    ad.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                            if (tablaDiasReserva.getRowCount() > 0) {
+                                //Como los datos de la reserva estan completos, se bloquean los campos para evitar que se modifiquen a la hora de agregar el siguiente día
+                                periodoComboBox.setEnabled(false);
+                                tipoAulaComboBox.setEnabled(false);
+                                inputCantidadAlumnos.setEditable(false);
+                                inputNombreApellido.setEditable(false);
+                                inputAsignatura.setEditable(false);
+                                inputCorreo.setEditable(false);
+                            }
+                        }
+                    });
+                }else{
                     JOptionPane.showMessageDialog(null, "Debe completar todos los campos antes de agregar un día.");
                 }
-
-
-
             }
         });
         String[] columnas = {"Dia", "Horario Inicio", "Horario Fin"};
@@ -66,7 +80,12 @@ public class ReservaPeriodica extends JFrame {
         };
         tablaDiasReserva.setModel(modeloTabla);
 
-
+        cancelarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
     }
 
     public boolean validarDatos() {
