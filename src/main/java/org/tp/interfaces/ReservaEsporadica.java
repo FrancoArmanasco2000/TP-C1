@@ -3,6 +3,7 @@ package org.tp.interfaces;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 
 public class ReservaEsporadica extends JFrame {
     private JTextField inputCantidadAlumnos;
@@ -30,15 +31,21 @@ public class ReservaEsporadica extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!(inputCantidadAlumnos.getText().equals("") || inputNombreApellido.getText().equals("") || inputAsignatura.getText().equals("") || inputCorreo.getText().equals("")) && validarDatos()) {
-                    //Como los datos de la reserva estan completos, se bloquean los campos para evitar que se modifiquen a la hora de agregar el siguiente día
-                    tipoAulaComboBox.setEnabled(false);
-                    inputCantidadAlumnos.setEditable(false);
-                    inputNombreApellido.setEditable(false);
-                    inputAsignatura.setEditable(false);
-                    inputCorreo.setEditable(false);
-
-                    AgregarFecha ad = new AgregarFecha(ReservaEsporadica.this, tablaDiasReserva);
-                    ad.setVisible(true);
+                    AgregarFecha af = new AgregarFecha(ReservaEsporadica.this, tablaDiasReserva);
+                    af.setVisible(true);
+                    af.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                            if (tablaDiasReserva.getRowCount() > 0) {
+                                //Como los datos de la reserva estan completos, se bloquean los campos para evitar que se modifiquen a la hora de agregar la fecha
+                                tipoAulaComboBox.setEnabled(false);
+                                inputCantidadAlumnos.setEditable(false);
+                                inputNombreApellido.setEditable(false);
+                                inputAsignatura.setEditable(false);
+                                inputCorreo.setEditable(false);
+                            }
+                        }
+                    });
                 } else {
                     JOptionPane.showMessageDialog(null, "Debe completar todos los campos antes de agregar una fecha.");
                 }
