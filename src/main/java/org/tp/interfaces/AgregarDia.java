@@ -85,14 +85,6 @@ public class AgregarDia extends JFrame {
                 //ACA VA A LO DE ASIGNAR AULA
                 new AsignarAula();
 
-                // Confirmar y cerrar
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Día agregado correctamente.",
-                        "Confirmación",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-                //dispose();
             }
         });
 

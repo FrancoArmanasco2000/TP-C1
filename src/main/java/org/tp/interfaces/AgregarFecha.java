@@ -91,15 +91,7 @@ public class AgregarFecha extends JFrame {
 
                 //ACA VA LO DE ASIGNAR EL AULA
                 new AsignarAula();
-
-                // Confirmar y cerrar
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Día agregado correctamente.",
-                        "Confirmación",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-                //dispose();
+                
             }
         });
 
