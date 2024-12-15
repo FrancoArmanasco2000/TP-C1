@@ -1,23 +1,23 @@
 package org.tp.interfaces;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ReservaEsporadica extends JFrame {
-    private JPanel reservaEsporadicaPanel;
     private JTextField inputCantidadAlumnos;
-    private JComboBox tipoAulaComboBox;
     private JTextField inputNombreApellido;
     private JTextField inputAsignatura;
     private JTextField inputCorreo;
+    private JComboBox tipoAulaComboBox;
     private JButton agregarFechaButton;
-    private JTable tablaFechasReserva;
+    private JTable tablaDiasReserva;
     private JButton confirmarButton;
     private JButton cancelarButton;
+    private JPanel reservaEsporadicaPanel;
 
-    public ReservaEsporadica(){
+
+    public ReservaEsporadica() {
         this.setTitle("Reserva esporadica");
         this.setContentPane(this.reservaEsporadicaPanel);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -26,26 +26,62 @@ public class ReservaEsporadica extends JFrame {
         this.setLocationRelativeTo(null); // APARECE EN EL MEDIO
         this.setVisible(true);
 
-        String[] tipos = {"Multimedios", "Informatica", "Sin Recursos Adicionales"};
-        for(String tipo: tipos) {
-            tipoAulaComboBox.addItem(tipo);
-        }
         agregarFechaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AgregarDia ad = new AgregarDia(ReservaEsporadica.this, tablaFechasReserva);
-                ad.setVisible(true);
+                if (!(inputCantidadAlumnos.getText().equals("") || inputNombreApellido.getText().equals("") || inputAsignatura.getText().equals("") || inputCorreo.getText().equals("")) && validarDatos()) {
+                    //Como los datos de la reserva estan completos, se bloquean los campos para evitar que se modifiquen a la hora de agregar el siguiente día
+                    tipoAulaComboBox.setEnabled(false);
+                    inputCantidadAlumnos.setEditable(false);
+                    inputNombreApellido.setEditable(false);
+                    inputAsignatura.setEditable(false);
+                    inputCorreo.setEditable(false);
+
+                    AgregarFecha ad = new AgregarFecha(ReservaEsporadica.this, tablaDiasReserva);
+                    ad.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Debe completar todos los campos antes de agregar una fecha.");
+                }
             }
         });
-        String[] columnas = {"Dia", "Horario Inicio", "Horario Fin"};
-        DefaultTableModel modeloTabla= new DefaultTableModel(columnas, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        tablaFechasReserva.setModel(modeloTabla);
 
+        tipoAulaComboBox.setModel(new DefaultComboBoxModel<>(new String[]{
+                "Seleccionar", "Multimedios", "Informatica", "Sin adicionales"
+        }));
+
+        cancelarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ReservaEsporadica.this.dispose();
+            }
+        });
     }
 
+    public boolean validarDatos() {
+        // Cant alumnos es un número
+        String cantidadAlumnosTexto = inputCantidadAlumnos.getText();
+        if (!cantidadAlumnosTexto.matches("\\d+")) {
+            JOptionPane.showMessageDialog(null, "La cantidad de alumnos debe ser un número entero.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        // Nombre y Apellido invalido
+        String nombreApellidoTexto = inputNombreApellido.getText();
+        if (!nombreApellidoTexto.matches("[A-Za-z]+\\s[A-Za-z]+")) {
+            JOptionPane.showMessageDialog(null, "El campo Apellido y Nombre debe tener formato: Apellido Nombre.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        // Asignatura tiene que ser una sola palabra
+        String asignaturaTexto = inputAsignatura.getText();
+        if (!asignaturaTexto.matches("[A-Za-z]+")) {
+            JOptionPane.showMessageDialog(null, "El campo Asignatura debe ser una sola palabra.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        // Formato de email
+        String correoTexto = inputCorreo.getText();
+        if (!correoTexto.matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")) {
+            JOptionPane.showMessageDialog(null, "El correo electrónico debe tener un formato válido, como ejemplo@dominio.com.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
 }
