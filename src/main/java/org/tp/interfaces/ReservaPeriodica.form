@@ -41,7 +41,7 @@
         </constraints>
         <properties>
           <font name="Segoe UI" size="16" style="0"/>
-          <text value="Apellido y nombre"/>
+          <text value="Apellido y Nombre"/>
         </properties>
       </component>
       <component id="55612" class="javax.swing.JLabel">
