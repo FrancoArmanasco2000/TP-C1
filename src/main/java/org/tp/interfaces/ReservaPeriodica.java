@@ -27,6 +27,7 @@ public class ReservaPeriodica extends JFrame {
         this.setResizable(false); // NO MODIFICA LA PESTAÑA
         this.setLocationRelativeTo(null); // APARECE EN EL MEDIO
         this.setVisible(true);
+
         String[] periodos = {"1C 2024", "2C 2024", "ANUAL 2024", "1C 2025", "2C 2025", "ANUAL 2025"};
         for(String periodo: periodos) {
             periodoComboBox.addItem(periodo);
@@ -38,7 +39,7 @@ public class ReservaPeriodica extends JFrame {
         agregarDiaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AgregarDia ad = new AgregarDia(ReservaPeriodica.this,tablaDiasReserva);
+                AgregarDia ad = new AgregarDia(ReservaPeriodica.this, tablaDiasReserva);
                 ad.setVisible(true);
             }
         });
@@ -50,8 +51,6 @@ public class ReservaPeriodica extends JFrame {
             }
         };
         tablaDiasReserva.setModel(modeloTabla);
-
-
 
     }
 

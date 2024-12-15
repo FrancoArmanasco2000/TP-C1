@@ -1,23 +1,23 @@
 package org.tp.interfaces;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ReservaEsporadica extends JFrame {
+    private JPanel reservaEsporadicaPanel;
     private JTextField inputCantidadAlumnos;
+    private JComboBox tipoAulaComboBox;
     private JTextField inputNombreApellido;
     private JTextField inputAsignatura;
     private JTextField inputCorreo;
-    private JComboBox tipoAulaComboBox;
     private JButton agregarFechaButton;
-    private JTable tablaDiasReserva;
+    private JTable tablaFechasReserva;
     private JButton confirmarButton;
     private JButton cancelarButton;
-    private JPanel reservaEsporadicaPanel;
 
-
-    public ReservaEsporadica() {
+    public ReservaEsporadica(){
         this.setTitle("Reserva esporadica");
         this.setContentPane(this.reservaEsporadicaPanel);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -26,22 +26,26 @@ public class ReservaEsporadica extends JFrame {
         this.setLocationRelativeTo(null); // APARECE EN EL MEDIO
         this.setVisible(true);
 
-        /*agregarFechaButton.addActionListener(new ActionListener() {
+        String[] tipos = {"Multimedios", "Informatica", "Sin Recursos Adicionales"};
+        for(String tipo: tipos) {
+            tipoAulaComboBox.addItem(tipo);
+        }
+        agregarFechaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AgregarFecha(ReservaEsporadica.this, tablaDiasReserva);
-            }
-        });*/
-
-        tipoAulaComboBox.setModel(new DefaultComboBoxModel<>(new String[]{
-                "Seleccionar", "Multimedios", "Informatica", "Sin adicionales"
-        }));
-
-        cancelarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ReservaEsporadica.this.dispose();
+                AgregarDia ad = new AgregarDia(ReservaEsporadica.this, tablaFechasReserva);
+                ad.setVisible(true);
             }
         });
+        String[] columnas = {"Dia", "Horario Inicio", "Horario Fin"};
+        DefaultTableModel modeloTabla= new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tablaFechasReserva.setModel(modeloTabla);
+
     }
+
 }

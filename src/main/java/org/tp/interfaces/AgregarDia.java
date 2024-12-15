@@ -20,7 +20,7 @@ public class AgregarDia extends JFrame {
         this.setTitle("Agregar Día");
         this.setContentPane(this.agregarDiaPanel);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setSize(400, 300);
+        this.setSize(450, 300);
         this.setResizable(false);
         this.setLocationRelativeTo(parentFrame);
         this.setVisible(true);
