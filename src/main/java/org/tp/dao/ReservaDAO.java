@@ -60,7 +60,6 @@ public class ReservaDAO implements ReservaDAOImpl{
                     .map(Aula::getIdAula)
                     .collect(Collectors.toList());
 
-            //manager.getTransaction().begin(); No es necesario ya que hacemos solo lectura
             String hql = "SELECT f FROM Fecha f WHERE f.fecha IN :fechas AND f.aula.idAula IN :idsAulas"; //Devuelve todas las fechas que tengan asignadas las aulas filtradas
             Query query = manager.createQuery(hql);
             query.setParameter("fechas", fechasLista);
@@ -69,7 +68,7 @@ public class ReservaDAO implements ReservaDAOImpl{
 
             Map<Long, List<Fecha>> fechasPorAula = new HashMap<>();
 
-            for(Fecha f : fechasReservadas) {     //Agrega al map cada par key-value usando como key el idAula y como value la lista de fechas
+            for(Fecha f : fechasReservadas) {  //Agrega al map cada par key-value usando como key el idAula y como value la lista de fechas
                 if(fechasPorAula.containsKey(f.getAula().getIdAula())) {
                     fechasPorAula.get(f.getAula().getIdAula()).add(f);
                 }else {

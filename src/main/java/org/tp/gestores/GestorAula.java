@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GestorAula {
+
     List<FechaDTO> crearListaFechas(ReservaDTO reserva, FechaDTO fecha) {
+
         List<FechaDTO> listaFechasDTO = new ArrayList<>();
         PeriodoDAO periodoDAO = new PeriodoDAO();
         if(fecha.getDia().isEmpty()) {
@@ -34,10 +36,10 @@ public class GestorAula {
                 }
                 fechaI = fechaI.plusDays(1);
             }
-
         }
         return listaFechasDTO;
     }
+
     private DayOfWeek convertirTextoADayOfWeek(String diaTexto) {
         return switch (diaTexto) {
             case "Lunes" -> DayOfWeek.MONDAY;
