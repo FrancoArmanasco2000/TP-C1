@@ -37,15 +37,6 @@ public class ReservaPeriodica extends JFrame {
         for (String tipo : tipos) {
             tipoAulaComboBox.addItem(tipo);
         }
-        if(tablaDiasReserva.getRowCount()>0) {
-            //Como los datos de la reserva estan completos, se bloquean los campos para evitar que se modifiquen a la hora de agregar el siguiente día
-            periodoComboBox.setEnabled(false);
-            tipoAulaComboBox.setEnabled(false);
-            inputCantidadAlumnos.setEditable(false);
-            inputNombreApellido.setEditable(false);
-            inputAsignatura.setEditable(false);
-            inputCorreo.setEditable(false);
-        }
         agregarDiaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
