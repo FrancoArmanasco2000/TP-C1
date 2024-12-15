@@ -51,7 +51,10 @@ public class RegistrarBedel extends JFrame {
         confirmarButton.addActionListener(e -> {
             if (!(inputApellido.getText().isBlank() || inputNombre.getText().isBlank() || inputContrasenia.getText().isBlank() || confirmarContrasenia.getText().isBlank() || inputUsuario.getText().isBlank() || seleccionarTurno.getSelectedIndex() == 0)) {
                 try {
-                    registrarBedel(inputNombre.getText(), inputApellido.getText(), inputUsuario.getText(), inputContrasenia.getText(), confirmarContrasenia.getText(), seleccionarTurno.getSelectedItem().toString());
+                    String nombre = inputNombre.getText().substring(0,1).toUpperCase() + inputNombre.getText().substring(1).toLowerCase();
+                    String turno = seleccionarTurno.getSelectedItem().toString().substring(0,1).toUpperCase() + seleccionarTurno.getSelectedItem().toString().substring(1).toLowerCase();
+                    String apellido = inputApellido.getText().substring(0,1).toUpperCase() + inputApellido.getText().substring(1).toLowerCase();
+                    registrarBedel(nombre, apellido, inputUsuario.getText(), inputContrasenia.getText(), confirmarContrasenia.getText(), turno);
                     dispose();
                 } catch (UsuarioYaRegistradoException | ContraseniaInvalidaException |
                          ContraseniasNoCoincidenException | IllegalArgumentException ex) {

@@ -2,6 +2,7 @@ package org.tp.interfaces;
 
 import javax.swing.*;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import org.tp.gestores.GestorUsuario;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,7 @@ public class InicioSesion extends JFrame {
     private JButton botonMostrarContrasenia;
     private JButton botonIniciarSesion;
     private static Boolean mostrar=true;
+    private final GestorUsuario gestorUsuario;
 
     public InicioSesion() {
         this.setVisible(true);
@@ -24,16 +26,17 @@ public class InicioSesion extends JFrame {
         this.setSize(500, 600);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        this.gestorUsuario = new GestorUsuario();
         contraseniaInput.setEchoChar('*');
+
 
         botonIniciarSesion.addActionListener(e -> {
             if(contraseniaInput.getText().equals("Admin") && usuarioInput.getText().equals("Admin")) {
                 dispose();
                 MenuAdministrador mu = new MenuAdministrador();
-            }else {
+            }else if(gestorUsuario.validarSesion(usuarioInput.getText(), contraseniaInput.getText())) {
                 dispose();
-                String usuario = usuarioInput.getText();
-                MenuUsuario mu = new MenuUsuario(usuario);
+                MenuUsuario mu = new MenuUsuario(usuarioInput.getText());
             }
         });
         botonMostrarContrasenia.addActionListener(new ActionListener() {

@@ -45,7 +45,7 @@ public class ModificarBedel extends JFrame {
 
         inputNombre.setText(bedel.getNombre());
         inputApellido.setText(bedel.getApellido());
-        seleccionarTurno.setSelectedItem(bedel.getTurno());
+        seleccionarTurno.setSelectedItem(bedel.getTurno().substring(0, 1).toUpperCase() + bedel.getTurno().substring(1));
         inputUsuario.setText(bedel.getUsuario());
         inputContrasenia.setText(bedel.getContrasenia());
         confirmarContrasenia.setText(bedel.getContrasenia());
@@ -56,15 +56,21 @@ public class ModificarBedel extends JFrame {
         confirmarButton.addActionListener(e -> {
             if (!(inputApellido.getText().isBlank() || inputNombre.getText().isBlank() || inputContrasenia.getText().isBlank() || confirmarContrasenia.getText().isBlank() || inputUsuario.getText().isBlank() || seleccionarTurno.getSelectedIndex() == 0)) {
                 try {
-                    BedelDTO bedel = new BedelDTO(inputNombre.getText(), inputApellido.getText(), inputUsuario.getText(), inputContrasenia.getText(), seleccionarTurno.getSelectedItem().toString());
+                    String nombre = inputNombre.getText().substring(0,1).toUpperCase() + inputNombre.getText().substring(1).toLowerCase();
+                    String turno = seleccionarTurno.getSelectedItem().toString().substring(0,1).toUpperCase() + seleccionarTurno.getSelectedItem().toString().substring(1).toLowerCase();
+                    String apellido = inputApellido.getText().substring(0,1).toUpperCase() + inputApellido.getText().substring(1).toLowerCase();
+
+                    BedelDTO bedel = new BedelDTO(nombre, apellido, inputUsuario.getText(), inputContrasenia.getText(), turno);
                     Bedel bedelActual = modificarBedel(bedel);
                     bedelActual.setIdUsuario(idBedel);
                     actualizarBedel(bedelActual);
                     dispose();
                 } catch (ContraseniaInvalidaException | ContraseniasNoCoincidenException |
                          IllegalArgumentException ex) {
-                    MensajeDeError me = new MensajeDeError(ex.getMessage());
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
