@@ -230,7 +230,7 @@
         </constraints>
         <properties>
           <font name="Segoe UI" size="14" style="0"/>
-          <text value="Agregar fecha"/>
+          <text value="Agregar Fecha"/>
         </properties>
       </component>
       <vspacer id="e3da">
