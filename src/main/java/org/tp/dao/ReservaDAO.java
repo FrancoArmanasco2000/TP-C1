@@ -5,9 +5,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
 import org.tp.dto.FechaDTO;
-import org.tp.entity.Aula;
-import org.tp.entity.Fecha;
-import org.tp.entity.Reserva;
+import org.tp.dto.ReservaDTO;
+import org.tp.entity.*;
 import org.tp.utils.FechaUtils;
 
 import java.time.LocalDate;
@@ -25,10 +24,25 @@ public class ReservaDAO implements ReservaDAOImpl{
     public ReservaDAO () {}
 
     @Override
-    public void crearReserva(Reserva reserva) {
+    public void crearReserva(ReservaDTO reserva) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
         try {
+            Reserva r = new Reserva();
+            r.setCantidadAlumnos(reserva.getCantAlumnos());
+            r.setIdCurso(reserva.getIdCurso());
+            r.setIdDocente(reserva.getIdDocente());
+            r.setTipoAula(reserva.getTipoAula());
+            r.setCorreoContacto(reserva.getCorreoContacto());
+
+            PeriodoDAO periodoDAO = new PeriodoDAO();
+            Periodo periodo = periodoDAO.getPeriodoById(reserva.getIdPeriodo());
+            r.setIdPeriodo(periodo);
+
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            Bedel bedel = usuarioDAO.getBedelByidUsuario(reserva.getIdUsuario());
+            r.setIdUsuario(bedel);
+
             manager.getTransaction().begin();
             manager.persist(reserva);
             manager.getTransaction().commit();
