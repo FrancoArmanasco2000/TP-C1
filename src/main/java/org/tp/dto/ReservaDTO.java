@@ -19,20 +19,18 @@ public class ReservaDTO {
     private Long idAula;
     private LocalDate fecha;
     private String horarioInicio;
-    private Integer duracion;
+    private int duracion;
+    private int horasSolapadas;
 
     public ReservaDTO(Long idPeriodo, int cantAlumnos, TipoAula tipoAula, int idCurso, int idDocente, String actAcademica, String correoContacto, Long idUsuario, List<FechaDTO> listaFechasDTO) {
         this.idPeriodo = idPeriodo;
         this.cantAlumnos = cantAlumnos;
         this.tipoAula = tipoAula;
-        this.idCurso = idCurso;
-        this.idDocente = idDocente;
         this.actAcademica = actAcademica;
         this.correoContacto = correoContacto;
         this.idUsuario = idUsuario;
         this.listaFechasDTO = listaFechasDTO;
     }
-
 
     public ReservaDTO(Long idReserva, int cantAlumnos, String correoContacto, String horarioInicio, int duracion, Long idAula, LocalDate fecha) {
         this.idReserva = idReserva;
@@ -137,4 +135,13 @@ public class ReservaDTO {
 
     public void setDuracion(Integer duracion) {this.duracion = duracion;}
 
+    public int getHorasSolapadas(){ return horasSolapadas;}
+    public String getHoraA(){ return horarioInicio;}
+    public String getHoraB(){
+        int horaInicioF = Integer.parseInt(horarioInicio.substring(0, 2));
+        int minutosInicioF = Integer.parseInt(horarioInicio.substring(horarioInicio.length() - 2));
+        int horarioInicioEnMinutos = horaInicioF * 60 + minutosInicioF;
+        int horarioFinF = (horarioInicioEnMinutos + duracion)/60;
+        return String.valueOf(horarioFinF);
+    }
 }
