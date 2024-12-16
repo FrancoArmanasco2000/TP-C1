@@ -6,10 +6,12 @@ import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
 import org.tp.dto.FechaDTO;
 import org.tp.dto.ReservaDTO;
+import org.tp.dto.ResultadoDTO;
 import org.tp.entity.*;
 import org.tp.utils.FechaInterface;
 import org.tp.utils.FechaUtils;
 
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -115,7 +117,7 @@ public class ReservaDAO implements ReservaDAOImpl{
         }
     }
 
-    public List<ReservaDTO> menosSolapadas(List<Aula> aulasFiltradas, List<FechaDTO> fechas) {
+    public ResultadoDTO menosSolapadas(List<Aula> aulasFiltradas, List<FechaDTO> fechas) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
 
@@ -180,8 +182,11 @@ public class ReservaDAO implements ReservaDAOImpl{
                 reservasMenosSolapadasDTO.addAll(reservasSolapadas);
             }
         }
+        ResultadoDTO resultadoMenosSolapadasDTO = new ResultadoDTO();
+        resultadoMenosSolapadasDTO.setReservasSolapadas(reservasMenosSolapadasDTO);
+        resultadoMenosSolapadasDTO.setMinimaCantidadSolapada(minimaCantidad);
 
-        return reservasMenosSolapadasDTO;
+        return resultadoMenosSolapadasDTO;
     }
 
 }
