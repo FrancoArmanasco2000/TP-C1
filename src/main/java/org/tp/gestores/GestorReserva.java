@@ -1,11 +1,16 @@
 package org.tp.gestores;
 
+import org.tp.dao.AulaDAO;
 import org.tp.dao.PeriodoDAO;
 import org.tp.dto.FechaDTO;
 import org.tp.dto.ReservaDTO;
+import org.tp.entity.Aula;
+import org.tp.entity.Fecha;
 import org.tp.entity.Periodo;
 import org.tp.entity.Reserva;
+import org.tp.utils.FechaUtils;
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.List;
@@ -57,27 +62,43 @@ public class GestorReserva {
         }
     }
 
-    public List<FechaDTO> calcularFechasDelPeriodo(ReservaDTO reserva, Periodo periodo) {
-        List<FechaDTO> fechasDelPeriodo = new ArrayList<>();
-        return fechasDelPeriodo;
-    }
-
     public void RegistrarReserva(ReservaDTO reservaDTO) {
 
         Reserva r = new Reserva();
+        AulaDAO aulaDAO = new AulaDAO();
         r.setCantidadAlumnos(reservaDTO.getCantAlumnos());
         r.setTipoAula(reservaDTO.getTipoAula());
         r.setIdCurso(reservaDTO.getIdCurso());
         r.setIdDocente(reservaDTO.getIdDocente());
         r.setCorreoContacto(reservaDTO.getCorreoContacto());
-        if(reservaDTO.getIdPeriodo() != 0){  //opt EsPeriodica
+        if(reservaDTO.getIdPeriodo() != 0){  //opt esPeriodica
             PeriodoDAO periodoDAO = new PeriodoDAO();
             Periodo p = periodoDAO.getPeriodoById(reservaDTO.getIdPeriodo());
             r.setIdPeriodo(p);
+            reservaDTO.setListaFechasDTO(calcularFechasDelPeriodo(reservaDTO));
+        }
+        for(FechaDTO fechaDTO: reservaDTO.getListaFechasDTO()){
+            Fecha f = new Fecha();
+            f.setFecha(fechaDTO.getFecha());
+            f.setHorarioInicio(fechaDTO.getHorarioInicio());
+            f.setDuracion(fechaDTO.getDuracion());
+            f.setDia(fechaDTO.getDia());
+            Aula a = aulaDAO.getAulaById(fechaDTO.getIdAula());
+            f.setAula(a);
+
 
         }
 
     }
+
+    public List<FechaDTO> calcularFechasDelPeriodo(ReservaDTO reserva) {
+        List<FechaDTO> fechasDelPeriodo = new ArrayList<>();
+        for(FechaDTO fecha: reserva.getListaFechasDTO()){
+            fechasDelPeriodo.addAll(FechaUtils.crearListaFechas(reserva,fecha));
+        }
+        return fechasDelPeriodo;
+    }
+
 
     public Integer calcularDuracion (String horarioInicio, String horarioFin) {
         Integer horaInicio = Integer.parseInt(horarioInicio.substring(0,2));

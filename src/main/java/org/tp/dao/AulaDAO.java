@@ -42,6 +42,32 @@ public class AulaDAO implements AulaDAOImpl {
             factory.close();
         }
     }
+    @Override
+    public Aula getAulaById (Long idAula) {
+        factory = Persistence.createEntityManagerFactory("Aplicacion");
+        manager = factory.createEntityManager();
+
+        try {
+            manager.getTransaction().begin();
+            String hql = "SELECT a FROM Aula a WHERE a.idaula = :idAula";
+            Query query = manager.createQuery(hql);
+            query.setParameter("idAula", idAula);
+
+            Aula aulaByNro = (Aula) query.getSingleResult();
+            manager.getTransaction().commit();
+            return aulaByNro;
+        } catch (Exception e){
+            if (manager.getTransaction().isActive()) {
+                manager.getTransaction().rollback();
+            }
+            e.printStackTrace();
+            return null;
+        } finally {
+            manager.close();
+            factory.close();
+        }
+    }
+
 
     @Override
     public List<Aula> getAulasByCapacidadYTipo (Integer capacidad, TipoAula tipo) {
@@ -70,3 +96,4 @@ public class AulaDAO implements AulaDAOImpl {
         }
     }
 }
+
