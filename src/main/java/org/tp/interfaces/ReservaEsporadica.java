@@ -27,30 +27,27 @@ public class ReservaEsporadica extends JFrame {
         this.setLocationRelativeTo(null); // APARECE EN EL MEDIO
         this.setVisible(true);
 
-        agregarFechaButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!(inputCantidadAlumnos.getText().equals("") || inputNombreApellido.getText().equals("") || inputAsignatura.getText().equals("") || inputCorreo.getText().equals("")) && validarDatos()) {
-                    ReservaEsporadica.this.setEnabled(false);
-                    AgregarFecha af = new AgregarFecha(ReservaEsporadica.this, tablaFechasReserva);
-                    af.setVisible(true);
-                    af.addWindowListener(new WindowAdapter() {
-                        @Override
-                        public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                            if (tablaFechasReserva.getRowCount() > 0) {
-                                //Como los datos de la reserva estan completos, se bloquean los campos para evitar que se modifiquen a la hora de agregar la fecha
-                                tipoAulaComboBox.setEnabled(false);
-                                inputCantidadAlumnos.setEditable(false);
-                                inputNombreApellido.setEditable(false);
-                                inputAsignatura.setEditable(false);
-                                inputCorreo.setEditable(false);
-                            }
-                            ReservaEsporadica.this.setEnabled(true);
+        agregarFechaButton.addActionListener(e -> {
+            if (!(inputCantidadAlumnos.getText().isEmpty() || inputNombreApellido.getText().isEmpty() || inputAsignatura.getText().isEmpty() || inputCorreo.getText().isEmpty()) && validarDatos()) {
+                ReservaEsporadica.this.setEnabled(false);
+                AgregarFecha af = new AgregarFecha(ReservaEsporadica.this, tablaFechasReserva);
+                af.setVisible(true);
+                af.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                        if (tablaFechasReserva.getRowCount() > 0) {
+                            //Como los datos de la reserva estan completos, se bloquean los campos para evitar que se modifiquen a la hora de agregar la fecha
+                            tipoAulaComboBox.setEnabled(false);
+                            inputCantidadAlumnos.setEditable(false);
+                            inputNombreApellido.setEditable(false);
+                            inputAsignatura.setEditable(false);
+                            inputCorreo.setEditable(false);
                         }
-                    });
-                } else {
-                    JOptionPane.showMessageDialog(null, "Debe completar todos los campos antes de agregar una fecha.");
-                }
+                        ReservaEsporadica.this.setEnabled(true);
+                    }
+                });
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe completar todos los campos antes de agregar una fecha.");
             }
         });
 
