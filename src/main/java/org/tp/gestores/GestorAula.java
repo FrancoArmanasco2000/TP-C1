@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.tp.dto.ResultadoDTO.*;
+
 public class GestorAula {
     private static AulaDAO aulaDAO = new AulaDAO();
     private static ReservaDAO reservaDAO = new ReservaDAO();
@@ -23,7 +25,7 @@ public class GestorAula {
      * reservaDTO se almacenarán las aulas disponibles.
      * Se retorna ResultadoDTO actualizado con aulas disponibles.
      */
-    public ResultadoDTO obtenerDisponibilidadAulas(List<FechaDTO> listaFechaDTO, ReservaDTO reservaDTO) {
+    /*public ResultadoDTO obtenerDisponibilidadAulas(List<FechaDTO> listaFechaDTO, ReservaDTO reservaDTO) {
         //Obtener todas las aulas que cumplen con la capacidad y el tipo del ReservaDTO
         List<Aula> aulasFiltradas = getAulas(reservaDTO.getTipoAula(), reservaDTO.getCantAlumnos());
 
@@ -55,7 +57,7 @@ public class GestorAula {
         //Actualizar ResultadoDTO con las aulas disponibles
         resultadoDTO.setListaAulasDisponibles(aulasDTO);
         return resultadoDTO;
-    }
+    }*/
 
     public List<Aula> getAulas(TipoAula tipo, Integer capacidad) {
         return aulaDAO.getAulasByCapacidadYTipo(capacidad, tipo);
