@@ -91,7 +91,7 @@ public class AgregarFecha extends JFrame {
 
                 //ACA VA LO DE ASIGNAR EL AULA
                 new AsignarAula();
-                
+
             }
         });
 

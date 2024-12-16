@@ -114,6 +114,60 @@ public class ReservaDAO implements ReservaDAOImpl{
         }
     }
 
+    public List<Aula> menosSolapadas(List<Aula> aulasFiltradas, List<FechaDTO> fechas) {
+        factory = Persistence.createEntityManagerFactory("Aplicacion");
+        manager = factory.createEntityManager();
 
+        List<Aula> aulasMenosSolapadas= new ArrayList<>();
+        double minimaCantidad = 9999999;
+        List<Integer> horariosA = FechaUtils.convertirHoras(fechas.getFirst().getHorarioInicio(), fechas.getFirst());
+
+        List<LocalDate> fechasLista = fechas.stream()
+                .map(FechaDTO::getFecha)
+                .collect(Collectors.toList());
+        List<Long> idsAulas = aulasFiltradas.stream()
+                .map(Aula::getIdAula)
+                .collect(Collectors.toList());
+
+        String hql = "SELECT f FROM Fecha f WHERE f.fecha IN :fechas AND f.aula.idAula IN :idsAulas"; //Devuelve todas las fechas que tengan asignadas las aulas filtradas
+        Query query = manager.createQuery(hql);
+        query.setParameter("fechas", fechasLista);
+        query.setParameter("idsAulas", idsAulas);
+        List<Fecha> fechasReservadas = query.getResultList();
+
+        Map<Long, List<Fecha>> fechasPorAula = new HashMap<>();
+
+        for(Fecha f : fechasReservadas) {  //Agrega al map cada par key-value usando como key el idAula y como value la lista de fechas
+            List<Integer> horariosB = FechaUtils.convertirHoras(f.getHorarioInicio(),f);
+            if(FechaUtils.solapa(horariosA,horariosB)) {
+                if (fechasPorAula.containsKey(f.getAula().getIdAula())) {
+                    fechasPorAula.get(f.getAula().getIdAula()).add(f);
+                } else {
+                    fechasPorAula.put(f.getAula().getIdAula(), new ArrayList<>());
+                    fechasPorAula.get(f.getAula().getIdAula()).add(f);
+                }
+            }
+        }
+
+        for(int i = 0; i < fechasPorAula.size() ; i++) {
+            double cantidadSolapada = 0;
+            List<Fecha> fechasSolapadas = fechasPorAula.get(fechasPorAula.keySet().toArray()[i]);
+            for(Fecha f : fechasSolapadas ) {
+                List<Integer> horariosB = FechaUtils.convertirHoras(f.getHorarioInicio(),f);
+                cantidadSolapada += FechaUtils.calcularSolapamiento(horariosA, horariosB);
+            }
+            if(cantidadSolapada < minimaCantidad) {
+                minimaCantidad = cantidadSolapada;
+                aulasMenosSolapadas = fechasPorAula.get(fechasPorAula.keySet().toArray()[i]).stream()
+                        .map(Fecha::getAula)
+                        .collect(Collectors.toList());
+            } else if ( cantidadSolapada == minimaCantidad) {
+                aulasMenosSolapadas.add(fechasPorAula.get(fechasPorAula.keySet().toArray()[i]).stream().map(Fecha::getAula).findFirst().orElse(null));
+            }
+        }
+
+        return aulasMenosSolapadas;
+
+    }
 
 }
