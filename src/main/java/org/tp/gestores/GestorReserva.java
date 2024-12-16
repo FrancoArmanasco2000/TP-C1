@@ -2,12 +2,10 @@ package org.tp.gestores;
 
 import org.tp.dao.AulaDAO;
 import org.tp.dao.PeriodoDAO;
+import org.tp.dao.UsuarioDAO;
 import org.tp.dto.FechaDTO;
 import org.tp.dto.ReservaDTO;
-import org.tp.entity.Aula;
-import org.tp.entity.Fecha;
-import org.tp.entity.Periodo;
-import org.tp.entity.Reserva;
+import org.tp.entity.*;
 import org.tp.utils.FechaUtils;
 
 import java.time.DayOfWeek;
@@ -84,9 +82,11 @@ public class GestorReserva {
             f.setDia(fechaDTO.getDia());
             Aula a = aulaDAO.getAulaById(fechaDTO.getIdAula());
             f.setAula(a);
-
-
+            f.setReserva(r);
         }
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        Bedel b = usuarioDAO.getBedelByidUsuario(reservaDTO.getIdUsuario());
+        r.setIdUsuario(b);
 
     }
 
