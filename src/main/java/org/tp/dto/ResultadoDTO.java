@@ -3,8 +3,19 @@ package org.tp.dto;
 import java.util.List;
 
 public class ResultadoDTO {
-    private List<AulaDTO> listaAulasDisponibles;
-    private List<ReservaDTO> reservasSolapadas;
+    public List<AulaDTO> listaAulasDisponibles;
+    public List<ReservaDTO> reservasSolapadas;
+    public double cantidadSolapada;
+
+    public double getMinimaCantidadSolapada() {
+        return minimaCantidadSolapada;
+    }
+
+    public void setMinimaCantidadSolapada(double minimaCantidadSolapada) {
+        this.minimaCantidadSolapada = minimaCantidadSolapada;
+    }
+
+    private double minimaCantidadSolapada;
 
     public List<AulaDTO> getListaAulasDisponibles() {
         return listaAulasDisponibles;
