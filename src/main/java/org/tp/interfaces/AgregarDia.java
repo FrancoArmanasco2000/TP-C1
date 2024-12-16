@@ -34,6 +34,7 @@ public class AgregarDia extends JFrame {
         formattedTextFieldHoraFin.setColumns(5);
         try{
             MaskFormatter mascara = new MaskFormatter("##:##");
+            mascara.setPlaceholderCharacter('_');
             formattedTextFieldHoraInicio.setFormatterFactory(new DefaultFormatterFactory(mascara));
             formattedTextFieldHoraFin.setFormatterFactory(new DefaultFormatterFactory(mascara));
         } catch (Exception e) {
@@ -85,14 +86,6 @@ public class AgregarDia extends JFrame {
                 //ACA VA A LO DE ASIGNAR AULA
                 new AsignarAula();
 
-                // Confirmar y cerrar
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Día agregado correctamente.",
-                        "Confirmación",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-                //dispose();
             }
         });
 
