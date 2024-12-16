@@ -14,8 +14,9 @@ public class ReservaDTO {
     private String correoContacto;
     private String actAcademica;
     private List<FechaDTO> listaFechasDTO;
+    private Long idUsuario;
 
-    public ReservaDTO(Long idPeriodo, int cantAlumnos, TipoAula tipoAula, int idCurso, int idDocente, String actAcademica, String correoContacto/*, List<FechaDTO> listaFechasDTO*/) {
+    public ReservaDTO(Long idPeriodo, int cantAlumnos, TipoAula tipoAula, int idCurso, int idDocente, String actAcademica, String correoContacto, Long idUsuario/*, List<FechaDTO> listaFechasDTO*/) {
         this.idPeriodo = idPeriodo;
         this.cantAlumnos = cantAlumnos;
         this.tipoAula = tipoAula;
@@ -23,10 +24,18 @@ public class ReservaDTO {
         this.idDocente = idDocente;
         this.actAcademica = actAcademica;
         this.correoContacto = correoContacto;
+        this.idUsuario = idUsuario;
         //this.listaFechasDTO = listaFechasDTO;
     }
 
 
+    public Long getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 
     public String getCorreoContacto() {
         return correoContacto;

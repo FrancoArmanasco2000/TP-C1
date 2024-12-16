@@ -1,5 +1,6 @@
 package org.tp.interfaces;
 
+import org.tp.dto.FechaDTO;
 import org.tp.dto.ReservaDTO;
 import org.tp.gestores.GestorReserva;
 import org.tp.utils.TipoAula;
@@ -10,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -87,15 +90,19 @@ public class ReservaPeriodica extends JFrame {
         confirmarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                GestorReserva gr = new GestorReserva();
+                List<FechaDTO> fechas = new ArrayList<>();
                 //ReservaDTO reservaDTO = new ReservaDTO(retornarPeriodo(),Integer.parseInt(inputCantidadAlumnos.getText()),retornarTipoAula(), new Random().nextInt(),new Random().nextInt(), inputAsignatura.getText(), inputCorreo.getText());
                 for (int row = 0; row < tablaDiasReserva.getRowCount(); row++) {
+                    List<Object> rowData = new ArrayList<>();
                     for (int col = 0; col < tablaDiasReserva.getColumnCount(); col++) {
                         Object value = tablaDiasReserva.getValueAt(row, col);
                         System.out.println("Dato en fila " + row + ", columna " + col + ": " + value);
+                        rowData.add(value);
                     }
+                    fechas.add(gr.generarFechaDTOPeriodica(rowData));
                 }
-                //GestorReserva gr = new GestorReserva();
+
                 //gr.RegistrarReserva(reservaDTO);
 
             }

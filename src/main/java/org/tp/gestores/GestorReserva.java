@@ -77,6 +77,23 @@ public class GestorReserva {
 
         }
 
+    }
 
+    public Integer calcularDuracion (String horarioInicio, String horarioFin) {
+        Integer horaInicio = Integer.parseInt(horarioInicio.substring(0,2));
+        Integer horaFin = Integer.parseInt(horarioFin.substring(0,2));
+        Integer minutosInicio = Integer.parseInt(horarioInicio.substring(3,5));
+        Integer minutosFin = Integer.parseInt(horarioFin.substring(3,5));
+
+        return (horaFin - horaInicio) * 60 + (minutosFin - minutosInicio);
+    }
+
+    public FechaDTO generarFechaDTOPeriodica(List<Object> datosFecha) {
+        FechaDTO fechaDTO = new FechaDTO();
+        fechaDTO.setDia((String) datosFecha.get(0));
+        fechaDTO.setHorarioInicio((String) datosFecha.get(1));
+        Integer duracion = calcularDuracion((String) datosFecha.get(1), (String) datosFecha.get(2));
+        fechaDTO.setDuracion(duracion);
+        return fechaDTO;
     }
 }
