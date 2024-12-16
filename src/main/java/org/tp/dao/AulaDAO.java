@@ -49,7 +49,7 @@ public class AulaDAO implements AulaDAOImpl {
 
         try {
             manager.getTransaction().begin();
-            String hql = "SELECT a FROM Aula a WHERE a.idaula = :idAula";
+            String hql = "SELECT a FROM Aula a WHERE a.idAula = :idAula";
             Query query = manager.createQuery(hql);
             query.setParameter("idAula", idAula);
 
