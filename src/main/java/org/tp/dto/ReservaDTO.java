@@ -10,9 +10,28 @@ public class ReservaDTO {
     private String tipoAula;
     private int idDocente;
     private int idCurso;
+    private Long idUsuario;
     private String actAcademica;
     private List<FechaDTO> listaFechasDTO;
     private List<DiaDTO> listaDiasDTO;
+    private String correoContacto;
+
+
+    public String getCorreoContacto() {
+        return correoContacto;
+    }
+
+    public void setCorreoContacto(String correoContacto) {
+        this.correoContacto = correoContacto;
+    }
+
+    public Long getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 
     public int getIdReserva() {
         return idReserva;
