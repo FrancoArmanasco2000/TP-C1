@@ -2,6 +2,7 @@ package org.tp.dto;
 
 import org.tp.utils.TipoAula;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class ReservaDTO {
@@ -15,6 +16,10 @@ public class ReservaDTO {
     private String actAcademica;
     private List<FechaDTO> listaFechasDTO;
     private Long idUsuario;
+    private Long idAula;
+    private LocalDate fecha;
+    private String horarioInicio;
+    private Integer duracion;
 
     public ReservaDTO(Long idPeriodo, int cantAlumnos, TipoAula tipoAula, int idCurso, int idDocente, String actAcademica, String correoContacto, Long idUsuario, List<FechaDTO> listaFechasDTO) {
         this.idPeriodo = idPeriodo;
@@ -28,6 +33,16 @@ public class ReservaDTO {
         this.listaFechasDTO = listaFechasDTO;
     }
 
+
+    public ReservaDTO(Long idReserva, int cantAlumnos, String correoContacto, String horarioInicio, int duracion, Long idAula, LocalDate fecha) {
+        this.idReserva = idReserva;
+        this.cantAlumnos = cantAlumnos;
+        this.correoContacto = correoContacto;
+        this.horarioInicio = horarioInicio;
+        this.duracion = duracion;
+        this.idAula = idAula;
+        this.fecha = fecha;
+    }
 
     public Long getIdUsuario() {
         return idUsuario;
@@ -49,8 +64,7 @@ public class ReservaDTO {
         return idReserva;
     }
 
-
-
+    public void setIdReserva(Long idReserva) {this.idReserva = idReserva;}
     public List<FechaDTO> getListaFechasDTO() {
         return listaFechasDTO;
     }
@@ -106,4 +120,21 @@ public class ReservaDTO {
     public void setIdPeriodo(Long idPeriodo) {
         this.idPeriodo = idPeriodo;
     }
+
+    public Long getIdAula() {return idAula;}
+
+    public void setIdAula(Long idAula) {this.idAula = idAula;}
+
+    public LocalDate getFecha() {return fecha;}
+
+    public void setFecha(LocalDate fecha) {this.fecha = fecha;}
+
+    public String getHorarioInicio() {return horarioInicio;}
+
+    public void setHorarioInicio(String horarioInicio) {this.horarioInicio = horarioInicio;}
+
+    public Integer getDuracion() {return duracion;}
+
+    public void setDuracion(Integer duracion) {this.duracion = duracion;}
+
 }

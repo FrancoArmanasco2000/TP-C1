@@ -138,7 +138,7 @@ public class ReservaPeriodica extends JFrame {
         }
         // Asignatura tiene que ser una sola palabra
         String asignaturaTexto = inputAsignatura.getText();
-        if (!asignaturaTexto.matches("[A-Za-z]+")) {
+        if (!asignaturaTexto.matches("[a-zA-ZñÑ]*")) {
             JOptionPane.showMessageDialog(null, "El campo Asignatura debe ser una sola palabra.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
             return false;
         }
