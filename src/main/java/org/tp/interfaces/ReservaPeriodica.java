@@ -1,12 +1,19 @@
 package org.tp.interfaces;
 
+import org.tp.dto.FechaDTO;
+import org.tp.dto.ReservaDTO;
+import org.tp.gestores.GestorReserva;
+import org.tp.utils.TipoAula;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.List;
 
 public class ReservaPeriodica extends JFrame {
     private JTextField inputCantidadAlumnos;
@@ -95,12 +102,29 @@ public class ReservaPeriodica extends JFrame {
                     }
                     fechas.add(gr.generarFechaDTOPeriodica(rowData));
                 }
+            for(FechaDTO fechaDTO : fechas) {
+                fechaDTO.setIdAula((long)5);
+            }
+                
                 ReservaDTO reservaDTO = new ReservaDTO(retornarPeriodo(),Integer.parseInt(inputCantidadAlumnos.getText()),retornarTipoAula(), new Random().nextInt(),new Random().nextInt(), inputAsignatura.getText(), inputCorreo.getText(),1L,fechas);
                 gr.RegistrarReserva(reservaDTO);
             }
         });
 
     }
+
+    public Long retornarPeriodo(){
+        return periodoComboBox.getSelectedIndex()+1L;
+    };
+
+    public TipoAula retornarTipoAula() {
+        return switch (tipoAulaComboBox.getSelectedIndex()) {
+            case '0' -> TipoAula.MULTIMEDIO;
+            case '1' -> TipoAula.INFORMATICA;
+            case '2' -> TipoAula.SIN_RECURSOS;
+            default -> null;
+        };
+    };
 
     public boolean validarDatos() {
         // Cant alumnos es un número
@@ -117,7 +141,7 @@ public class ReservaPeriodica extends JFrame {
         }
         // Asignatura tiene que ser una sola palabra
         String asignaturaTexto = inputAsignatura.getText();
-        if (!asignaturaTexto.matches("[A-Za-z]+")) {
+        if (!asignaturaTexto.matches("[A-Zña-zÑ]*")) {
             JOptionPane.showMessageDialog(null, "El campo Asignatura debe ser una sola palabra.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
             return false;
         }

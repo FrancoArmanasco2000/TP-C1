@@ -25,25 +25,10 @@ public class ReservaDAO implements ReservaDAOImpl{
     public ReservaDAO () {}
 
     @Override
-    public void crearReserva(ReservaDTO reserva) {
+    public void crearReserva(Reserva reserva) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
         try {
-            Reserva r = new Reserva();
-            r.setCantidadAlumnos(reserva.getCantAlumnos());
-            r.setIdCurso(reserva.getIdCurso());
-            r.setIdDocente(reserva.getIdDocente());
-            r.setTipoAula(reserva.getTipoAula());
-            r.setCorreoContacto(reserva.getCorreoContacto());
-
-            PeriodoDAO periodoDAO = new PeriodoDAO();
-            Periodo periodo = periodoDAO.getPeriodoById(reserva.getIdPeriodo());
-            r.setIdPeriodo(periodo);
-
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
-            Bedel bedel = usuarioDAO.getBedelByidUsuario(reserva.getIdUsuario());
-            r.setIdUsuario(bedel);
-
             manager.getTransaction().begin();
             manager.persist(reserva);
             manager.getTransaction().commit();
@@ -66,7 +51,7 @@ public class ReservaDAO implements ReservaDAOImpl{
         try {
 
             List<Aula> aulasDefinitivas = new ArrayList<>();
-            //List<Integer> horariosA = FechaUtils.convertirHoras(fechas.getFirst().getHorarioInicio(), fechas.getFirst()); //Arreglo de horarioInicio y horarioFin para cada fecha dentro de la lista listaFechasDTO
+            //Arreglo de horarioInicio y horarioFin para cada fecha dentro de la lista listaFechasDTO
             List<Integer> horariosA = FechaUtils.convertirHoras(fechas.get(0).getHorarioInicio(), fechas.get(0).getDuracion());
 
             List<LocalDate> fechasLista = fechas.stream()
@@ -146,10 +131,10 @@ public class ReservaDAO implements ReservaDAOImpl{
                 .collect(Collectors.toList());
 
         String hql = "SELECT r.idReserva, r.cantidadAlumnos, r.correoContacto, "
-                + "f.horarioInicio, f.duracion, f.idaula, r.idPeriodo, f.fecha "
+                + "f.horarioInicio, f.duracion, f.idAula, r.idPeriodo, f.fecha "
                 + "FROM Reserva r "
                 + "JOIN Periodo p ON r.idPeriodo = p.idPeriodo "
-                + "JOIN Fecha f ON f.idaula IN :idsAulas "
+                + "JOIN Fecha f ON f.idAula IN :idsAulas "
                 + "WHERE f.fecha IN :fechas";//obtener reservas y datos utiles de las tablas reserva, fecha, periodo
 
         Query query = manager.createQuery(hql);
