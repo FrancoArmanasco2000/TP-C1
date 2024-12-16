@@ -1,20 +1,12 @@
 package org.tp.interfaces;
 
-import org.tp.dto.FechaDTO;
-import org.tp.dto.ReservaDTO;
-import org.tp.gestores.GestorReserva;
-import org.tp.utils.TipoAula;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 public class ReservaPeriodica extends JFrame {
     private JTextField inputCantidadAlumnos;
@@ -38,7 +30,7 @@ public class ReservaPeriodica extends JFrame {
         this.setResizable(false); // NO MODIFICA LA PESTAÑA
         this.setLocationRelativeTo(null); // APARECE EN EL MEDIO
         this.setVisible(true);
-        String[] periodos = {"ANUAL 2024", "1C 2024", "2C 2024", "ANUAL 2025", "1C 2025", "2C 2025","ANUAL 2026","1C 2026","2C 2026"};
+        String[] periodos = {"1C 2024", "2C 2024", "ANUAL 2024", "1C 2025", "2C 2025", "ANUAL 2025"};
         for (String periodo : periodos) {
             periodoComboBox.addItem(periodo);
         }
@@ -110,19 +102,6 @@ public class ReservaPeriodica extends JFrame {
 
     }
 
-    public TipoAula retornarTipoAula() {
-        return switch (tipoAulaComboBox.getSelectedIndex()) {
-            case '0' -> TipoAula.MULTIMEDIO;
-            case '1' -> TipoAula.INFORMATICA;
-            case '2' -> TipoAula.SIN_RECURSOS;
-            default -> null;
-        };
-    };
-
-    public Long retornarPeriodo(){
-        return periodoComboBox.getSelectedIndex()+1L;
-    };
-
     public boolean validarDatos() {
         // Cant alumnos es un número
         String cantidadAlumnosTexto = inputCantidadAlumnos.getText();
@@ -138,7 +117,7 @@ public class ReservaPeriodica extends JFrame {
         }
         // Asignatura tiene que ser una sola palabra
         String asignaturaTexto = inputAsignatura.getText();
-        if (!asignaturaTexto.matches("[a-zA-ZñÑ]*")) {
+        if (!asignaturaTexto.matches("[A-Za-z]+")) {
             JOptionPane.showMessageDialog(null, "El campo Asignatura debe ser una sola palabra.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -150,6 +129,4 @@ public class ReservaPeriodica extends JFrame {
         }
         return true;
     }
-
-
 }
