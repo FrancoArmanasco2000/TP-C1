@@ -1,12 +1,21 @@
 package org.tp.interfaces;
 
+import org.tp.dto.FechaDTO;
+import org.tp.dto.ReservaDTO;
+import org.tp.gestores.GestorReserva;
+import org.tp.utils.TipoAula;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 
 public class ReservaPeriodica extends JFrame {
     private JTextField inputCantidadAlumnos;
@@ -102,6 +111,20 @@ public class ReservaPeriodica extends JFrame {
 
     }
 
+
+    public TipoAula retornarTipoAula() {
+        return switch (tipoAulaComboBox.getSelectedIndex()) {
+            case '0' -> TipoAula.MULTIMEDIO;
+            case '1' -> TipoAula.INFORMATICA;
+            case '2' -> TipoAula.SIN_RECURSOS;
+            default -> null;
+        };
+    };
+
+    public Long retornarPeriodo(){
+        return periodoComboBox.getSelectedIndex()+1L;
+    };
+
     public boolean validarDatos() {
         // Cant alumnos es un número
         String cantidadAlumnosTexto = inputCantidadAlumnos.getText();
@@ -129,4 +152,6 @@ public class ReservaPeriodica extends JFrame {
         }
         return true;
     }
+
+
 }
