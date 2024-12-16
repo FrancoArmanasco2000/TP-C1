@@ -34,6 +34,7 @@ public class AgregarDia extends JFrame {
         formattedTextFieldHoraFin.setColumns(5);
         try{
             MaskFormatter mascara = new MaskFormatter("##:##");
+            mascara.setPlaceholderCharacter('_');
             formattedTextFieldHoraInicio.setFormatterFactory(new DefaultFormatterFactory(mascara));
             formattedTextFieldHoraFin.setFormatterFactory(new DefaultFormatterFactory(mascara));
         } catch (Exception e) {

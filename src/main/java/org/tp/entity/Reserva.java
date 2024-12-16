@@ -2,6 +2,7 @@ package org.tp.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.Columns;
+import org.tp.utils.TipoAula;
 
 @Entity
 @Table(name="Reserva")
@@ -14,7 +15,7 @@ public class Reserva {
     @Column
     private Integer cantidadAlumnos;
     @Column
-    private String tipoAula;
+    private TipoAula tipoAula;
     @Column
     private Integer idDocente;
     @Column
@@ -31,7 +32,7 @@ public class Reserva {
     public Reserva() {
     }
 
-    public Reserva(Integer cantidadAlumnos, String tipoAula, Bedel idUsuario, Long idReserva, Periodo idPeriodo, Integer idDocente, Integer idCurso, String correoContacto) {
+    public Reserva(Integer cantidadAlumnos, TipoAula tipoAula, Bedel idUsuario, Long idReserva, Periodo idPeriodo, Integer idDocente, Integer idCurso, String correoContacto) {
         this.cantidadAlumnos = cantidadAlumnos;
         this.tipoAula = tipoAula;
         this.idUsuario = idUsuario;
@@ -98,13 +99,12 @@ public class Reserva {
         this.idUsuario = idUsuario;
     }
 
-    public String getTipoAula() {
+    public TipoAula getTipoAula() {
         return tipoAula;
     }
 
-    public void setTipoAula(String tipoAula) {
+    public void setTipoAula(TipoAula tipoAula) {
         this.tipoAula = tipoAula;
     }
-
 
 }
