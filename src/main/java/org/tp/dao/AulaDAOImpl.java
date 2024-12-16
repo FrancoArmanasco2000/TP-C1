@@ -12,4 +12,6 @@ public interface AulaDAOImpl {
 
     public List<Aula> getAulasByCapacidadYTipo(Integer capacidad, TipoAula tipo);
 
+    public Aula getAulaById (Long idAula);
+
 }

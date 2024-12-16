@@ -92,7 +92,6 @@ public class ReservaPeriodica extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 GestorReserva gr = new GestorReserva();
                 List<FechaDTO> fechas = new ArrayList<>();
-                //ReservaDTO reservaDTO = new ReservaDTO(retornarPeriodo(),Integer.parseInt(inputCantidadAlumnos.getText()),retornarTipoAula(), new Random().nextInt(),new Random().nextInt(), inputAsignatura.getText(), inputCorreo.getText());
                 for (int row = 0; row < tablaDiasReserva.getRowCount(); row++) {
                     List<Object> rowData = new ArrayList<>();
                     for (int col = 0; col < tablaDiasReserva.getColumnCount(); col++) {
@@ -102,9 +101,8 @@ public class ReservaPeriodica extends JFrame {
                     }
                     fechas.add(gr.generarFechaDTOPeriodica(rowData));
                 }
-
-                //gr.RegistrarReserva(reservaDTO);
-
+                ReservaDTO reservaDTO = new ReservaDTO(retornarPeriodo(),Integer.parseInt(inputCantidadAlumnos.getText()),retornarTipoAula(), new Random().nextInt(),new Random().nextInt(), inputAsignatura.getText(), inputCorreo.getText(),1L,fechas);
+                gr.RegistrarReserva(reservaDTO);
             }
         });
 

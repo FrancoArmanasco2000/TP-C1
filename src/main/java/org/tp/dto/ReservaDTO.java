@@ -16,7 +16,7 @@ public class ReservaDTO {
     private List<FechaDTO> listaFechasDTO;
     private Long idUsuario;
 
-    public ReservaDTO(Long idPeriodo, int cantAlumnos, TipoAula tipoAula, int idCurso, int idDocente, String actAcademica, String correoContacto, Long idUsuario/*, List<FechaDTO> listaFechasDTO*/) {
+    public ReservaDTO(Long idPeriodo, int cantAlumnos, TipoAula tipoAula, int idCurso, int idDocente, String actAcademica, String correoContacto, Long idUsuario, List<FechaDTO> listaFechasDTO) {
         this.idPeriodo = idPeriodo;
         this.cantAlumnos = cantAlumnos;
         this.tipoAula = tipoAula;
@@ -25,7 +25,7 @@ public class ReservaDTO {
         this.actAcademica = actAcademica;
         this.correoContacto = correoContacto;
         this.idUsuario = idUsuario;
-        //this.listaFechasDTO = listaFechasDTO;
+        this.listaFechasDTO = listaFechasDTO;
     }
 
 
