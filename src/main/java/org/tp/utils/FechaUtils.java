@@ -26,6 +26,17 @@ public class FechaUtils {
 
     }
 
+    public static double calcularSolapamiento(List<Integer> horario1, List<Integer> horario2) {
+        int inicioSolapamiento = Math.max(horario1.getFirst(), horario2.get(0));
+        int finSolapamiento = Math.min(horario1.getFirst(), horario2.get(1));
+
+        if (inicioSolapamiento < finSolapamiento) {
+            return finSolapamiento - inicioSolapamiento;
+        } else {
+            return 0.0;
+        }
+    }
+
     public static boolean solapa(List<Integer> horariosA, List<Integer> horariosB) {
         return horariosA.get(0) < horariosB.get(1) && horariosA.get(1) > horariosB.get(0);
     }
