@@ -1,11 +1,17 @@
 package org.tp.interfaces;
 
+import org.tp.dto.ReservaDTO;
+import org.tp.gestores.GestorReserva;
+import org.tp.utils.TipoAula;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Random;
+import java.util.UUID;
 
 public class ReservaPeriodica extends JFrame {
     private JTextField inputCantidadAlumnos;
@@ -29,7 +35,7 @@ public class ReservaPeriodica extends JFrame {
         this.setResizable(false); // NO MODIFICA LA PESTAÑA
         this.setLocationRelativeTo(null); // APARECE EN EL MEDIO
         this.setVisible(true);
-        String[] periodos = {"1C 2024", "2C 2024", "ANUAL 2024", "1C 2025", "2C 2025", "ANUAL 2025"};
+        String[] periodos = {"ANUAL 2024", "1C 2024", "2C 2024", "ANUAL 2025", "1C 2025", "2C 2025","ANUAL 2026","1C 2026","2C 2026"};
         for (String periodo : periodos) {
             periodoComboBox.addItem(periodo);
         }
@@ -40,7 +46,7 @@ public class ReservaPeriodica extends JFrame {
         agregarDiaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!(inputCantidadAlumnos.getText().equals("") || inputNombreApellido.getText().equals("") || inputAsignatura.getText().equals("") || inputCorreo.getText().equals("")) && validarDatos()) {
+                if (!(inputCantidadAlumnos.getText().isEmpty() || inputNombreApellido.getText().isEmpty() || inputAsignatura.getText().isEmpty() || inputCorreo.getText().isEmpty()) && validarDatos()) {
                     AgregarDia ad = new AgregarDia(ReservaPeriodica.this, tablaDiasReserva);
                     ad.setVisible(true);
                     ad.addWindowListener(new WindowAdapter() {
@@ -77,7 +83,38 @@ public class ReservaPeriodica extends JFrame {
                 dispose();
             }
         });
+
+        confirmarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                //ReservaDTO reservaDTO = new ReservaDTO(retornarPeriodo(),Integer.parseInt(inputCantidadAlumnos.getText()),retornarTipoAula(), new Random().nextInt(),new Random().nextInt(), inputAsignatura.getText(), inputCorreo.getText());
+                for (int row = 0; row < tablaDiasReserva.getRowCount(); row++) {
+                    for (int col = 0; col < tablaDiasReserva.getColumnCount(); col++) {
+                        Object value = tablaDiasReserva.getValueAt(row, col);
+                        System.out.println("Dato en fila " + row + ", columna " + col + ": " + value);
+                    }
+                }
+                //GestorReserva gr = new GestorReserva();
+                //gr.RegistrarReserva(reservaDTO);
+
+            }
+        });
+
     }
+
+    public TipoAula retornarTipoAula() {
+        return switch (tipoAulaComboBox.getSelectedIndex()) {
+            case '0' -> TipoAula.MULTIMEDIO;
+            case '1' -> TipoAula.INFORMATICA;
+            case '2' -> TipoAula.SIN_RECURSOS;
+            default -> null;
+        };
+    };
+
+    public Long retornarPeriodo(){
+        return periodoComboBox.getSelectedIndex()+1L;
+    };
 
     public boolean validarDatos() {
         // Cant alumnos es un número
@@ -106,4 +143,6 @@ public class ReservaPeriodica extends JFrame {
         }
         return true;
     }
+
+
 }

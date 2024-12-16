@@ -1,8 +1,10 @@
 package org.tp.gestores;
 
+import org.tp.dao.PeriodoDAO;
 import org.tp.dto.FechaDTO;
 import org.tp.dto.ReservaDTO;
 import org.tp.entity.Periodo;
+import org.tp.entity.Reserva;
 
 import java.util.ArrayList;
 import java.time.LocalDate;
@@ -10,7 +12,7 @@ import java.util.List;
 
 public class GestorReserva {
 
-
+/*
     public String validarDuracion(ReservaDTO reserva){   //Valida que la duracion de cada dia se multiplo de 30
         boolean duracionValida = false;
         if(reserva.getIdPeriodo() == 0) {
@@ -41,7 +43,7 @@ public class GestorReserva {
             }
         }
     }
-
+*/
     public String validarDia(ReservaDTO reserva){ //Valida que los dias especificos sean posteriores a la fecha actual
         LocalDate fechaActual = LocalDate.now();
         List<LocalDate> fechasNoValidas = new ArrayList<>();
@@ -60,4 +62,21 @@ public class GestorReserva {
         return fechasDelPeriodo;
     }
 
+    public void RegistrarReserva(ReservaDTO reservaDTO) {
+
+        Reserva r = new Reserva();
+        r.setCantidadAlumnos(reservaDTO.getCantAlumnos());
+        r.setTipoAula(reservaDTO.getTipoAula());
+        r.setIdCurso(reservaDTO.getIdCurso());
+        r.setIdDocente(reservaDTO.getIdDocente());
+        r.setCorreoContacto(reservaDTO.getCorreoContacto());
+        if(reservaDTO.getIdPeriodo() != 0){  //opt EsPeriodica
+            PeriodoDAO periodoDAO = new PeriodoDAO();
+            Periodo p = periodoDAO.getPeriodoById(reservaDTO.getIdPeriodo());
+            r.setIdPeriodo(p);
+
+        }
+
+
+    }
 }
