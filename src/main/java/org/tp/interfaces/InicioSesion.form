@@ -99,6 +99,7 @@
           </grid>
         </constraints>
         <properties>
+          <font name="Segoe UI" size="15" style="1"/>
           <horizontalTextPosition value="0"/>
           <text value="Iniciar Sesion"/>
         </properties>

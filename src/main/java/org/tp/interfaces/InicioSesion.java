@@ -37,6 +37,8 @@ public class InicioSesion extends JFrame {
             }else if(gestorUsuario.validarSesion(usuarioInput.getText(), contraseniaInput.getText())) {
                 dispose();
                 MenuUsuario mu = new MenuUsuario(usuarioInput.getText());
+            } else{
+                JOptionPane.showMessageDialog(null, "Usuario o contraseña ingresados incorrectos.");
             }
         });
         botonMostrarContrasenia.addActionListener(new ActionListener() {
