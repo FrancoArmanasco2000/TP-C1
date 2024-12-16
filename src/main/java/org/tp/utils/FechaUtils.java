@@ -51,6 +51,22 @@ public class FechaUtils {
         };
     }
 
+
+    public static List<Integer> convertirHoras(String horarioInicio, int duracion) {
+        ArrayList<Integer> valores = new ArrayList<>();
+        Integer horaInicioF = Integer.parseInt(horarioInicio.substring(0, 2));
+        Integer minutosInicioF = Integer.parseInt(horarioInicio.substring(horarioInicio.length() - 2));
+        Integer horarioInicioEnMinutos = horaInicioF * 60 + minutosInicioF;
+
+        Integer horarioFinF = horarioInicioEnMinutos + duracion;
+
+        valores.add(horarioInicioEnMinutos);
+        valores.add(horarioFinF);
+
+        return valores;
+    }
+
+    /* Viejo
     public static List<Integer> convertirHoras (String horarioInicio, FechaInterface f) {
 
         ArrayList<Integer> valores = new ArrayList<>();
@@ -66,7 +82,7 @@ public class FechaUtils {
 
         return valores;
 
-    }
+    }*/
 
     public static double calcularSolapamiento(List<Integer> horario1, List<Integer> horario2) {
         int inicioSolapamiento = Math.max(horario1.getFirst(), horario2.get(0));
