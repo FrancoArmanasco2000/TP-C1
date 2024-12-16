@@ -82,9 +82,9 @@ public class AgregarDia extends JFrame {
 
                 DefaultTableModel model = (DefaultTableModel) tablaDiasReserva.getModel();
                 model.addRow(new Object[]{dia, horarioInicio, horarioFin});
-
+                dispose();
                 //ACA VA A LO DE ASIGNAR AULA
-                new AsignarAula();
+                //new AsignarAula();
 
             }
         });

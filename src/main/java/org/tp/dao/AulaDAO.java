@@ -53,9 +53,9 @@ public class AulaDAO implements AulaDAOImpl {
             Query query = manager.createQuery(hql);
             query.setParameter("idAula", idAula);
 
-            Aula aulaByNro = (Aula) query.getSingleResult();
+            Aula aulaById = (Aula) query.getSingleResult();
             manager.getTransaction().commit();
-            return aulaByNro;
+            return aulaById;
         } catch (Exception e){
             if (manager.getTransaction().isActive()) {
                 manager.getTransaction().rollback();
