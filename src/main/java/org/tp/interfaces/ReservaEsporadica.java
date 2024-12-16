@@ -31,6 +31,7 @@ public class ReservaEsporadica extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!(inputCantidadAlumnos.getText().equals("") || inputNombreApellido.getText().equals("") || inputAsignatura.getText().equals("") || inputCorreo.getText().equals("")) && validarDatos()) {
+                    ReservaEsporadica.this.setEnabled(false);
                     AgregarFecha af = new AgregarFecha(ReservaEsporadica.this, tablaFechasReserva);
                     af.setVisible(true);
                     af.addWindowListener(new WindowAdapter() {
@@ -44,6 +45,7 @@ public class ReservaEsporadica extends JFrame {
                                 inputAsignatura.setEditable(false);
                                 inputCorreo.setEditable(false);
                             }
+                            ReservaEsporadica.this.setEnabled(true);
                         }
                     });
                 } else {

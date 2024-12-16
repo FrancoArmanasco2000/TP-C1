@@ -6,6 +6,8 @@ import org.tp.gestores.GestorUsuario;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.Duration;
+import java.time.LocalTime;
 
 public class InicioSesion extends JFrame {
     private JPanel ventana;
@@ -61,5 +63,17 @@ public class InicioSesion extends JFrame {
     public static void main(String[] args) {
         FlatMacDarkLaf.setup();
         new InicioSesion();
+    }
+
+    public double calcularSolapamiento(int inicio1, int fin1, int inicio2, int fin2) {
+        int inicioSolapamiento = Math.max(inicio1, inicio2);
+        int finSolapamiento = Math.min(fin1, fin2);
+
+        if (inicioSolapamiento < finSolapamiento) {
+            int duracionMinutos = finSolapamiento - inicioSolapamiento;
+            return duracionMinutos;
+        } else {
+            return 0.0;
+        }
     }
 }

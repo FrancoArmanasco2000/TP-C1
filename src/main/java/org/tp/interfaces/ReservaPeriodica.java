@@ -7,6 +7,7 @@ import org.tp.utils.TipoAula;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -64,6 +65,7 @@ public class ReservaPeriodica extends JFrame {
                                 inputAsignatura.setEditable(false);
                                 inputCorreo.setEditable(false);
                             }
+                            ReservaPeriodica.this.setEnabled(true);
                         }
                     });
                 }else{

@@ -23,7 +23,7 @@ public class AgregarFecha extends JFrame {
     JFormattedTextField formattedFecha = new JFormattedTextField(format);
 
     public AgregarFecha(JFrame parentFrame, JTable tablaDiasReserva) {
-        this.setTitle("Agregar Día");
+        this.setTitle("Agregar Fecha");
         this.setContentPane(this.agregarFechaPanel);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setSize(400, 300);

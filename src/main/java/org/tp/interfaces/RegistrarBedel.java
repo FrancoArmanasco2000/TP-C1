@@ -45,7 +45,14 @@ public class RegistrarBedel extends JFrame {
         this.confirmarContrasenia.setEchoChar('*');
 
         cancelarButton.addActionListener(e -> {
+            RegistrarBedel.this.setEnabled(false);
             MensajeDeAlerta ma = new MensajeDeAlerta("¿Estas seguro que deseas cancelar el registro?", RegistrarBedel.this);
+            ma.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent e) {
+                    RegistrarBedel.this.setEnabled(true);
+                }
+            });
         });
 
         confirmarButton.addActionListener(e -> {
