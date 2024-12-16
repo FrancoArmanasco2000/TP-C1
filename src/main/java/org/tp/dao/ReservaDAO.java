@@ -25,25 +25,10 @@ public class ReservaDAO implements ReservaDAOImpl{
     public ReservaDAO () {}
 
     @Override
-    public void crearReserva(ReservaDTO reserva) {
+    public void crearReserva(Reserva reserva) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
         try {
-            Reserva r = new Reserva();
-            r.setCantidadAlumnos(reserva.getCantAlumnos());
-            r.setIdCurso(reserva.getIdCurso());
-            r.setIdDocente(reserva.getIdDocente());
-            r.setTipoAula(reserva.getTipoAula());
-            r.setCorreoContacto(reserva.getCorreoContacto());
-
-            PeriodoDAO periodoDAO = new PeriodoDAO();
-            Periodo periodo = periodoDAO.getPeriodoById(reserva.getIdPeriodo());
-            r.setIdPeriodo(periodo);
-
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
-            Bedel bedel = usuarioDAO.getBedelByidUsuario(reserva.getIdUsuario());
-            r.setIdUsuario(bedel);
-
             manager.getTransaction().begin();
             manager.persist(reserva);
             manager.getTransaction().commit();

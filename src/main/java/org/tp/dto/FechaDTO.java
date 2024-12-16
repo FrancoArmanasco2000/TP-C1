@@ -18,6 +18,17 @@ public class FechaDTO implements FechaInterface {
         this.idAula = idAula;
     }
 
+    @Override
+    public String toString() {
+        return "FechaDTO{" +
+                "fecha=" + fecha +
+                ", horarioInicio='" + horarioInicio + '\'' +
+                ", duracion=" + duracion +
+                ", dia='" + dia + '\'' +
+                ", idAula=" + idAula +
+                '}';
+    }
+
     public LocalDate getFecha() {
         return fecha;
     }

@@ -99,7 +99,7 @@ public class ReservaPeriodica extends JFrame {
                     List<Object> rowData = new ArrayList<>();
                     for (int col = 0; col < tablaDiasReserva.getColumnCount(); col++) {
                         Object value = tablaDiasReserva.getValueAt(row, col);
-                        System.out.println("Dato en fila " + row + ", columna " + col + ": " + value);
+                        //System.out.println("Dato en fila " + row + ", columna " + col + ": " + value);
                         rowData.add(value);
                     }
                     fechas.add(gr.generarFechaDTOPeriodica(rowData));

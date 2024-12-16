@@ -1,8 +1,6 @@
 package org.tp.gestores;
 
-import org.tp.dao.AulaDAO;
-import org.tp.dao.PeriodoDAO;
-import org.tp.dao.UsuarioDAO;
+import org.tp.dao.*;
 import org.tp.dto.FechaDTO;
 import org.tp.dto.ReservaDTO;
 import org.tp.entity.*;
@@ -61,19 +59,27 @@ public class GestorReserva {
     }
 
     public void RegistrarReserva(ReservaDTO reservaDTO) {
-
+        FechaDAO fechaDAO = new FechaDAO();
         Reserva r = new Reserva();
         AulaDAO aulaDAO = new AulaDAO();
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        System.out.println(reservaDTO.toString());
         r.setCantidadAlumnos(reservaDTO.getCantAlumnos());
         r.setTipoAula(reservaDTO.getTipoAula());
         r.setIdCurso(reservaDTO.getIdCurso());
         r.setIdDocente(reservaDTO.getIdDocente());
         r.setCorreoContacto(reservaDTO.getCorreoContacto());
+
         if(reservaDTO.getIdPeriodo() != 0){  //opt esPeriodica
             PeriodoDAO periodoDAO = new PeriodoDAO();
             Periodo p = periodoDAO.getPeriodoById(reservaDTO.getIdPeriodo());
             r.setIdPeriodo(p);
             reservaDTO.setListaFechasDTO(calcularFechasDelPeriodo(reservaDTO));
+            //System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            for(FechaDTO fecha: reservaDTO.getListaFechasDTO()){
+                System.out.println(fecha.toString());
+            }
+
         }
         for(FechaDTO fechaDTO: reservaDTO.getListaFechasDTO()){
             Fecha f = new Fecha();
@@ -84,6 +90,7 @@ public class GestorReserva {
             Aula a = aulaDAO.getAulaById(fechaDTO.getIdAula());
             f.setAula(a);
             f.setReserva(r);
+            fechaDAO.crearFecha(f);
         }
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         Bedel b = usuarioDAO.getBedelByidUsuario(reservaDTO.getIdUsuario());
@@ -95,6 +102,9 @@ public class GestorReserva {
         List<FechaDTO> fechasDelPeriodo = new ArrayList<>();
         for(FechaDTO fecha: reserva.getListaFechasDTO()){
             fechasDelPeriodo.addAll(FechaUtils.crearListaFechas(reserva,fecha));
+        }
+        for(FechaDTO fechaP: fechasDelPeriodo){ //hardcodeado
+            fechaP.setIdAula(5L);
         }
         return fechasDelPeriodo;
     }
