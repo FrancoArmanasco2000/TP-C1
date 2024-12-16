@@ -191,10 +191,10 @@ public class UsuarioDAO implements UsuarioDAOImpl{
         try {
             manager.getTransaction().begin();
             TypedQuery<Bedel> query = manager.createQuery(
-                    "SELECT b FROM Bedel b WHERE b.nombre LIKE :nombre AND b.borrado = false",
+                    "SELECT b FROM Bedel b WHERE LOWER(b.nombre) LIKE :nombre AND b.borrado = false",
                     Bedel.class
             );
-            query.setParameter("nombre", "%" + nombre + "%");
+            query.setParameter("nombre", nombre.toLowerCase() + "%");
             bedeles = query.getResultList();
             manager.getTransaction().commit();
         } catch (Exception e) {
@@ -215,10 +215,10 @@ public class UsuarioDAO implements UsuarioDAOImpl{
         try {
             manager.getTransaction().begin();
             TypedQuery<Bedel> query = manager.createQuery(
-                    "SELECT b FROM Bedel b WHERE b.turno = :turno AND b.borrado = false",
+                    "SELECT b FROM Bedel b WHERE LOWER(b.turno) LIKE :turno AND b.borrado = false",
                     Bedel.class
             );
-            query.setParameter("turno", turno);
+            query.setParameter("turno", turno.toLowerCase() + "%");
             bedeles = query.getResultList();
             manager.getTransaction().commit();
         } catch (Exception e) {

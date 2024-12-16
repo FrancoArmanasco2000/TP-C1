@@ -2,6 +2,7 @@ package org.tp.interfaces;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -41,6 +42,7 @@ public class ReservaPeriodica extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!(inputCantidadAlumnos.getText().equals("") || inputNombreApellido.getText().equals("") || inputAsignatura.getText().equals("") || inputCorreo.getText().equals("")) && validarDatos()) {
+                    ReservaPeriodica.this.setEnabled(false);
                     AgregarDia ad = new AgregarDia(ReservaPeriodica.this, tablaDiasReserva);
                     ad.setVisible(true);
                     ad.addWindowListener(new WindowAdapter() {
@@ -55,6 +57,7 @@ public class ReservaPeriodica extends JFrame {
                                 inputAsignatura.setEditable(false);
                                 inputCorreo.setEditable(false);
                             }
+                            ReservaPeriodica.this.setEnabled(true);
                         }
                     });
                 }else{

@@ -6,6 +6,8 @@ import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Locale;
 
 public class MenuUsuario extends JFrame {
@@ -35,6 +37,18 @@ public class MenuUsuario extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 RegistrarReserva rr = new RegistrarReserva();
+            }
+        });
+        reservasParaUnDiaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(MenuUsuario.this, "No implementado por no ser parte de la entrega.");
+            }
+        });
+        reservasParaUnCursoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(MenuUsuario.this, "No implementado por no ser parte de la entrega.");
             }
         });
     }
