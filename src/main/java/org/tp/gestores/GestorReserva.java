@@ -13,8 +13,8 @@ import java.util.List;
 
 public class GestorReserva {
 
-/*
-    public String validarDuracion(ReservaDTO reserva){   //Valida que la duracion de cada dia se multiplo de 30
+
+    /*public String validarDuracion(ReservaDTO reserva){   //Valida que la duracion de cada dia se multiplo de 30
         boolean duracionValida = false;
         if(reserva.getIdPeriodo() == 0) {
             List<LocalDate> fechasNoValidas = new ArrayList<>();
@@ -43,8 +43,8 @@ public class GestorReserva {
                 return "La duracion no es un multiplo de 30 minutos para los dias:" + diasNoValidos;
             }
         }
-    }
-*/
+    }*/
+
     public String validarDia(ReservaDTO reserva){ //Valida que los dias especificos sean posteriores a la fecha actual
         LocalDate fechaActual = LocalDate.now();
         List<LocalDate> fechasNoValidas = new ArrayList<>();
@@ -79,6 +79,7 @@ public class GestorReserva {
             for(FechaDTO fecha: reservaDTO.getListaFechasDTO()){
                 System.out.println(fecha.toString());
             }
+
 
         }
         for(FechaDTO fechaDTO: reservaDTO.getListaFechasDTO()){

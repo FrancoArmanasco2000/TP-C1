@@ -18,4 +18,5 @@ public class ResultadoDTO {
     public void setReservasSolapadas(List<ReservaDTO> reservasSolapadas) {
         this.reservasSolapadas = reservasSolapadas;
     }
+
 }
