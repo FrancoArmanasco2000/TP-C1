@@ -102,20 +102,16 @@ public class ReservaPeriodica extends JFrame {
                     }
                     fechas.add(gr.generarFechaDTOPeriodica(rowData));
                 }
-            for(FechaDTO fechaDTO : fechas) {
-                fechaDTO.setIdAula((long)5);
-            }
-                
-                ReservaDTO reservaDTO = new ReservaDTO(retornarPeriodo(),Integer.parseInt(inputCantidadAlumnos.getText()),retornarTipoAula(), new Random().nextInt(),new Random().nextInt(), inputAsignatura.getText(), inputCorreo.getText(),1L,fechas);
+
+                for(FechaDTO fechaDTO: fechas) { //hardcodeado
+                    fechaDTO.setIdAula(5L);
+                }
+                ReservaDTO reservaDTO = new ReservaDTO(retornarPeriodo(),Integer.parseInt(inputCantidadAlumnos.getText()),retornarTipoAula(), new Random().nextInt(),new Random().nextInt(), inputAsignatura.getText(), inputCorreo.getText(),2L,fechas);
                 gr.RegistrarReserva(reservaDTO);
             }
         });
 
     }
-
-    public Long retornarPeriodo(){
-        return periodoComboBox.getSelectedIndex()+1L;
-    };
 
     public TipoAula retornarTipoAula() {
         return switch (tipoAulaComboBox.getSelectedIndex()) {
@@ -124,6 +120,10 @@ public class ReservaPeriodica extends JFrame {
             case '2' -> TipoAula.SIN_RECURSOS;
             default -> null;
         };
+    };
+
+    public Long retornarPeriodo(){
+        return periodoComboBox.getSelectedIndex()+1L;
     };
 
     public boolean validarDatos() {
@@ -153,4 +153,6 @@ public class ReservaPeriodica extends JFrame {
         }
         return true;
     }
+
+
 }
