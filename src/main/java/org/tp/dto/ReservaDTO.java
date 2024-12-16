@@ -32,6 +32,28 @@ public class ReservaDTO {
         this.listaFechasDTO = listaFechasDTO;
     }
 
+
+    @Override
+    public String toString() {
+        return "ReservaDTO{" +
+                "idReserva=" + idReserva +
+                ", idPeriodo=" + idPeriodo +
+                ", cantAlumnos=" + cantAlumnos +
+                ", tipoAula=" + tipoAula +
+                ", idDocente=" + idDocente +
+                ", idCurso=" + idCurso +
+                ", correoContacto='" + correoContacto + '\'' +
+                ", actAcademica='" + actAcademica + '\'' +
+                ", listaFechasDTO=" + listaFechasDTO +
+                ", idUsuario=" + idUsuario +
+                ", idAula=" + idAula +
+                ", fecha=" + fecha +
+                ", horarioInicio='" + horarioInicio + '\'' +
+                ", duracion=" + duracion +
+                '}';
+    }
+
+
     public ReservaDTO(Long idReserva, int cantAlumnos, String correoContacto, String horarioInicio, int duracion, Long idAula, LocalDate fecha) {
         this.idReserva = idReserva;
         this.cantAlumnos = cantAlumnos;
