@@ -104,7 +104,10 @@ public class ReservaPeriodica extends JFrame {
                     }
                     fechas.add(gr.generarFechaDTOPeriodica(rowData));
                 }
-                ReservaDTO reservaDTO = new ReservaDTO(retornarPeriodo(),Integer.parseInt(inputCantidadAlumnos.getText()),retornarTipoAula(), new Random().nextInt(),new Random().nextInt(), inputAsignatura.getText(), inputCorreo.getText(),1L,fechas);
+                for(FechaDTO fechaDTO: fechas) { //hardcodeado
+                    fechaDTO.setIdAula(5L);
+                }
+                ReservaDTO reservaDTO = new ReservaDTO(retornarPeriodo(),Integer.parseInt(inputCantidadAlumnos.getText()),retornarTipoAula(), new Random().nextInt(),new Random().nextInt(), inputAsignatura.getText(), inputCorreo.getText(),2L,fechas);
                 gr.RegistrarReserva(reservaDTO);
             }
         });
