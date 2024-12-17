@@ -29,9 +29,9 @@ public class ReservasSolapadas extends JDialog{
         campoHoraA.setEditable(false);
         campoHoraB.setEditable(false);
 
-        campoAsignatura.setText(String.valueOf(reserva.getIdCurso()));
+        campoAsignatura.setText(reserva.getAsignatura());
         campoCorreo.setText(reserva.getCorreoContacto());
-        campoNombreApellido.setText(String.valueOf(reserva.getIdDocente()));
+        campoNombreApellido.setText(reserva.getNombreDocente());
         campoHorasSuperpuestas.setText(String.valueOf(reserva.getHorasSolapadas()));
         campoHoraA.setText(reserva.getHoraA());
         campoHoraB.setText(reserva.getHoraB());

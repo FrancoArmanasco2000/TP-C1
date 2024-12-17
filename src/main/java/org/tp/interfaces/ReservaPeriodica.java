@@ -100,7 +100,6 @@ public class ReservaPeriodica extends JFrame {
                     List<Object> rowData = new ArrayList<>();
                     for (int col = 0; col < tablaDiasReserva.getColumnCount(); col++) {
                         Object value = tablaDiasReserva.getValueAt(row, col);
-                        //System.out.println("Dato en fila " + row + ", columna " + col + ": " + value);
                         rowData.add(value);
                     }
                     fechas.add(gr.generarFechaDTOPeriodica(rowData));
@@ -110,41 +109,26 @@ public class ReservaPeriodica extends JFrame {
                     fechaDTO.setIdAula(5L);
                 }
 
-                String nombreDocente = inputNombreApellido.getText();
-                Long idDocente = reservaDAO.obtenerOCrearDocente(nombreDocente);
-
-                String nombreAsignatura = inputAsignatura.getText();
-                Long idCurso = reservaDAO.obtenerOCrearAsignatura(nombreAsignatura);
-
-                if (idDocente != null && idCurso != null) {
-                    // Crear la reserva con los ids asignados
-                    ReservaDTO reservaDTO = new ReservaDTO(
-                            retornarPeriodo(),
-                            Integer.parseInt(inputCantidadAlumnos.getText()),
-                            retornarTipoAula(),
-                            Math.toIntExact(idCurso),
-                            Math.toIntExact(idDocente),
-                            inputAsignatura.getText(),
-                            inputCorreo.getText(),
-                            usuario,
-                            fechas
+                ReservaDTO reservaDTO = new ReservaDTO(
+                        retornarPeriodo(),
+                        Integer.parseInt(inputCantidadAlumnos.getText()),
+                        retornarTipoAula(),
+                        inputNombreApellido.getText(),
+                        inputAsignatura.getText(),
+                        inputCorreo.getText(),
+                        usuario,
+                        fechas
                     );
-
-                    gr.RegistrarReserva(reservaDTO);
-                //ReservaDTO(retornarPeriodo(),Integer.parseInt(inputCantidadAlumnos.getText()),retornarTipoAula(), new Random().nextInt(),new Random().nextInt(), inputAsignatura.getText(), inputCorreo.getText(),usuario,fechas);
-                //ReservaDTO reservaDTO = new ReservaDTO(retornarPeriodo(),Integer.parseInt(inputCantidadAlumnos.getText()),retornarTipoAula(), new Random().nextInt(),new Random().nextInt(), inputAsignatura.getText(), inputCorreo.getText(),2L,fechas);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Error al obtener los IDs de docente o asignatura.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                gr.RegistrarReserva(reservaDTO);
             }
         });
     }
 
     public TipoAula retornarTipoAula() {
         return switch (tipoAulaComboBox.getSelectedIndex()) {
-            case '0' -> TipoAula.MULTIMEDIO;
-            case '1' -> TipoAula.INFORMATICA;
-            case '2' -> TipoAula.SIN_RECURSOS;
+            case 0 -> TipoAula.MULTIMEDIO;
+            case 1 -> TipoAula.INFORMATICA;
+            case 2 -> TipoAula.SIN_RECURSOS;
             default -> null;
         };
     };
