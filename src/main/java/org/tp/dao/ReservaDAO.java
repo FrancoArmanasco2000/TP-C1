@@ -1,9 +1,6 @@
 package org.tp.dao;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.Query;
+import jakarta.persistence.*;
 import org.tp.dto.FechaDTO;
 import org.tp.dto.ReservaDTO;
 import org.tp.dto.ResultadoDTO;
@@ -187,6 +184,70 @@ public class ReservaDAO implements ReservaDAOImpl{
         resultadoMenosSolapadasDTO.setMinimaCantidadSolapada(minimaCantidad);
 
         return resultadoMenosSolapadasDTO;
+    }
+
+    public Long obtenerOCrearDocente(String nombreDocente) {
+        factory = Persistence.createEntityManagerFactory("Aplicacion");
+        manager = factory.createEntityManager();
+        Long idDocente = null;
+
+        try {
+            // Buscar si el docente ya existe
+            TypedQuery<Docente> query = manager.createQuery(
+                    "SELECT d FROM Docente d WHERE d.nombreDocente = :nombreDocente", Docente.class);
+            query.setParameter("nombreDocente", nombreDocente);
+
+            Docente docente = null;
+
+            try {
+                docente = query.getSingleResult();
+            } catch (NoResultException e) {
+                // Si no existe, se crea y persiste el docente
+                manager.getTransaction().begin();
+                docente = new Docente();
+                docente.setNombreDocente(nombreDocente);
+                manager.persist(docente);
+                manager.getTransaction().commit();
+            }
+
+            idDocente = docente.getIdDocente();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al obtener o crear el docente.");
+        }
+        return idDocente;
+    }
+
+    public Long obtenerOCrearAsignatura(String nombreAsignatura) {
+        factory = Persistence.createEntityManagerFactory("Aplicacion");
+        manager = factory.createEntityManager();
+        Long idCurso = null;
+
+        try {
+            // Buscar si la asignatura ya existe
+            TypedQuery<Asignatura> query = manager.createQuery(
+                    "SELECT a FROM Asignatura a WHERE a.nombre = :nombreAsignatura", Asignatura.class);
+            query.setParameter("nombreAsignatura", nombreAsignatura);
+
+            Asignatura asignatura = null;
+
+            try {
+                asignatura = query.getSingleResult();
+            } catch (NoResultException e) {
+                // Si no existe, se crea y persiste la asignatura
+                manager.getTransaction().begin();
+                asignatura = new Asignatura();
+                asignatura.setNombre(nombreAsignatura);
+                manager.persist(asignatura);
+                manager.getTransaction().commit();
+            }
+
+            idCurso = asignatura.getIdCurso();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al obtener o crear la asignatura.");
+        }
+        return idCurso;
     }
 
 }

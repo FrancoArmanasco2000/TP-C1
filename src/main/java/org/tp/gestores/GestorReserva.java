@@ -33,6 +33,7 @@ public class GestorReserva {
         ReservaDAO reservaDAO = new ReservaDAO();
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         Reserva r = new Reserva();
+
         r.setCantidadAlumnos(reservaDTO.getCantAlumnos());
         r.setTipoAula(reservaDTO.getTipoAula());
         r.setIdCurso(reservaDTO.getIdCurso());
@@ -71,7 +72,7 @@ public class GestorReserva {
         for(FechaDTO fecha: reserva.getListaFechasDTO()){
             fechasDelPeriodo.addAll(FechaUtils.crearListaFechas(reserva,fecha));
         }
-        for(FechaDTO fechaP: fechasDelPeriodo){ //HARDCODEO EL MISMO AULA PARA TODAS LAS FECHAS
+        for(FechaDTO fechaP: fechasDelPeriodo){ //hardcodeado
             fechaP.setIdAula(5L);
         }
         return fechasDelPeriodo;
