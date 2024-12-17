@@ -21,14 +21,15 @@ public class ReservaDTO {
     private String horarioInicio;
     private int duracion;
     private int horasSolapadas;
+    private String nombreUsuario;
 
-    public ReservaDTO(Long idPeriodo, int cantAlumnos, TipoAula tipoAula, int idCurso, int idDocente, String actAcademica, String correoContacto, Long idUsuario, List<FechaDTO> listaFechasDTO) {
+    public ReservaDTO(Long idPeriodo, int cantAlumnos, TipoAula tipoAula, int idCurso, int idDocente, String actAcademica, String correoContacto, String nombreUsuario, List<FechaDTO> listaFechasDTO) {
         this.idPeriodo = idPeriodo;
         this.cantAlumnos = cantAlumnos;
         this.tipoAula = tipoAula;
         this.actAcademica = actAcademica;
         this.correoContacto = correoContacto;
-        this.idUsuario = idUsuario;
+        this.nombreUsuario = nombreUsuario;
         this.listaFechasDTO = listaFechasDTO;
     }
 
@@ -156,6 +157,14 @@ public class ReservaDTO {
     public Integer getDuracion() {return duracion;}
 
     public void setDuracion(Integer duracion) {this.duracion = duracion;}
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
 
     public int getHorasSolapadas(){ return horasSolapadas;}
     public String getHoraA(){ return horarioInicio;}

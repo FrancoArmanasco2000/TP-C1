@@ -14,37 +14,6 @@ import java.util.List;
 public class GestorReserva {
 
 
-    /*public String validarDuracion(ReservaDTO reserva){   //Valida que la duracion de cada dia se multiplo de 30
-        boolean duracionValida = false;
-        if(reserva.getIdPeriodo() == 0) {
-            List<LocalDate> fechasNoValidas = new ArrayList<>();
-            for(int i=0;i<reserva.getListaFechasDTO().size();i++){
-                if(reserva.getListaFechasDTO().get(i).getDuracion() % 30 != 0) {
-                    fechasNoValidas.add(reserva.getListaFechasDTO().get(i).getFecha());
-                }
-            }
-            if(fechasNoValidas.isEmpty()) duracionValida = true;
-            if (duracionValida) {
-                return "";
-            } else {
-                return "La duracion no es un multiplo de 30 minutos para los fechas:" + fechasNoValidas;
-            }
-        }else {
-            List<String> diasNoValidos = new ArrayList<String>();
-            for (int i = 0; i < reserva.getListaDiasDTO().size(); i++) {
-                if (reserva.getListaDiasDTO().get(i).getDuracion() % 30 != 0) {
-                    diasNoValidos.add(reserva.getListaDiasDTO().get(i).getDia());
-                }
-            }
-            if (diasNoValidos.isEmpty()) duracionValida = true;
-            if (duracionValida) {
-                return "";
-            } else {
-                return "La duracion no es un multiplo de 30 minutos para los dias:" + diasNoValidos;
-            }
-        }
-    }*/
-
     public String validarDia(ReservaDTO reserva){ //Valida que los dias especificos sean posteriores a la fecha actual
         LocalDate fechaActual = LocalDate.now();
         List<LocalDate> fechasNoValidas = new ArrayList<>();
@@ -60,28 +29,28 @@ public class GestorReserva {
 
     public void RegistrarReserva(ReservaDTO reservaDTO) {
         FechaDAO fechaDAO = new FechaDAO();
-        Reserva r = new Reserva();
         AulaDAO aulaDAO = new AulaDAO();
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        System.out.println(reservaDTO.toString());
+        ReservaDAO reservaDAO = new ReservaDAO();
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        Reserva r = new Reserva();
         r.setCantidadAlumnos(reservaDTO.getCantAlumnos());
         r.setTipoAula(reservaDTO.getTipoAula());
         r.setIdCurso(reservaDTO.getIdCurso());
         r.setIdDocente(reservaDTO.getIdDocente());
         r.setCorreoContacto(reservaDTO.getCorreoContacto());
+        Long idUsuario = usuarioDAO.getBedelByUsuario(reservaDTO.getNombreUsuario()).getIdUsuario();
+        Bedel b = usuarioDAO.getBedelByidUsuario(idUsuario);
+        r.setIdUsuario(b);
 
         if(reservaDTO.getIdPeriodo() != 0){  //opt esPeriodica
             PeriodoDAO periodoDAO = new PeriodoDAO();
             Periodo p = periodoDAO.getPeriodoById(reservaDTO.getIdPeriodo());
             r.setIdPeriodo(p);
             reservaDTO.setListaFechasDTO(calcularFechasDelPeriodo(reservaDTO));
-            //System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-            for(FechaDTO fecha: reservaDTO.getListaFechasDTO()){
-                System.out.println(fecha.toString());
-            }
-
-
         }
+
+        reservaDAO.crearReserva(r);
+
         for(FechaDTO fechaDTO: reservaDTO.getListaFechasDTO()){
             Fecha f = new Fecha();
             f.setFecha(fechaDTO.getFecha());
@@ -93,9 +62,7 @@ public class GestorReserva {
             f.setReserva(r);
             fechaDAO.crearFecha(f);
         }
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
-        Bedel b = usuarioDAO.getBedelByidUsuario(reservaDTO.getIdUsuario());
-        r.setIdUsuario(b);
+
 
     }
 
@@ -104,7 +71,7 @@ public class GestorReserva {
         for(FechaDTO fecha: reserva.getListaFechasDTO()){
             fechasDelPeriodo.addAll(FechaUtils.crearListaFechas(reserva,fecha));
         }
-        for(FechaDTO fechaP: fechasDelPeriodo){ //hardcodeado
+        for(FechaDTO fechaP: fechasDelPeriodo){ //HARDCODEO EL MISMO AULA PARA TODAS LAS FECHAS
             fechaP.setIdAula(5L);
         }
         return fechasDelPeriodo;
@@ -116,7 +83,6 @@ public class GestorReserva {
         Integer horaFin = Integer.parseInt(horarioFin.substring(0,2));
         Integer minutosInicio = Integer.parseInt(horarioInicio.substring(3,5));
         Integer minutosFin = Integer.parseInt(horarioFin.substring(3,5));
-
         return (horaFin - horaInicio) * 60 + (minutosFin - minutosInicio);
     }
 
