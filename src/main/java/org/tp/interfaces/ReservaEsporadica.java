@@ -18,7 +18,7 @@ public class ReservaEsporadica extends JFrame {
     private JPanel reservaEsporadicaPanel;
 
 
-    public ReservaEsporadica() {
+    public ReservaEsporadica(String usuario) {
         this.setTitle("Reserva Esporadica");
         this.setContentPane(this.reservaEsporadicaPanel);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

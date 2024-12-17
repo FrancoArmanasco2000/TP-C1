@@ -15,7 +15,7 @@ public class RegistrarReserva extends JFrame {
     private JButton aceptarButton;
     private JPanel seleccionarTipoReserva;
 
-    public RegistrarReserva() {
+    public RegistrarReserva(String usuario) {
 
         this.setContentPane(this.seleccionarTipoReserva);
         this.setBounds(0, 0, 350, 450);
@@ -44,10 +44,10 @@ public class RegistrarReserva extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (periodicaRadioButton.isSelected()) {
                     RegistrarReserva.super.dispose();
-                    ReservaPeriodica rp = new ReservaPeriodica();
+                    ReservaPeriodica rp = new ReservaPeriodica(usuario);
                 } else if (esporadicaRadioButton.isSelected()) {
                     RegistrarReserva.super.dispose();
-                    ReservaEsporadica re = new ReservaEsporadica();
+                    ReservaEsporadica re = new ReservaEsporadica(usuario);
                 }
             }
         });

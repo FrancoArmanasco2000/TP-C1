@@ -29,7 +29,7 @@ public class ReservaPeriodica extends JFrame {
     private JPanel reservaPeriodicaPanel;
 
 
-    public ReservaPeriodica() {
+    public ReservaPeriodica(String usuario) {
         this.setTitle("Reserva Periodica");
         this.setContentPane(this.reservaPeriodicaPanel);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -37,7 +37,7 @@ public class ReservaPeriodica extends JFrame {
         this.setResizable(false); // NO MODIFICA LA PESTAÑA
         this.setLocationRelativeTo(null); // APARECE EN EL MEDIO
         this.setVisible(true);
-        String[] periodos = {"1C 2024", "2C 2024", "ANUAL 2024", "1C 2025", "2C 2025", "ANUAL 2025"};
+        String[] periodos = {"ANUAL 2024", "1C 2024", "2C 2024", "ANUAL 2025", "1C 2025", "2C 2025", "ANUAL 2026", "1C 2026" , "2C 2026" };
         for (String periodo : periodos) {
             periodoComboBox.addItem(periodo);
         }
@@ -97,7 +97,6 @@ public class ReservaPeriodica extends JFrame {
                     List<Object> rowData = new ArrayList<>();
                     for (int col = 0; col < tablaDiasReserva.getColumnCount(); col++) {
                         Object value = tablaDiasReserva.getValueAt(row, col);
-                        //System.out.println("Dato en fila " + row + ", columna " + col + ": " + value);
                         rowData.add(value);
                     }
                     fechas.add(gr.generarFechaDTOPeriodica(rowData));
@@ -106,7 +105,7 @@ public class ReservaPeriodica extends JFrame {
                 for(FechaDTO fechaDTO: fechas) { //hardcodeado
                     fechaDTO.setIdAula(5L);
                 }
-                ReservaDTO reservaDTO = new ReservaDTO(retornarPeriodo(),Integer.parseInt(inputCantidadAlumnos.getText()),retornarTipoAula(), new Random().nextInt(),new Random().nextInt(), inputAsignatura.getText(), inputCorreo.getText(),2L,fechas);
+                ReservaDTO reservaDTO = new ReservaDTO(retornarPeriodo(),Integer.parseInt(inputCantidadAlumnos.getText()),retornarTipoAula(), new Random().nextInt(),new Random().nextInt(), inputAsignatura.getText(), inputCorreo.getText(),usuario,fechas);
                 gr.RegistrarReserva(reservaDTO);
             }
         });
