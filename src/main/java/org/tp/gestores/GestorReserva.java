@@ -32,13 +32,17 @@ public class GestorReserva {
         AulaDAO aulaDAO = new AulaDAO();
         ReservaDAO reservaDAO = new ReservaDAO();
         UsuarioDAO usuarioDAO = new UsuarioDAO();
+
         Reserva r = new Reserva();
 
         r.setCantidadAlumnos(reservaDTO.getCantAlumnos());
         r.setTipoAula(reservaDTO.getTipoAula());
-        r.setIdCurso(reservaDTO.getIdCurso());
-        r.setIdDocente(reservaDTO.getIdDocente());
         r.setCorreoContacto(reservaDTO.getCorreoContacto());
+
+        Long idCurso = reservaDAO.obtenerOCrearAsignatura(reservaDTO.getAsignatura());
+        Long idDocente = reservaDAO.obtenerOCrearDocente(reservaDTO.getNombreDocente());
+        r.setIdCurso(idCurso);
+        r.setIdDocente(idDocente);
         Long idUsuario = usuarioDAO.getBedelByUsuario(reservaDTO.getNombreUsuario()).getIdUsuario();
         Bedel b = usuarioDAO.getBedelByidUsuario(idUsuario);
         r.setIdUsuario(b);

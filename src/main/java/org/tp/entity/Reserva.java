@@ -17,9 +17,9 @@ public class Reserva {
     @Column
     private TipoAula tipoAula;
     @Column
-    private Integer idDocente;
+    private Long idDocente;
     @Column
-    private Integer idCurso;
+    private Long idCurso;
     @Column
     private String correoContacto;
     @ManyToOne
@@ -32,7 +32,7 @@ public class Reserva {
     public Reserva() {
     }
 
-    public Reserva(Integer cantidadAlumnos, TipoAula tipoAula, Bedel idUsuario, Long idReserva, Periodo idPeriodo, Integer idDocente, Integer idCurso, String correoContacto) {
+    public Reserva(Integer cantidadAlumnos, TipoAula tipoAula, Bedel idUsuario, Long idReserva, Periodo idPeriodo, Long idDocente, Long idCurso, String correoContacto) {
         this.cantidadAlumnos = cantidadAlumnos;
         this.tipoAula = tipoAula;
         this.idUsuario = idUsuario;
@@ -59,19 +59,19 @@ public class Reserva {
         this.cantidadAlumnos = cantidadAlumnos;
     }
 
-    public Integer getIdCurso() {
+    public Long getIdCurso() {
         return idCurso;
     }
 
-    public void setIdCurso(Integer idCurso) {
+    public void setIdCurso(Long idCurso) {
         this.idCurso = idCurso;
     }
 
-    public Integer getIdDocente() {
+    public Long getIdDocente() {
         return idDocente;
     }
 
-    public void setIdDocente(Integer idDocente) {
+    public void setIdDocente(Long idDocente) {
         this.idDocente = idDocente;
     }
 
