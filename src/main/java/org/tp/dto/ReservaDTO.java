@@ -46,8 +46,14 @@ public class ReservaDTO {
         this.nombreUsuario = nombreUsuario;
     }
 
-
-
+    public ReservaDTO(int cantAlumnos, TipoAula tipoAula, String nombreDocente, String asignatura, String correoContacto, String nombreUsuario) {
+        this.cantAlumnos = cantAlumnos;
+        this.tipoAula = tipoAula;
+        this.nombreDocente = nombreDocente;
+        this.asignatura = asignatura;
+        this.correoContacto = correoContacto;
+        this.nombreUsuario = nombreUsuario;
+    }
 
     @Override
     public String toString() {

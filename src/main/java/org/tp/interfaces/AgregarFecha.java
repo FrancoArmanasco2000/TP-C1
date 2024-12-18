@@ -8,21 +8,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
+import org.tp.dto.FechaDTO;
+import org.tp.dto.ReservaDTO;
+import org.tp.utils.FechaUtils;
 import org.tp.utils.HorarioUtils;
 
 public class AgregarFecha extends JFrame {
-    private JComboBox<String> diaComboBox;
     private JButton asignarAulaButton;
     private JButton cancelarButton;
     private JPanel agregarFechaPanel;
     private JFormattedTextField formattedTextFieldHoraInicio;
     private JFormattedTextField formattedTextFieldHoraFin;
-    //private JFormattedTextField formattedFecha;
-    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-    JFormattedTextField formattedFecha = new JFormattedTextField(format);
+    private JFormattedTextField formattedFecha;
 
-    public AgregarFecha(JFrame parentFrame, JTable tablaDiasReserva) {
+
+    public AgregarFecha(JFrame parentFrame, JTable tablaFechasReserva, ReservaDTO reservaDTO) {
         this.setTitle("Agregar Fecha");
         this.setContentPane(this.agregarFechaPanel);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -33,30 +35,20 @@ public class AgregarFecha extends JFrame {
 
         formattedTextFieldHoraInicio.setColumns(5);
         formattedTextFieldHoraFin.setColumns(5);
-        try{
-            MaskFormatter mascara = new MaskFormatter("##:##");
-            formattedTextFieldHoraInicio.setFormatterFactory(new DefaultFormatterFactory(mascara));
-            formattedTextFieldHoraFin.setFormatterFactory(new DefaultFormatterFactory(mascara));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
         formattedFecha.setColumns(10);
-        try{
-            MaskFormatter mascara = new MaskFormatter("##/##/####");
-            formattedFecha.setFormatterFactory(new DefaultFormatterFactory(mascara));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+
+        HorarioUtils.configurarFormatoHorario(formattedTextFieldHoraInicio);
+        HorarioUtils.configurarFormatoHorario(formattedTextFieldHoraFin);
+        FechaUtils.configurarFormatoFecha(formattedFecha);
 
         asignarAulaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String dia = (String) diaComboBox.getSelectedItem();
+                String fechaTexto = formattedFecha.getText();
                 String horarioInicio = formattedTextFieldHoraInicio.getText();
                 String horarioFin = formattedTextFieldHoraFin.getText();
 
-                if (dia == null || horarioInicio.isEmpty() || horarioFin.isEmpty()) {
+                if (fechaTexto.equals("__/__/__") || horarioInicio.equals("__:__") || horarioFin.equals("__:__")) {
                     JOptionPane.showMessageDialog(
                             null,
                             "Por favor, complete todos los campos obligatorios.",
@@ -86,12 +78,25 @@ public class AgregarFecha extends JFrame {
                     return;
                 }
 
-                DefaultTableModel model = (DefaultTableModel) tablaDiasReserva.getModel();
-                model.addRow(new Object[]{dia, horarioInicio, horarioFin});
+                if (!FechaUtils.esFechaValida(fechaTexto)) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Por favor, seleccione una fecha válida (formato dd/MM/yyyy).",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                    return;
+                }
 
-                //ACA VA LO DE ASIGNAR EL AULA
-                //new AsignarAula();
+                LocalDate fecha = FechaUtils.convertirTextoALocalDate(fechaTexto);
 
+                FechaDTO fechaDTO = new FechaDTO(fecha, horarioInicio, HorarioUtils.calcularDuracion(horarioInicio,horarioFin), FechaUtils.obtenerDiaDeLaSemana(fecha));
+
+                DefaultTableModel model = (DefaultTableModel) tablaFechasReserva.getModel();
+                model.addRow(new Object[]{fecha, horarioInicio, horarioFin});
+
+                new AsignarAula(reservaDTO,fechaDTO);
+                dispose();
             }
         });
 

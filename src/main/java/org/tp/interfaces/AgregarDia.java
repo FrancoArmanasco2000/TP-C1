@@ -35,15 +35,8 @@ public class AgregarDia extends JFrame {
 
         formattedTextFieldHoraInicio.setColumns(5);
         formattedTextFieldHoraFin.setColumns(5);
-        try{
-            MaskFormatter mascara = new MaskFormatter("##:##");
-            mascara.setPlaceholderCharacter('_');
-            formattedTextFieldHoraInicio.setFormatterFactory(new DefaultFormatterFactory(mascara));
-            formattedTextFieldHoraFin.setFormatterFactory(new DefaultFormatterFactory(mascara));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
+        HorarioUtils.configurarFormatoHorario(formattedTextFieldHoraInicio);
+        HorarioUtils.configurarFormatoHorario(formattedTextFieldHoraFin);
 
         asignarAulaButton.addActionListener(new ActionListener() {
             @Override
@@ -86,7 +79,7 @@ public class AgregarDia extends JFrame {
 
                 DefaultTableModel model = (DefaultTableModel) tablaDiasReserva.getModel();
                 model.addRow(new Object[]{dia, horarioInicio, horarioFin});
-                AsignarAula aa = new AsignarAula(reservaDTO,fechaDTO);
+                new AsignarAula(reservaDTO,fechaDTO);
                 dispose();
             }
         });
