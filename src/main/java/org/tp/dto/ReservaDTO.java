@@ -2,7 +2,11 @@ package org.tp.dto;
 
 import org.tp.utils.TipoAula;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public class ReservaDTO {
@@ -19,8 +23,8 @@ public class ReservaDTO {
     private LocalDate fecha;
     private String horarioInicio;
     private int duracion;
-    private int horasSolapadas;
     private String nombreUsuario;
+    DateFormat formato = new SimpleDateFormat("HH:mm");
 
     public ReservaDTO() {};
 
@@ -179,13 +183,15 @@ public class ReservaDTO {
         this.nombreUsuario = nombreUsuario;
     }
 
-    public int getHorasSolapadas(){ return horasSolapadas;}
     public String getHoraA(){ return horarioInicio;}
     public String getHoraB(){
         int horaInicioF = Integer.parseInt(horarioInicio.substring(0, 2));
         int minutosInicioF = Integer.parseInt(horarioInicio.substring(horarioInicio.length() - 2));
         int horarioInicioEnMinutos = horaInicioF * 60 + minutosInicioF;
-        int horarioFinF = (horarioInicioEnMinutos + duracion)/60;
-        return String.valueOf(horarioFinF);
+        int horarioFinEnMinutos = horarioInicioEnMinutos + duracion;
+        int horaFin = (horarioFinEnMinutos / 60) % 24; // Asegurarse de que las horas no excedan 24
+        int minutosFin = horarioFinEnMinutos % 60;
+
+        return String.format("%02d:%02d", horaFin, minutosFin);
     }
 }

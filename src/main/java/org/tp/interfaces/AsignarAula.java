@@ -43,8 +43,8 @@ public class AsignarAula extends JFrame{
         GestorAula gestorAula = new GestorAula();
         ResultadoDTO resultadoDTO = gestorAula.obtenerDisponibilidadAulas(reservaDTO,fechaDTO);
 
-        if(!resultadoDTO.listaAulasDisponibles.isEmpty()){
-           for(AulaDTO aulaDTO: resultadoDTO.listaAulasDisponibles) {
+        if(!(resultadoDTO.getListaAulasDisponibles() ==  null)){
+           for(AulaDTO aulaDTO: resultadoDTO.getListaAulasDisponibles()) {
                modeloTabla.addRow(new Object[]{
                        aulaDTO.getNombre(),
                        aulaDTO.getPiso(),
@@ -55,8 +55,21 @@ public class AsignarAula extends JFrame{
                        aulaDTO.getTipoPizarron()
                });
            }
-        }
+        } else {
+            List<ReservaDTO> reservasSolapada = resultadoDTO.getReservasSolapadas();
+            double horasSolapadas = resultadoDTO.getMinimaCantidadSolapada();
+            ReservasSolapadas dialog = new ReservasSolapadas(reservasSolapada.get(0), horasSolapadas);
+            dialog.setModal(true);
+            dialog.setVisible(true); // Bloquea hasta que el usuario cierre la ventana
 
+            /*for (ReservaDTO reserva : reservasSolapada) { //Para esporadicas
+                SwingUtilities.invokeLater(() -> {
+                    ReservasSolapadas dialog = new ReservasSolapadas(reserva, horasSolapadas);
+                    dialog.setModal(true);
+                    dialog.setVisible(true); // Bloquea hasta que el usuario cierre la ventana
+                });
+            }*/
+        }
 
         asignarButton.addActionListener(new ActionListener() {
            @Override

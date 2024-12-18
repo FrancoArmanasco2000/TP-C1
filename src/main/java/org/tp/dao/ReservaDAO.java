@@ -121,7 +121,8 @@ public class ReservaDAO implements ReservaDAOImpl {
         List<ReservaDTO> reservasMenosSolapadasDTO = new ArrayList<>();
         double minimaCantidad = Double.MAX_VALUE;
 
-        List<Integer> horariosA = FechaUtils.convertirHoras(fechas.get(0).getHorarioInicio(), fechas.get(0).getDuracion());// Convertir horarios y fechas para trabajarlas
+        // Convertir fechas y horarios
+        List<Integer> horariosA = FechaUtils.convertirHoras(fechas.get(0).getHorarioInicio(), fechas.get(0).getDuracion());
         List<LocalDate> fechasLista = fechas.stream()
                 .map(FechaDTO::getFecha)
                 .collect(Collectors.toList());
@@ -129,12 +130,13 @@ public class ReservaDAO implements ReservaDAOImpl {
                 .map(Aula::getIdAula)
                 .collect(Collectors.toList());
 
+        // Consulta HQL para obtener las reservas relevantes
         String hql = "SELECT r.idReserva, r.cantidadAlumnos, r.correoContacto, "
-                + "f.horarioInicio, f.duracion, f.idAula, r.idPeriodo, f.fecha "
+                + "f.horarioInicio, f.duracion, f.aula.idAula, r.idPeriodo.idPeriodo, f.fecha "
                 + "FROM Reserva r "
-                + "JOIN Periodo p ON r.idPeriodo = p.idPeriodo "
-                + "JOIN Fecha f ON f.idAula IN :idsAulas "
-                + "WHERE f.fecha IN :fechas";//obtener reservas y datos utiles de las tablas reserva, fecha, periodo
+                + "JOIN r.idPeriodo p "
+                + "JOIN Fecha f ON f.aula.idAula IN :idsAulas AND r.idReserva = f.reserva.idReserva "
+                + "WHERE f.fecha IN :fechas";
 
         Query query = manager.createQuery(hql);
         query.setParameter("fechas", fechasLista);
@@ -142,8 +144,12 @@ public class ReservaDAO implements ReservaDAOImpl {
 
         List<Object[]> resultados = query.getResultList();
 
-        Map<Long, List<ReservaDTO>> reservasPorAula = new HashMap<>();// Agrupar reservas por aula y calcular solapamiento
+        // Estructura para agrupar reservas por aula
+        Map<Long, List<ReservaDTO>> reservasPorAula = new HashMap<>();
 
+        ResultadoDTO resultadoMenosSolapadasDTO = new ResultadoDTO();
+
+        // Procesar las filas devueltas por la consulta
         for (Object[] row : resultados) {
             Long idReserva = (Long) row[0];
             Integer cantidadAlumnos = (Integer) row[1];
@@ -153,38 +159,50 @@ public class ReservaDAO implements ReservaDAOImpl {
             Long idAula = (Long) row[5];
             LocalDate fecha = (LocalDate) row[7];
 
+            // Convertir el horario de la reserva a intervalos de tiempo
             List<Integer> horariosB = FechaUtils.convertirHoras(horarioInicio, duracion);
 
+            // Verificar si los horarios solapan
             if (FechaUtils.solapa(horariosA, horariosB)) {
                 ReservaDTO dto = new ReservaDTO(idReserva, cantidadAlumnos, correoContacto, horarioInicio, duracion, idAula, fecha);
-
-                reservasPorAula.computeIfAbsent(idAula, k -> new ArrayList<>()).add(dto);// Agrupar las reservas por aula (Invento del señor gpt, testear)
+                reservasPorAula.computeIfAbsent(idAula, k -> new ArrayList<>()).add(dto);
             }
         }
 
-
-        for (Map.Entry<Long, List<ReservaDTO>> entry : reservasPorAula.entrySet()) {// Calcular el solapamiento total y seleccionar las reservas menos solapadas
+        // Calcular la cantidad de solapamiento para cada aula
+        for (Map.Entry<Long, List<ReservaDTO>> entry : reservasPorAula.entrySet()) {
             double cantidadSolapada = 0;
             List<ReservaDTO> reservasSolapadas = entry.getValue();
 
             for (ReservaDTO reserva : reservasSolapadas) {
                 List<Integer> horariosB = FechaUtils.convertirHoras(reserva.getHorarioInicio(), reserva.getDuracion());
-                cantidadSolapada += FechaUtils.calcularSolapamiento(horariosA, horariosB);
+                double solapamiento = FechaUtils.calcularSolapamiento(horariosA, horariosB);
+                cantidadSolapada=solapamiento;
             }
 
+            // Actualizar las reservas con menor solapamiento
             if (cantidadSolapada < minimaCantidad) {
                 minimaCantidad = cantidadSolapada;
                 reservasMenosSolapadasDTO = new ArrayList<>(reservasSolapadas);
+
             } else if (cantidadSolapada == minimaCantidad) {
-                reservasMenosSolapadasDTO.addAll(reservasSolapadas);
+                // Aquí aseguramos que no se acumulen duplicados
+                for (ReservaDTO reserva : reservasSolapadas) {
+                    if (!reservasMenosSolapadasDTO.contains(reserva)) {
+                        reservasMenosSolapadasDTO.add(reserva);
+                    }
+                }
             }
+            resultadoMenosSolapadasDTO.setMinimaCantidadSolapada(minimaCantidad);
         }
-        ResultadoDTO resultadoMenosSolapadasDTO = new ResultadoDTO();
+
+        // Establecer el resultado final
         resultadoMenosSolapadasDTO.setReservasSolapadas(reservasMenosSolapadasDTO);
-        resultadoMenosSolapadasDTO.setMinimaCantidadSolapada(minimaCantidad);
 
         return resultadoMenosSolapadasDTO;
     }
+
+
 
     public Long obtenerOCrearDocente(String nombreDocente) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
