@@ -49,7 +49,7 @@ public class GestorReserva {
         Bedel b = usuarioDAO.getBedelByidUsuario(idUsuario);
         r.setIdUsuario(b);
 
-        if(reservaDTO.getIdPeriodo() != 0){  //opt esPeriodica
+        if(reservaDTO.getIdPeriodo() != null){  //opt esPeriodica
             PeriodoDAO periodoDAO = new PeriodoDAO();
             Periodo p = periodoDAO.getPeriodoById(reservaDTO.getIdPeriodo());
             r.setIdPeriodo(p);

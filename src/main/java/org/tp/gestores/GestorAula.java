@@ -23,12 +23,18 @@ public class GestorAula {
     private static ResultadoDTO resultadoDTO = new ResultadoDTO();
 
     /** listaFechaDTO lista de fechas para verificar disponibilidad.
-     * reservaDTO se almacenarán las aulas disponibles.
+     * fechaDTO se almacenarán las aulas disponibles.
      * Se retorna ResultadoDTO actualizado con aulas disponibles.
      */
     public ResultadoDTO obtenerDisponibilidadAulas(ReservaDTO reservaDTO, FechaDTO fechaDTO) {
 
-        List<FechaDTO> listaFechasDTO = FechaUtils.crearListaFechas(reservaDTO, fechaDTO);
+        List<FechaDTO> listaFechasDTO = new ArrayList<>();
+
+        if(reservaDTO.getIdPeriodo() == null){
+            listaFechasDTO.add(fechaDTO);
+        }else {
+            listaFechasDTO = FechaUtils.crearListaFechas(reservaDTO, fechaDTO);
+        }
 
         //Obtener todas las aulas que cumplen con la capacidad y el tipo del ReservaDTO
         List<Aula> aulasFiltradas = getAulas(reservaDTO.getTipoAula(), reservaDTO.getCantAlumnos());
@@ -102,5 +108,18 @@ public class GestorAula {
             reserva.getListaFechasDTO().addAll(fechasDelPeriodo);
         }
     }
+
+    public void asignarAulaAFecha(ReservaDTO reserva,FechaDTO fechaDTO, Long idAula) {
+        fechaDTO.setIdAula(idAula);
+        if(reserva.getListaFechasDTO() == null){
+            List<FechaDTO> fechas = new ArrayList<>();
+            fechas.add(fechaDTO);
+            reserva.setListaFechasDTO(fechas);
+        }else {
+            reserva.getListaFechasDTO().add(fechaDTO);
+        }
+    }
+
+
 }
 

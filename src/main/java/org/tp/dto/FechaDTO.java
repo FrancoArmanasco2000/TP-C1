@@ -18,6 +18,13 @@ public class FechaDTO implements FechaInterface {
         this.horarioInicio = horarioInicio;
     }
 
+    public FechaDTO(LocalDate fecha, String horarioInicio, Integer duracion, String dia) {
+        this.fecha = fecha;
+        this.horarioInicio = horarioInicio;
+        this.duracion = duracion;
+        this.dia = dia;
+    }
+
     public Long getIdAula() {
         return idAula;
     }

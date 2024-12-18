@@ -4,6 +4,7 @@ import org.tp.dao.ReservaDAO;
 import org.tp.dto.FechaDTO;
 import org.tp.dto.ReservaDTO;
 import org.tp.gestores.GestorReserva;
+import org.tp.utils.InterfazUtils;
 import org.tp.utils.TipoAula;
 
 import javax.swing.*;
@@ -31,7 +32,7 @@ public class ReservaPeriodica extends JFrame {
     private ReservaDTO reservaDTO;
 
     public ReservaPeriodica(String usuario) {
-        this.setTitle("Reserva Periodica");
+        this.setTitle("Reserva Periódica");
         this.setContentPane(this.reservaPeriodicaPanel);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setSize(500, 600);
@@ -52,13 +53,14 @@ public class ReservaPeriodica extends JFrame {
         agregarDiaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!(inputCantidadAlumnos.getText().isEmpty() || inputNombreApellido.getText().isEmpty() || inputAsignatura.getText().isEmpty() || inputCorreo.getText().isEmpty()) && validarDatos()) {
+                if (!(inputCantidadAlumnos.getText().isEmpty() || inputNombreApellido.getText().isEmpty() || inputAsignatura.getText().isEmpty() || inputCorreo.getText().isEmpty())
+                        && InterfazUtils.validarDatos(inputCantidadAlumnos.getText(),inputNombreApellido.getText(),inputAsignatura.getText(),inputCorreo.getText())) {
                     ReservaPeriodica.this.setEnabled(false);
                     if(reservaDTO == null){
                         reservaDTO = new ReservaDTO(
                                 retornarPeriodo(),
                                 Integer.parseInt(inputCantidadAlumnos.getText()),
-                                retornarTipoAula(),
+                                InterfazUtils.retornarTipoAula(tipoAulaComboBox.getSelectedIndex()),
                                 inputNombreApellido.getText(),
                                 inputAsignatura.getText(),
                                 inputCorreo.getText(),
@@ -112,46 +114,13 @@ public class ReservaPeriodica extends JFrame {
         });
     }
 
-    public TipoAula retornarTipoAula() {
-        return switch (tipoAulaComboBox.getSelectedIndex()) {
-            case 0 -> TipoAula.MULTIMEDIO;
-            case 1 -> TipoAula.INFORMATICA;
-            case 2 -> TipoAula.SIN_RECURSOS;
-            default -> null;
-        };
-    };
+
 
     public Long retornarPeriodo(){
         return periodoComboBox.getSelectedIndex()+1L;
     };
 
-    public boolean validarDatos() {
-        // Cant alumnos es un número
-        String cantidadAlumnosTexto = inputCantidadAlumnos.getText();
-        if (!cantidadAlumnosTexto.matches("\\d+")) {
-            JOptionPane.showMessageDialog(null, "La cantidad de alumnos debe ser un número entero.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        // Nombre y Apellido invalido
-        String nombreApellidoTexto = inputNombreApellido.getText();
-        if (!nombreApellidoTexto.matches("[A-Za-z]+\\s[A-Za-z]+")) {
-            JOptionPane.showMessageDialog(null, "El campo Apellido y Nombre debe tener formato: Apellido Nombre.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        // Asignatura tiene que ser una sola palabra
-        String asignaturaTexto = inputAsignatura.getText();
-        if (!asignaturaTexto.matches("[A-Zña-zÑ]*")) {
-            JOptionPane.showMessageDialog(null, "El campo Asignatura debe ser una sola palabra.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        // Formato de email
-        String correoTexto = inputCorreo.getText();
-        if (!correoTexto.matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")) {
-            JOptionPane.showMessageDialog(null, "El correo electrónico debe tener un formato válido, como ejemplo@dominio.com.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        return true;
-    }
+
 
 
 }

@@ -1,5 +1,10 @@
 package org.tp.utils;
 
+import javax.swing.*;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
+import java.text.ParseException;
+
 public class HorarioUtils {
 
     public static boolean noEsHorarioValido(String horario) {
@@ -29,4 +34,15 @@ public class HorarioUtils {
         Integer minutosFin = Integer.parseInt(horarioFin.substring(3,5));
         return (horaFin - horaInicio) * 60 + (minutosFin - minutosInicio);
     }
+
+    public static void configurarFormatoHorario(JFormattedTextField horarioTextField) {
+        try {
+            MaskFormatter mascara = new MaskFormatter("##:##");
+            mascara.setPlaceholderCharacter('_');
+            horarioTextField.setFormatterFactory(new DefaultFormatterFactory(mascara));
+        } catch (ParseException e) {
+            throw new RuntimeException("Error al configurar el formato de horario: " + e.getMessage(), e);
+        }
+    }
+
 }

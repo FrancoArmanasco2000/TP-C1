@@ -72,11 +72,13 @@ public class AsignarAula extends JFrame{
 
                Long idAula = gestorAula.getAulaByNombre(nombreAula).getIdAula();
 
-               gestorAula.asignarAulaAFechasDelPeriodo(reservaDTO,fechaDTO,idAula);
-
+               if(reservaDTO.getIdPeriodo() != null) { //Si es periodica
+                   gestorAula.asignarAulaAFechasDelPeriodo(reservaDTO,fechaDTO,idAula);
+               } else {
+                   gestorAula.asignarAulaAFecha(reservaDTO,fechaDTO,idAula);
+               }
 
                dispose();
-
 
            }
         });

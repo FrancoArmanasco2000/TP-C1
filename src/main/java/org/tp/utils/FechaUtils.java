@@ -3,15 +3,23 @@ package org.tp.utils;
 import org.tp.dao.PeriodoDAO;
 import org.tp.dto.FechaDTO;
 import org.tp.dto.ReservaDTO;
-import org.tp.entity.Fecha;
 import org.tp.entity.Periodo;
 
+import javax.swing.*;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
+import java.text.ParseException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class FechaUtils {
+
+    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public static List<FechaDTO> crearListaFechas(ReservaDTO reserva, FechaDTO fecha) {  //Crea una lista de fechasDTO segun el dia de fecha y el periodo de reserva
 
@@ -66,24 +74,6 @@ public class FechaUtils {
         return valores;
     }
 
-    /* Viejo
-    public static List<Integer> convertirHoras (String horarioInicio, FechaInterface f) {
-
-        ArrayList<Integer> valores = new ArrayList<>();
-
-        Integer horaInicioF = Integer.parseInt(f.getHorarioInicio().substring(0,2));
-        Integer minutosInicioF = Integer.parseInt(f.getHorarioInicio().substring(f.getHorarioInicio().length()-2));
-        Integer horarioInicioF = horaInicioF*60 + minutosInicioF;
-        Integer duracionF = f.getDuracion();
-        Integer horarioFinF = duracionF + horarioInicioF;
-
-        valores.add(horarioInicioF);
-        valores.add(horarioFinF);
-
-        return valores;
-
-    }*/
-
     public static double calcularSolapamiento(List<Integer> horario1, List<Integer> horario2) {
         int inicioSolapamiento = Math.max(horario1.getFirst(), horario2.get(0));
         int finSolapamiento = Math.min(horario1.getFirst(), horario2.get(1));
@@ -98,5 +88,44 @@ public class FechaUtils {
     public static boolean solapa(List<Integer> horariosA, List<Integer> horariosB) {
         return horariosA.get(0) < horariosB.get(1) && horariosA.get(1) > horariosB.get(0);
     }
+
+    public static void configurarFormatoFecha(JFormattedTextField fechaTextField) {
+        try {
+            MaskFormatter mascara = new MaskFormatter("##/##/####");
+            mascara.setPlaceholderCharacter('_');
+            fechaTextField.setFormatterFactory(new DefaultFormatterFactory(mascara));
+        } catch (ParseException e) {
+            throw new RuntimeException("Error al configurar el formato de fecha: " + e.getMessage(), e);
+        }
+    }
+
+    public static boolean esFechaValida(String textoFecha) {
+
+        try {
+            LocalDate.parse(textoFecha, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
+    public static LocalDate convertirTextoALocalDate(String textoFecha) {
+        try {
+            return LocalDate.parse(textoFecha, formatter);
+        } catch (DateTimeParseException e) {
+            return null;
+        }
+    }
+
+    public static String obtenerDiaDeLaSemana(LocalDate fecha) {
+        if(fecha != null) {
+            String dia = fecha.getDayOfWeek().getDisplayName(java.time.format.TextStyle.FULL, new Locale("es", "ES"));
+            return dia.substring(0, 1).toUpperCase() + dia.substring(1);
+        }else {
+            return "Desconocido";
+        }
+
+    }
+
 
 }
