@@ -5,15 +5,12 @@ import org.tp.dto.FechaDTO;
 import org.tp.dto.ReservaDTO;
 import org.tp.entity.*;
 import org.tp.utils.FechaUtils;
-import org.tp.utils.HorarioUtils;
 
-import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.List;
 
 public class GestorReserva {
-
 
     public String validarDia(ReservaDTO reserva){ //Valida que los dias especificos sean posteriores a la fecha actual
         LocalDate fechaActual = LocalDate.now();
@@ -81,15 +78,4 @@ public class GestorReserva {
         return fechasDelPeriodo;
     }
 
-
-
-
-    public FechaDTO generarFechaDTOPeriodica(List<Object> datosFecha) {
-        FechaDTO fechaDTO = new FechaDTO();
-        fechaDTO.setDia((String) datosFecha.get(0));
-        fechaDTO.setHorarioInicio((String) datosFecha.get(1));
-        Integer duracion = HorarioUtils.calcularDuracion((String) datosFecha.get(1), (String) datosFecha.get(2));
-        fechaDTO.setDuracion(duracion);
-        return fechaDTO;
-    }
 }

@@ -5,7 +5,6 @@ import org.tp.entity.PKSCompuestas.PkFecha;
 import org.tp.utils.FechaInterface;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table (name = "fecha")
@@ -37,10 +36,6 @@ public class Fecha implements FechaInterface{
         this.reserva = reserva;
         this.dia = dia;
         this.duracion = duracion;
-    }
-
-    public String getDia() {
-        return dia;
     }
 
     public void setDia(String dia) {
@@ -88,6 +83,5 @@ public class Fecha implements FechaInterface{
     public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
-
 
 }

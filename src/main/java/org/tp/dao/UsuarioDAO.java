@@ -85,7 +85,9 @@ public class UsuarioDAO implements UsuarioDAOImpl{
             e.printStackTrace();
             return null;
         } finally {
-            manager.close();
+            if (manager != null) {
+                manager.close();
+            }
             factory.close();
         }
     }
@@ -118,7 +120,9 @@ public class UsuarioDAO implements UsuarioDAOImpl{
             e.printStackTrace();
             return null;
         } finally {
-            manager.close();
+            if (manager != null) {
+                manager.close();
+            }
             factory.close();
         }
     }

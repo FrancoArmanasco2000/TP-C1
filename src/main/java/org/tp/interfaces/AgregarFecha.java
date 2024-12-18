@@ -2,12 +2,8 @@ package org.tp.interfaces;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 import org.tp.dto.FechaDTO;
@@ -22,7 +18,6 @@ public class AgregarFecha extends JFrame {
     private JFormattedTextField formattedTextFieldHoraInicio;
     private JFormattedTextField formattedTextFieldHoraFin;
     private JFormattedTextField formattedFecha;
-
 
     public AgregarFecha(JFrame parentFrame, JTable tablaFechasReserva, ReservaDTO reservaDTO) {
         this.setTitle("Agregar Fecha");
@@ -93,9 +88,11 @@ public class AgregarFecha extends JFrame {
                 FechaDTO fechaDTO = new FechaDTO(fecha, horarioInicio, HorarioUtils.calcularDuracion(horarioInicio,horarioFin), FechaUtils.obtenerDiaDeLaSemana(fecha));
 
                 DefaultTableModel model = (DefaultTableModel) tablaFechasReserva.getModel();
-                model.addRow(new Object[]{fecha, horarioInicio, horarioFin});
+
+                model.addRow(new Object[]{fechaTexto, horarioInicio, horarioFin});
 
                 new AsignarAula(reservaDTO,fechaDTO);
+
                 dispose();
             }
         });

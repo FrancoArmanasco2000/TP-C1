@@ -55,40 +55,20 @@ public class Aula {
         return aire_acondicionado;
     }
 
-    public void setAire_acondicionado(Boolean aire_acondicionado) {
-        this.aire_acondicionado = aire_acondicionado;
-    }
-
     public Boolean getCanion() {
         return canion;
-    }
-
-    public void setCanion(Boolean canion) {
-        this.canion = canion;
     }
 
     public Integer getCantidad_pcs() {
         return cantidad_pcs;
     }
 
-    public void setCantidad_pcs(Integer cantidad_pcs) {
-        this.cantidad_pcs = cantidad_pcs;
-    }
-
     public Integer getCapacidad() {
         return capacidad;
     }
 
-    public void setCapacidad(Integer capacidad) {
-        this.capacidad = capacidad;
-    }
-
     public Long getIdAula() {
         return idAula;
-    }
-
-    public void setIdAula(Long idAula) {
-        this.idAula = idAula;
     }
 
     public String getNombre() {
@@ -103,16 +83,8 @@ public class Aula {
         return nro_aula;
     }
 
-    public void setNro_aula(Integer nro_aula) {
-        this.nro_aula = nro_aula;
-    }
-
     public String getPiso() {
         return piso;
-    }
-
-    public void setPiso(String piso) {
-        this.piso = piso;
     }
 
     public TipoAula getTipo() {
@@ -127,24 +99,12 @@ public class Aula {
         return tipo_pizarron;
     }
 
-    public void setTipo_pizarron(String tipo_pizarron) {
-        this.tipo_pizarron = tipo_pizarron;
-    }
-
     public String getUbicacion() {
         return ubicacion;
     }
 
-    public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
-    }
-
     public Boolean getVentiladores() {
         return ventiladores;
-    }
-
-    public void setVentiladores(Boolean ventiladores) {
-        this.ventiladores = ventiladores;
     }
 
     @Override

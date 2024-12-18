@@ -6,20 +6,20 @@ import java.util.List;
 
 public interface UsuarioDAOImpl {
 
-    public void crearUsuario(Bedel bedel);
+    void crearUsuario(Bedel bedel);
 
-    public List<String> listaNombreUsuarios();
+    List<String> listaNombreUsuarios();
 
-    public Bedel getBedelByUsuario(String usuario);
+    Bedel getBedelByUsuario(String usuario);
 
-    public Bedel getBedelByidUsuario(Long idUsuario);
+    Bedel getBedelByidUsuario(Long idUsuario);
 
-    public void actualizarBedel(Bedel bedel);
+    void actualizarBedel(Bedel bedel);
 
-    public List<Bedel> obtenerTodosLosBedeles();
+    List<Bedel> obtenerTodosLosBedeles();
 
-    public List<Bedel> buscarBedelesPorNombre(String nombre);
+    List<Bedel> buscarBedelesPorNombre(String nombre);
 
-    public List<Bedel> buscarBedelesPorTurno(String turno);
+    List<Bedel> buscarBedelesPorTurno(String turno);
 
 }

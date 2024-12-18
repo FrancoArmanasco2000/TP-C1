@@ -4,35 +4,31 @@ public class GestorPoliticas {
 
     public GestorPoliticas() {}
 
-    public Boolean comprobarCoincidencia(String password1, String password2) {
-        return password1.equals(password2);
-    }
-
     public String comprobarTODO(String password) {
         StringBuilder respuesta = new StringBuilder();
 
         String longitud = comprobarLongitud(password);
         if (!longitud.isEmpty()) {
-            respuesta.append("⚠\uFE0F ").append(longitud).append("\n");
+            respuesta.append("⚠️ ").append(longitud).append("\n");
         }
 
         String caracteres = comprobarCaracteres(password);
         if (!caracteres.isEmpty()) {
-            respuesta.append("⚠\uFE0F ").append(caracteres).append("\n");
+            respuesta.append("⚠️ ").append(caracteres).append("\n");
         }
 
         String digitos = comprobarDigitos(password);
         if (!digitos.isEmpty()) {
-            respuesta.append("⚠\uFE0F ").append(digitos).append("\n");
+            respuesta.append("⚠️ ").append(digitos).append("\n");
         }
 
         String mayusculas = comprobarMayusculas(password);
         if (!mayusculas.isEmpty()) {
-            respuesta.append("⚠\uFE0F ").append(mayusculas).append("\n");
+            respuesta.append("⚠️ ").append(mayusculas).append("\n");
         }
 
         // Eliminar el último salto de línea si existe
-        if (respuesta.length() > 0 && respuesta.charAt(respuesta.length() - 1) == '\n') {
+        if (!respuesta.isEmpty() && respuesta.charAt(respuesta.length() - 1) == '\n') {
             respuesta.deleteCharAt(respuesta.length() - 1);
         }
 

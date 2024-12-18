@@ -1,6 +1,5 @@
 package org.tp.entity.PKSCompuestas;
 
-import jakarta.persistence.Column;
 import org.tp.entity.Aula;
 import org.tp.entity.Reserva;
 

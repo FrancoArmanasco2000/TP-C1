@@ -2,8 +2,6 @@ package org.tp.interfaces;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -68,7 +66,7 @@ public class AgregarDia extends JFrame {
                 if(HorarioUtils.noEsDuracionValida(horarioInicio) || HorarioUtils.noEsDuracionValida(horarioFin)) {
                     JOptionPane.showMessageDialog(
                             null,
-                            "La duracion de la clase debe ser un multiplo de 30 minutos",
+                            "La duración de la clase debe ser un múltiplo de 30 minutos",
                             "Error",
                             JOptionPane.ERROR_MESSAGE
                     );
@@ -78,8 +76,11 @@ public class AgregarDia extends JFrame {
                 FechaDTO fechaDTO = new FechaDTO(dia,HorarioUtils.calcularDuracion(horarioInicio,horarioFin),horarioInicio);
 
                 DefaultTableModel model = (DefaultTableModel) tablaDiasReserva.getModel();
+
                 model.addRow(new Object[]{dia, horarioInicio, horarioFin});
+
                 new AsignarAula(reservaDTO,fechaDTO);
+
                 dispose();
             }
         });
