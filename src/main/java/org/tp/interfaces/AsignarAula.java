@@ -40,7 +40,7 @@ public class AsignarAula extends JFrame{
         JScrollPane scrollPane = new JScrollPane(tablaAulas);
         asignarAulaPanel.add(scrollPane, BorderLayout.CENTER);
 
-        GestorAula gestorAula = new GestorAula();
+
         ResultadoDTO resultadoDTO = gestorAula.obtenerDisponibilidadAulas(reservaDTO,fechaDTO);
 
         if(!(resultadoDTO.getListaAulasDisponibles() ==  null)){
@@ -49,9 +49,9 @@ public class AsignarAula extends JFrame{
                        aulaDTO.getNombre(),
                        aulaDTO.getPiso(),
                        aulaDTO.getCapacidad(),
-                       aulaDTO.getVentiladores(),
-                       aulaDTO.getAire_acondicionado(),
-                       aulaDTO.getCanion(),
+                       retornarSiONo(aulaDTO.getVentiladores()),
+                       retornarSiONo(aulaDTO.getAire_acondicionado()),
+                       retornarSiONo(aulaDTO.getCanion()),
                        aulaDTO.getTipoPizarron()
                });
            }
@@ -107,6 +107,22 @@ public class AsignarAula extends JFrame{
         }
         */
 
-        cancelarButton.addActionListener(e -> dispose());
+        cancelarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Se ha cancelado la operación.",
+                        "Cancelación",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                dispose();
+            }
+        });
+
     }
+    public static String retornarSiONo(boolean bool){
+        return bool?"SI":"NO";
+    }
+
 }

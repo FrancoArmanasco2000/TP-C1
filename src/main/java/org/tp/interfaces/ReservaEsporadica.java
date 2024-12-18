@@ -5,6 +5,7 @@ import org.tp.gestores.GestorReserva;
 import org.tp.utils.InterfazUtils;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -31,6 +32,7 @@ public class ReservaEsporadica extends JFrame {
         this.setResizable(false); // NO MODIFICA LA PESTAÑA
         this.setLocationRelativeTo(null); // APARECE EN EL MEDIO
         this.setVisible(true);
+
         String[] tipos = {"Multimedios", "Informatica", "Sin Recursos Adicionales"};
         for (String tipo : tipos) {
             tipoAulaComboBox.addItem(tipo);
@@ -39,7 +41,9 @@ public class ReservaEsporadica extends JFrame {
         agregarFechaButton.addActionListener(e -> {
             if (!(inputCantidadAlumnos.getText().isEmpty() || inputNombreApellido.getText().isEmpty() || inputAsignatura.getText().isEmpty() || inputCorreo.getText().isEmpty())
                     && InterfazUtils.validarDatos(inputCantidadAlumnos.getText(),inputNombreApellido.getText(),inputAsignatura.getText(),inputCorreo.getText())) {
+
                 ReservaEsporadica.this.setEnabled(false);
+
                 if(reservaDTO == null) {
                     reservaDTO = new ReservaDTO(
                             Integer.parseInt(inputCantidadAlumnos.getText()),
@@ -70,6 +74,16 @@ public class ReservaEsporadica extends JFrame {
                 JOptionPane.showMessageDialog(null, "Debe completar todos los campos antes de agregar una fecha.");
             }
         });
+
+        String[] columnas = {"Fecha", "Horario Inicio", "Horario Fin"};
+        DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        tablaFechasReserva.setModel(modeloTabla);
 
         cancelarButton.addActionListener(new ActionListener() {
             @Override

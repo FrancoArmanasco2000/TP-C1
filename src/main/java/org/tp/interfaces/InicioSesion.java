@@ -6,8 +6,7 @@ import org.tp.gestores.GestorUsuario;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.Duration;
-import java.time.LocalTime;
+
 
 public class InicioSesion extends JFrame {
     private JPanel ventana;

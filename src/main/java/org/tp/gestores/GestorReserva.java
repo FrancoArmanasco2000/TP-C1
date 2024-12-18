@@ -36,12 +36,8 @@ public class GestorReserva {
         r.setCantidadAlumnos(reservaDTO.getCantAlumnos());
         r.setTipoAula(reservaDTO.getTipoAula());
         r.setCorreoContacto(reservaDTO.getCorreoContacto());
-        //Long idCurso = reservaDAO.obtenerOCrearAsignatura(reservaDTO.getAsignatura());
-        //Long idDocente = reservaDAO.obtenerOCrearDocente(reservaDTO.getNombreDocente());
-        Long idCurso = 6L; //hardcodeado
-        Long idDocente = 5L; //hardcodeado
-        r.setIdCurso(idCurso);
-        r.setIdDocente(idDocente);
+        r.setDocente(reservaDTO.getNombreDocente());
+        r.setAsignatura(reservaDTO.getAsignatura());
         Long idUsuario = usuarioDAO.getBedelByUsuario(reservaDTO.getNombreUsuario()).getIdUsuario();
         Bedel b = usuarioDAO.getBedelByidUsuario(idUsuario);
         r.setIdUsuario(b);

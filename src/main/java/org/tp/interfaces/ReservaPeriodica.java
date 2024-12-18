@@ -88,6 +88,7 @@ public class ReservaPeriodica extends JFrame {
                 return false;
             }
         };
+
         tablaDiasReserva.setModel(modeloTabla);
 
         cancelarButton.addActionListener(new ActionListener() {
