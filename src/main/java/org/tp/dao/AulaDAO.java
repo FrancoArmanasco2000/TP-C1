@@ -5,7 +5,6 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
 import org.tp.entity.Aula;
-import org.tp.entity.Periodo;
 import org.tp.utils.TipoAula;
 
 import java.util.List;
@@ -15,7 +14,7 @@ public class AulaDAO implements AulaDAOImpl {
     private static EntityManager manager;
     private static EntityManagerFactory factory;
 
-    public AulaDAO () {};
+    public AulaDAO () {}
 
     @Override
     public Aula getAulaByNombreAula (String nombreAula) {

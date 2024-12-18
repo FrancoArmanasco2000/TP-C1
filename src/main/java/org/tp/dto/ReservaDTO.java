@@ -2,11 +2,7 @@ package org.tp.dto;
 
 import org.tp.utils.TipoAula;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public class ReservaDTO {
@@ -24,10 +20,8 @@ public class ReservaDTO {
     private String horarioInicio;
     private int duracion;
     private String nombreUsuario;
-    DateFormat formato = new SimpleDateFormat("HH:mm");
 
-    public ReservaDTO() {};
-
+    public ReservaDTO() {}
 
     public ReservaDTO(Long idPeriodo, int cantAlumnos, TipoAula tipoAula, String nombreDocente, String asignatura, String correoContacto, String nombreUsuario, List<FechaDTO> listaFechasDTO) {
         this.idPeriodo = idPeriodo;
@@ -102,15 +96,6 @@ public class ReservaDTO {
         return correoContacto;
     }
 
-    public void setCorreoContacto(String correoContacto) {
-        this.correoContacto = correoContacto;
-    }
-
-    public Long getIdReserva() {
-        return idReserva;
-    }
-
-    public void setIdReserva(Long idReserva) {this.idReserva = idReserva;}
     public List<FechaDTO> getListaFechasDTO() {
         return listaFechasDTO;
     }
@@ -123,67 +108,44 @@ public class ReservaDTO {
         return asignatura;
     }
 
-    public void setAsignatura(String asignatura) {
-        this.asignatura = asignatura;
-    }
-
     public String getNombreDocente() {
         return nombreDocente;
-    }
-
-    public void setNombreDocente(String nombreDocente) {
-        this.nombreDocente = nombreDocente;
     }
 
     public int getCantAlumnos() {
         return cantAlumnos;
     }
 
-    public void setCantAlumnos(int cantAlumnos) {
-        this.cantAlumnos = cantAlumnos;
-    }
-
     public TipoAula getTipoAula() {
         return tipoAula;
-    }
-
-    public void setTipoAula(TipoAula tipoAula) {
-        this.tipoAula = tipoAula;
     }
 
     public Long getIdPeriodo() {
         return idPeriodo;
     }
 
-    public void setIdPeriodo(Long idPeriodo) {
-        this.idPeriodo = idPeriodo;
+    public LocalDate getFecha() {
+        return fecha;
     }
 
-    public Long getIdAula() {return idAula;}
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
 
-    public void setIdAula(Long idAula) {this.idAula = idAula;}
-
-    public LocalDate getFecha() {return fecha;}
-
-    public void setFecha(LocalDate fecha) {this.fecha = fecha;}
-
-    public String getHorarioInicio() {return horarioInicio;}
-
-    public void setHorarioInicio(String horarioInicio) {this.horarioInicio = horarioInicio;}
+    public String getHorarioInicio() {
+        return horarioInicio;
+    }
 
     public Integer getDuracion() {return duracion;}
-
-    public void setDuracion(Integer duracion) {this.duracion = duracion;}
 
     public String getNombreUsuario() {
         return nombreUsuario;
     }
 
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
+    public String getHoraA(){
+        return horarioInicio;
     }
 
-    public String getHoraA(){ return horarioInicio;}
     public String getHoraB(){
         int horaInicioF = Integer.parseInt(horarioInicio.substring(0, 2));
         int minutosInicioF = Integer.parseInt(horarioInicio.substring(horarioInicio.length() - 2));

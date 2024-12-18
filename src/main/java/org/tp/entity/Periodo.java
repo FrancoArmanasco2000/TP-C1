@@ -32,13 +32,6 @@ public class Periodo {
         this.fechaFin = fechaFin;
     }
 
-    public Integer getAnio() {
-        return anio;
-    }
-
-    public void setAnio(Integer anio) {
-        this.anio = anio;
-    }
 
     public String getNombre() {
         return nombre;
@@ -48,28 +41,12 @@ public class Periodo {
         this.nombre = nombre;
     }
 
-    public Long getIdPeriodo() {
-        return idPeriodo;
-    }
-
-    public void setIdPeriodo(Long idPeriodo) {
-        this.idPeriodo = idPeriodo;
-    }
-
     public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(LocalDate fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
     public LocalDate getFechaFin() {
         return fechaFin;
-    }
-
-    public void setFechaFin(LocalDate fechaFin) {
-        this.fechaFin = fechaFin;
     }
 
     @Override

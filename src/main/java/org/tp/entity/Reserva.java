@@ -1,7 +1,6 @@
 package org.tp.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Columns;
 import org.tp.utils.TipoAula;
 
 @Entity
@@ -43,40 +42,20 @@ public class Reserva {
         this.correoContacto = correoContacto;
     }
 
-    public String getCorreoContacto() {
-        return correoContacto;
-    }
-
     public void setCorreoContacto(String correoContacto) {
         this.correoContacto = correoContacto;
-    }
-
-    public Integer getCantidadAlumnos() {
-        return cantidadAlumnos;
     }
 
     public void setCantidadAlumnos(Integer cantidadAlumnos) {
         this.cantidadAlumnos = cantidadAlumnos;
     }
 
-    public Long getIdCurso() {
-        return idCurso;
-    }
-
     public void setIdCurso(Long idCurso) {
         this.idCurso = idCurso;
     }
 
-    public Long getIdDocente() {
-        return idDocente;
-    }
-
     public void setIdDocente(Long idDocente) {
         this.idDocente = idDocente;
-    }
-
-    public Periodo getIdPeriodo() {
-        return idPeriodo;
     }
 
     public void setIdPeriodo(Periodo idPeriodo) {
@@ -87,20 +66,12 @@ public class Reserva {
         return idReserva;
     }
 
-    public void setIdReserva(Long idReserva) {
-        this.idReserva = idReserva;
-    }
-
     public Bedel getIdUsuario() {
         return idUsuario;
     }
 
     public void setIdUsuario(Bedel idUsuario) {
         this.idUsuario = idUsuario;
-    }
-
-    public TipoAula getTipoAula() {
-        return tipoAula;
     }
 
     public void setTipoAula(TipoAula tipoAula) {

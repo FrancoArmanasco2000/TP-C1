@@ -5,10 +5,8 @@ import org.tp.dto.FechaDTO;
 import org.tp.dto.ReservaDTO;
 import org.tp.dto.ResultadoDTO;
 import org.tp.entity.*;
-import org.tp.utils.FechaInterface;
 import org.tp.utils.FechaUtils;
 
-import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,7 +50,7 @@ public class ReservaDAO implements ReservaDAOImpl {
 
             List<Aula> aulasDefinitivas = new ArrayList<>();
             //Arreglo de horarioInicio y horarioFin para cada fecha dentro de la lista listaFechasDTO
-            List<Integer> horariosA = FechaUtils.convertirHoras(fechas.get(0).getHorarioInicio(), fechas.get(0).getDuracion());
+            List<Integer> horariosA = FechaUtils.convertirHoras(fechas.getFirst().getHorarioInicio(), fechas.getFirst().getDuracion());
 
             List<LocalDate> fechasLista = fechas.stream()
                     .map(FechaDTO::getFecha)
@@ -122,7 +120,7 @@ public class ReservaDAO implements ReservaDAOImpl {
         double minimaCantidad = Double.MAX_VALUE;
 
         // Convertir fechas y horarios
-        List<Integer> horariosA = FechaUtils.convertirHoras(fechas.get(0).getHorarioInicio(), fechas.get(0).getDuracion());
+        List<Integer> horariosA = FechaUtils.convertirHoras(fechas.getFirst().getHorarioInicio(), fechas.getFirst().getDuracion());
         List<LocalDate> fechasLista = fechas.stream()
                 .map(FechaDTO::getFecha)
                 .collect(Collectors.toList());
@@ -176,8 +174,7 @@ public class ReservaDAO implements ReservaDAOImpl {
 
             for (ReservaDTO reserva : reservasSolapadas) {
                 List<Integer> horariosB = FechaUtils.convertirHoras(reserva.getHorarioInicio(), reserva.getDuracion());
-                double solapamiento = FechaUtils.calcularSolapamiento(horariosA, horariosB);
-                cantidadSolapada=solapamiento;
+                cantidadSolapada=FechaUtils.calcularSolapamiento(horariosA, horariosB);
             }
 
             // Actualizar las reservas con menor solapamiento
@@ -202,92 +199,6 @@ public class ReservaDAO implements ReservaDAOImpl {
         return resultadoMenosSolapadasDTO;
     }
 
-
-
-    public Long obtenerOCrearDocente(String nombreDocente) {
-        factory = Persistence.createEntityManagerFactory("Aplicacion");
-        manager = factory.createEntityManager();
-        Long idDocente = null;
-
-        try {
-            // Buscar si el docente ya existe
-            TypedQuery<Docente> query = manager.createQuery(
-                    "SELECT d FROM Docente d WHERE d.nombreDocente = :nombreDocente", Docente.class);
-            query.setParameter("nombreDocente", nombreDocente);
-
-            Docente docente;
-
-            try {
-                // Obtener docente si ya existe
-                docente = query.getSingleResult();
-            } catch (NoResultException e) {
-                // Si no existe, se crea y persiste el docente
-                manager.getTransaction().begin();
-                docente = new Docente();
-                docente.setNombreDocente(nombreDocente);
-                manager.persist(docente);
-                manager.getTransaction().commit();
-            }
-
-            // Obtener el ID del docente (nuevo o existente)
-            idDocente = docente.getIdDocente();
-        } catch (Exception e) {
-            // Rollback en caso de fallo
-            if (manager.getTransaction().isActive()) {
-                manager.getTransaction().rollback();
-            }
-            e.printStackTrace();
-            throw new RuntimeException("Error al obtener o crear el docente.", e);
-        } finally {
-            // Asegurar cierre del EntityManager
-            manager.close();
-            factory.close();
-        }
-
-        return idDocente;
-    }
-
-
-    public Long obtenerOCrearAsignatura(String nombreAsignatura) {
-        // Se asume que factory es una variable global que se inicializa una sola vez
-        factory = Persistence.createEntityManagerFactory("Aplicacion");
-        manager = factory.createEntityManager();
-        Long idCurso = null;
-
-        try {
-            // Buscar si la asignatura ya existe
-            TypedQuery<Asignatura> query = manager.createQuery(
-                    "SELECT a FROM Asignatura a WHERE a.nombre = :nombreAsignatura", Asignatura.class);
-            query.setParameter("nombreAsignatura", nombreAsignatura);
-
-            Asignatura asignatura = null;
-
-            try {
-                // Obtener la asignatura si ya existe
-                asignatura = query.getSingleResult();
-            } catch (NoResultException e) {
-                // Si no existe, se crea y persiste la asignatura
-                manager.getTransaction().begin();
-                asignatura = new Asignatura();
-                asignatura.setNombre(nombreAsignatura);
-                manager.persist(asignatura);
-                manager.getTransaction().commit();
-            }
-
-            idCurso = asignatura.getIdCurso();
-        } catch (Exception e) {
-            if (manager.getTransaction().isActive()) {
-                manager.getTransaction().rollback(); // Rollback si algo falla
-            }
-            e.printStackTrace();
-            throw new RuntimeException("Error al obtener o crear la asignatura.", e);
-        } finally {
-            manager.close(); // Asegura que se cierre el EntityManager
-            factory.close();
-        }
-
-        return idCurso;
-    }
 
 }
 

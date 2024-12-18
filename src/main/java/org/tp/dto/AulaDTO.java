@@ -17,7 +17,7 @@ public class AulaDTO {
     private String tipoPizarron;
 
 
-    public AulaDTO(){};
+    public AulaDTO(){}
 
     public AulaDTO(Long idAula, String nombre, String ubicacion, Integer capacidad, TipoAula tipo, Integer nro_aula, String piso, Integer cantidad_pcs, Boolean canion, Boolean aire_acondicionado, Boolean ventiladores, String tipoPizarron) {
         this.idAula = idAula;
@@ -42,20 +42,12 @@ public class AulaDTO {
         return idAula;
     }
 
-    public void setIdAula(Long idAula) {
-        this.idAula = idAula;
-    }
-
     public String getTipoPizarron() {
         return tipoPizarron;
     }
 
     public String getNombre() {
         return nombre;
-    }
-
-    public String getUbicacion() {
-        return ubicacion;
     }
 
     public Integer getCapacidad() {
@@ -66,16 +58,8 @@ public class AulaDTO {
         return tipo;
     }
 
-    public Integer getNro_aula() {
-        return nro_aula;
-    }
-
     public String getPiso() {
         return piso;
-    }
-
-    public Integer getCantidad_pcs() {
-        return cantidad_pcs;
     }
 
     public Boolean getCanion() {

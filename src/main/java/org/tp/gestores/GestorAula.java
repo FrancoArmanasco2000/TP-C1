@@ -7,15 +7,12 @@ import org.tp.dto.FechaDTO;
 import org.tp.dto.ReservaDTO;
 import org.tp.dto.ResultadoDTO;
 import org.tp.entity.Aula;
-import org.tp.entity.Reserva;
 import org.tp.utils.FechaUtils;
 import org.tp.utils.TipoAula;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.tp.dto.ResultadoDTO.*;
 
 public class GestorAula {
     private static AulaDAO aulaDAO = new AulaDAO();
@@ -73,6 +70,7 @@ public class GestorAula {
                     aulaDTO.setCanion(aula.getCanion());
                     aulaDTO.setAire_acondicionado(aula.getAire_acondicionado());
                     aulaDTO.setVentiladores(aula.getVentiladores());
+                    aulaDTO.setTipoPizarron(aula.getTipo_pizarron());
                     return aulaDTO;
                 })
                 .collect(Collectors.toList());
@@ -80,7 +78,8 @@ public class GestorAula {
 
     public AulaDTO getAulaByNombre(String nombreAula) {
         Aula a = aulaDAO.getAulaByNombreAula(nombreAula);
-        AulaDTO aulaDTO = new AulaDTO(
+        AulaDTO aulaDTO;
+        aulaDTO = new AulaDTO(
                 a.getIdAula(),
                 a.getNombre(),
                 a.getUbicacion(),

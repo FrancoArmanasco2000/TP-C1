@@ -58,7 +58,7 @@ public class AsignarAula extends JFrame{
         } else {
             List<ReservaDTO> reservasSolapada = resultadoDTO.getReservasSolapadas();
             double horasSolapadas = resultadoDTO.getMinimaCantidadSolapada();
-            ReservasSolapadas dialog = new ReservasSolapadas(reservasSolapada.get(0), horasSolapadas);
+            ReservasSolapadas dialog = new ReservasSolapadas(reservasSolapada.getFirst(), horasSolapadas);
             dialog.setModal(true);
             dialog.setVisible(true); // Bloquea hasta que el usuario cierre la ventana
 

@@ -1,7 +1,5 @@
 package org.tp.dto;
 
-import jakarta.persistence.Column;
-
 public class BedelDTO {
 
     private Long idUsuario;
@@ -11,9 +9,6 @@ public class BedelDTO {
     private String contrasenia;
     private Boolean borrado;
     private String turno;
-
-    public BedelDTO() {
-    }
 
     public BedelDTO(String nombre, String apellido, String usuario, String contrasenia, String turno) {
         this.nombre = nombre;
@@ -36,16 +31,8 @@ public class BedelDTO {
         return borrado;
     }
 
-    public void setBorrado(Boolean borrado) {
-        this.borrado = borrado;
-    }
-
     public String getContrasenia() {
         return contrasenia;
-    }
-
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
     }
 
     public Long getIdUsuario() {
