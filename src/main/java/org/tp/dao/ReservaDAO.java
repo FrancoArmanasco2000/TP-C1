@@ -16,12 +16,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ReservaDAO implements ReservaDAOImpl{
+public class ReservaDAO implements ReservaDAOImpl {
 
     private static EntityManager manager;
     private static EntityManagerFactory factory;
 
-    public ReservaDAO () {}
+    public ReservaDAO() {
+    }
 
     @Override
     public void crearReserva(Reserva reserva) {
@@ -31,8 +32,8 @@ public class ReservaDAO implements ReservaDAOImpl{
             manager.getTransaction().begin();
             manager.persist(reserva);
             manager.getTransaction().commit();
-        }catch(Exception e) {
-            if(manager.getTransaction().isActive()) {
+        } catch (Exception e) {
+            if (manager.getTransaction().isActive()) {
                 manager.getTransaction().rollback();
             }
         } finally {
@@ -68,32 +69,32 @@ public class ReservaDAO implements ReservaDAOImpl{
 
             Map<Long, List<Fecha>> fechasPorAula = new HashMap<>();
 
-            for(Fecha f : fechasReservadas) {  //Agrega al map cada par key-value usando como key el idAula y como value la lista de fechas
-                if(fechasPorAula.containsKey(f.getAula().getIdAula())) {
+            for (Fecha f : fechasReservadas) {  //Agrega al map cada par key-value usando como key el idAula y como value la lista de fechas
+                if (fechasPorAula.containsKey(f.getAula().getIdAula())) {
                     fechasPorAula.get(f.getAula().getIdAula()).add(f);
-                }else {
+                } else {
                     fechasPorAula.put(f.getAula().getIdAula(), new ArrayList<>());
                     fechasPorAula.get(f.getAula().getIdAula()).add(f);
                 }
             }
 
-            for(Aula a: aulasFiltradas) {   //Las aulas que no tengan asignadas ninguna fecha coincidente estan disponibles: las agregamos a la lista final
-                if(!fechasPorAula.containsKey(a.getIdAula())) {
+            for (Aula a : aulasFiltradas) {   //Las aulas que no tengan asignadas ninguna fecha coincidente estan disponibles: las agregamos a la lista final
+                if (!fechasPorAula.containsKey(a.getIdAula())) {
                     aulasDefinitivas.add(a);
                 }
             }
 
-            for(Long idAula: fechasPorAula.keySet()) { //Recorremos todas las llaves del map (todos los idAulas)
+            for (Long idAula : fechasPorAula.keySet()) { //Recorremos todas las llaves del map (todos los idAulas)
                 boolean flagDisponible = true;
                 List<Fecha> fechasAula = fechasPorAula.get(idAula); //Guardamos la lista de fechas que tiene cada llave (aula) en el map
-                for(Fecha f : fechasAula) { //Recorremos las fechas de cada aula y comparamos horarios
-                    List<Integer> horariosB = FechaUtils.convertirHoras(f.getHorarioInicio(),f.getDuracion());
-                    if(FechaUtils.solapa(horariosA,horariosB)) {
+                for (Fecha f : fechasAula) { //Recorremos las fechas de cada aula y comparamos horarios
+                    List<Integer> horariosB = FechaUtils.convertirHoras(f.getHorarioInicio(), f.getDuracion());
+                    if (FechaUtils.solapa(horariosA, horariosB)) {
                         flagDisponible = false;
                         break;
-                   }
+                    }
                 }
-                if(flagDisponible) {
+                if (flagDisponible) {
                     aulasDefinitivas.add(aulasFiltradas.stream()
                             .filter(a -> a.getIdAula().equals(idAula))
                             .findFirst()
@@ -102,8 +103,7 @@ public class ReservaDAO implements ReservaDAOImpl{
             }
 
             return aulasDefinitivas;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             if (manager.getTransaction().isActive()) {
                 manager.getTransaction().rollback();
             }
@@ -197,9 +197,10 @@ public class ReservaDAO implements ReservaDAOImpl{
                     "SELECT d FROM Docente d WHERE d.nombreDocente = :nombreDocente", Docente.class);
             query.setParameter("nombreDocente", nombreDocente);
 
-            Docente docente = null;
+            Docente docente;
 
             try {
+                // Obtener docente si ya existe
                 docente = query.getSingleResult();
             } catch (NoResultException e) {
                 // Si no existe, se crea y persiste el docente
@@ -210,15 +211,27 @@ public class ReservaDAO implements ReservaDAOImpl{
                 manager.getTransaction().commit();
             }
 
+            // Obtener el ID del docente (nuevo o existente)
             idDocente = docente.getIdDocente();
         } catch (Exception e) {
+            // Rollback en caso de fallo
+            if (manager.getTransaction().isActive()) {
+                manager.getTransaction().rollback();
+            }
             e.printStackTrace();
-            throw new RuntimeException("Error al obtener o crear el docente.");
+            throw new RuntimeException("Error al obtener o crear el docente.", e);
+        } finally {
+            // Asegurar cierre del EntityManager
+            manager.close();
+            factory.close();
         }
+
         return idDocente;
     }
 
+
     public Long obtenerOCrearAsignatura(String nombreAsignatura) {
+        // Se asume que factory es una variable global que se inicializa una sola vez
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
         Long idCurso = null;
@@ -232,6 +245,7 @@ public class ReservaDAO implements ReservaDAOImpl{
             Asignatura asignatura = null;
 
             try {
+                // Obtener la asignatura si ya existe
                 asignatura = query.getSingleResult();
             } catch (NoResultException e) {
                 // Si no existe, se crea y persiste la asignatura
@@ -244,14 +258,20 @@ public class ReservaDAO implements ReservaDAOImpl{
 
             idCurso = asignatura.getIdCurso();
         } catch (Exception e) {
+            if (manager.getTransaction().isActive()) {
+                manager.getTransaction().rollback(); // Rollback si algo falla
+            }
             e.printStackTrace();
-            throw new RuntimeException("Error al obtener o crear la asignatura.");
+            throw new RuntimeException("Error al obtener o crear la asignatura.", e);
+        } finally {
+            manager.close(); // Asegura que se cierre el EntityManager
+            factory.close();
         }
+
         return idCurso;
     }
 
 }
-
 
 /*public List<ReservaDTO> menosSolapadas(List<Aula> aulasFiltradas, List<FechaDTO> fechas) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");

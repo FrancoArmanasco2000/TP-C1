@@ -22,6 +22,9 @@ public class ReservaDTO {
     private int horasSolapadas;
     private String nombreUsuario;
 
+    public ReservaDTO() {};
+
+
     public ReservaDTO(Long idPeriodo, int cantAlumnos, TipoAula tipoAula, String nombreDocente, String asignatura, String correoContacto, String nombreUsuario, List<FechaDTO> listaFechasDTO) {
         this.idPeriodo = idPeriodo;
         this.cantAlumnos = cantAlumnos;
@@ -32,6 +35,18 @@ public class ReservaDTO {
         this.nombreUsuario = nombreUsuario;
         this.listaFechasDTO = listaFechasDTO;
     }
+
+    public ReservaDTO(Long idPeriodo, int cantAlumnos, TipoAula tipoAula, String nombreDocente, String asignatura, String correoContacto, String nombreUsuario) {
+        this.idPeriodo = idPeriodo;
+        this.cantAlumnos = cantAlumnos;
+        this.tipoAula = tipoAula;
+        this.asignatura = asignatura;
+        this.nombreDocente = nombreDocente;
+        this.correoContacto = correoContacto;
+        this.nombreUsuario = nombreUsuario;
+    }
+
+
 
 
     @Override

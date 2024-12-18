@@ -28,7 +28,7 @@ public class ReservaPeriodica extends JFrame {
     private JButton confirmarButton;
     private JButton cancelarButton;
     private JPanel reservaPeriodicaPanel;
-
+    private ReservaDTO reservaDTO;
 
     public ReservaPeriodica(String usuario) {
         this.setTitle("Reserva Periodica");
@@ -46,13 +46,26 @@ public class ReservaPeriodica extends JFrame {
         for (String tipo : tipos) {
             tipoAulaComboBox.addItem(tipo);
         }
+
+
+
         agregarDiaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!(inputCantidadAlumnos.getText().isEmpty() || inputNombreApellido.getText().isEmpty() || inputAsignatura.getText().isEmpty() || inputCorreo.getText().isEmpty()) && validarDatos()) {
                     ReservaPeriodica.this.setEnabled(false);
-                    AgregarDia ad = new AgregarDia(ReservaPeriodica.this, tablaDiasReserva);
-                    ad.setVisible(true);
+                    if(reservaDTO == null){
+                        reservaDTO = new ReservaDTO(
+                                retornarPeriodo(),
+                                Integer.parseInt(inputCantidadAlumnos.getText()),
+                                retornarTipoAula(),
+                                inputNombreApellido.getText(),
+                                inputAsignatura.getText(),
+                                inputCorreo.getText(),
+                                usuario
+                        );
+                    }
+                    AgregarDia ad = new AgregarDia(ReservaPeriodica.this, tablaDiasReserva, reservaDTO);
                     ad.addWindowListener(new WindowAdapter() {
                         @Override
                         public void windowClosed(java.awt.event.WindowEvent windowEvent) {
@@ -92,33 +105,8 @@ public class ReservaPeriodica extends JFrame {
         confirmarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //System.out.println(reservaDTO.toString());
                 GestorReserva gr = new GestorReserva();
-                ReservaDAO reservaDAO = new ReservaDAO();
-                List<FechaDTO> fechas = new ArrayList<>();
-
-                for (int row = 0; row < tablaDiasReserva.getRowCount(); row++) {
-                    List<Object> rowData = new ArrayList<>();
-                    for (int col = 0; col < tablaDiasReserva.getColumnCount(); col++) {
-                        Object value = tablaDiasReserva.getValueAt(row, col);
-                        rowData.add(value);
-                    }
-                    fechas.add(gr.generarFechaDTOPeriodica(rowData));
-                }
-
-                for(FechaDTO fechaDTO: fechas) { //hardcodeado
-                    fechaDTO.setIdAula(5L);
-                }
-
-                ReservaDTO reservaDTO = new ReservaDTO(
-                        retornarPeriodo(),
-                        Integer.parseInt(inputCantidadAlumnos.getText()),
-                        retornarTipoAula(),
-                        inputNombreApellido.getText(),
-                        inputAsignatura.getText(),
-                        inputCorreo.getText(),
-                        usuario,
-                        fechas
-                    );
                 gr.RegistrarReserva(reservaDTO);
             }
         });

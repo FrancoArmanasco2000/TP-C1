@@ -10,6 +10,14 @@ public class FechaDTO implements FechaInterface {
     private String dia;
     private Long idAula;
 
+    public FechaDTO(){};
+
+    public FechaDTO(String dia, Integer duracion, String horarioInicio) {
+        this.dia = dia;
+        this.duracion = duracion;
+        this.horarioInicio = horarioInicio;
+    }
+
     public Long getIdAula() {
         return idAula;
     }
