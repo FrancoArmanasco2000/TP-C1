@@ -16,9 +16,9 @@ public class Reserva {
     @Column
     private TipoAula tipoAula;
     @Column
-    private Long idDocente;
+    private String nombreDocente;
     @Column
-    private Long idCurso;
+    private String asignatura;
     @Column
     private String correoContacto;
     @ManyToOne
@@ -31,14 +31,14 @@ public class Reserva {
     public Reserva() {
     }
 
-    public Reserva(Integer cantidadAlumnos, TipoAula tipoAula, Bedel idUsuario, Long idReserva, Periodo idPeriodo, Long idDocente, Long idCurso, String correoContacto) {
+    public Reserva(Integer cantidadAlumnos, TipoAula tipoAula, Bedel idUsuario, Long idReserva, Periodo idPeriodo, String nombreDocente, String asignatura, String correoContacto) {
         this.cantidadAlumnos = cantidadAlumnos;
         this.tipoAula = tipoAula;
         this.idUsuario = idUsuario;
         this.idReserva = idReserva;
         this.idPeriodo = idPeriodo;
-        this.idDocente = idDocente;
-        this.idCurso = idCurso;
+        this.nombreDocente = nombreDocente;
+        this.asignatura = asignatura;
         this.correoContacto = correoContacto;
     }
 
@@ -50,12 +50,12 @@ public class Reserva {
         this.cantidadAlumnos = cantidadAlumnos;
     }
 
-    public void setIdCurso(Long idCurso) {
-        this.idCurso = idCurso;
+    public void setAsignatura(String asignatura) {
+        this.asignatura = asignatura;
     }
 
-    public void setIdDocente(Long idDocente) {
-        this.idDocente = idDocente;
+    public void setDocente(String nombreDocente) {
+        this.nombreDocente = nombreDocente;
     }
 
     public void setIdPeriodo(Periodo idPeriodo) {
