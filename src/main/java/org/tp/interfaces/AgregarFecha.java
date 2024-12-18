@@ -90,7 +90,7 @@ public class AgregarFecha extends JFrame {
                 model.addRow(new Object[]{dia, horarioInicio, horarioFin});
 
                 //ACA VA LO DE ASIGNAR EL AULA
-                new AsignarAula();
+                //new AsignarAula();
 
             }
         });

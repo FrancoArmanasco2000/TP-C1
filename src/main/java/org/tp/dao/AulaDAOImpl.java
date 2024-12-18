@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface AulaDAOImpl {
 
-    public Aula getAulaByNroAula(Integer nroAula);
+    public Aula getAulaByNombreAula(String nombreAula);
 
     public List<Aula> getAulasByCapacidadYTipo(Integer capacidad, TipoAula tipo);
 

@@ -18,19 +18,19 @@ public class AulaDAO implements AulaDAOImpl {
     public AulaDAO () {};
 
     @Override
-    public Aula getAulaByNroAula (Integer nroAula) {
+    public Aula getAulaByNombreAula (String nombreAula) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
 
         try {
             manager.getTransaction().begin();
-            String hql = "SELECT a FROM Aula a WHERE a.nro_aula = :nroAula";
+            String hql = "SELECT a FROM Aula a WHERE a.nombre = :nombreAula";
             Query query = manager.createQuery(hql);
-            query.setParameter("nroAula", nroAula);
+            query.setParameter("nombreAula", nombreAula);
 
-            Aula aulaByNro = (Aula) query.getSingleResult();
+            Aula aulaByNombre = (Aula) query.getSingleResult();
             manager.getTransaction().commit();
-            return aulaByNro;
+            return aulaByNombre;
         } catch (Exception e){
             if (manager.getTransaction().isActive()) {
                 manager.getTransaction().rollback();
@@ -76,7 +76,7 @@ public class AulaDAO implements AulaDAOImpl {
 
         try {
             manager.getTransaction().begin();
-            String hql = "SELECT a FROM Aula a WHERE a.capacidad >= :capacidad AND a.tipo == :tipo";
+            String hql = "SELECT a FROM Aula a WHERE a.capacidad >= :capacidad AND a.tipo = :tipo";
             Query query = manager.createQuery(hql);
             query.setParameter("capacidad", capacidad);
             query.setParameter("tipo", tipo);

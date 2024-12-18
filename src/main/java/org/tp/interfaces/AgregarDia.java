@@ -6,6 +6,9 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import org.tp.dto.FechaDTO;
+import org.tp.dto.ReservaDTO;
 import org.tp.utils.HorarioUtils;
 
 public class AgregarDia extends JFrame {
@@ -16,7 +19,7 @@ public class AgregarDia extends JFrame {
     private JFormattedTextField formattedTextFieldHoraInicio;
     private JFormattedTextField formattedTextFieldHoraFin;
 
-    public AgregarDia(JFrame parentFrame, JTable tablaDiasReserva) {
+    public AgregarDia(JFrame parentFrame, JTable tablaDiasReserva, ReservaDTO reservaDTO) {
         this.setTitle("Agregar Día");
         this.setContentPane(this.agregarDiaPanel);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -49,7 +52,7 @@ public class AgregarDia extends JFrame {
                 String horarioInicio = formattedTextFieldHoraInicio.getText();
                 String horarioFin = formattedTextFieldHoraFin.getText();
 
-                if (dia == null || horarioInicio.isEmpty() || horarioFin.isEmpty()) {
+                if (dia == null || horarioInicio.equals("__:__") || horarioFin.equals("__:__")) {
                     JOptionPane.showMessageDialog(
                             null,
                             "Por favor, complete todos los campos obligatorios.",
@@ -79,13 +82,12 @@ public class AgregarDia extends JFrame {
                     return;
                 }
 
+                FechaDTO fechaDTO = new FechaDTO(dia,HorarioUtils.calcularDuracion(horarioInicio,horarioFin),horarioInicio);
 
                 DefaultTableModel model = (DefaultTableModel) tablaDiasReserva.getModel();
                 model.addRow(new Object[]{dia, horarioInicio, horarioFin});
+                AsignarAula aa = new AsignarAula(reservaDTO,fechaDTO);
                 dispose();
-                //ACA VA A LO DE ASIGNAR AULA
-                new AsignarAula();
-
             }
         });
 

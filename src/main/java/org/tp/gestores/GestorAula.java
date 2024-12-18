@@ -8,6 +8,7 @@ import org.tp.dto.ReservaDTO;
 import org.tp.dto.ResultadoDTO;
 import org.tp.entity.Aula;
 import org.tp.entity.Reserva;
+import org.tp.utils.FechaUtils;
 import org.tp.utils.TipoAula;
 
 import java.util.ArrayList;
@@ -25,39 +26,24 @@ public class GestorAula {
      * reservaDTO se almacenarán las aulas disponibles.
      * Se retorna ResultadoDTO actualizado con aulas disponibles.
      */
-    /*public ResultadoDTO obtenerDisponibilidadAulas(List<FechaDTO> listaFechaDTO, ReservaDTO reservaDTO) {
+    public ResultadoDTO obtenerDisponibilidadAulas(ReservaDTO reservaDTO, FechaDTO fechaDTO) {
+
+        List<FechaDTO> listaFechasDTO = FechaUtils.crearListaFechas(reservaDTO, fechaDTO);
+
         //Obtener todas las aulas que cumplen con la capacidad y el tipo del ReservaDTO
         List<Aula> aulasFiltradas = getAulas(reservaDTO.getTipoAula(), reservaDTO.getCantAlumnos());
 
         //Filtrar aulas que ya están reservadas en las fechas especificadas
-        List<Aula> aulas = filtrarAulasReservadas(aulasFiltradas, listaFechaDTO);
-        if(aulas.isEmpty()) {
-            ResultadoDTO reservasMenosSolapadas = reservaDAO.menosSolapadas(aulasFiltradas, listaFechaDTO);
-        }
-        else{
-            List<AulaDTO> aulasDTOFiltradas = convertirAulasADTO(aulasFiltradas);
-            ResultadoDTO.setListaAulasDisponibles(aulasDTOFiltradas);
-        }
+        List<Aula> aulas = filtrarAulasReservadas(aulasFiltradas, listaFechasDTO);
 
-        //Mapear aulas disponibles a AulaDTO y asignarlas a ReservaDTO
-        List<AulaDTO> aulasDTO = new ArrayList<>();
-        for (Aula aula : aulasFiltradas) {
-            AulaDTO aulaDTO = new AulaDTO();
-            aulaDTO.setNro_aula(aula.getNro_aula());
-            aulaDTO.setNombre(aula.getNombre());
-            aulaDTO.setUbicacion(aula.getUbicacion());
-            aulaDTO.setCapacidad(aula.getCapacidad());
-            aulaDTO.setTipo(aula.getTipo());
-            aulaDTO.setAire_acondicionado(aula.getAire_acondicionado());
-            aulaDTO.setCanion(aula.getCanion());
-            aulaDTO.setCantidad_pcs(aula.getCantidad_pcs());
-            aulasDTO.add(aulaDTO);
+        if (aulas.isEmpty()) {
+            resultadoDTO = reservaDAO.menosSolapadas(aulasFiltradas, listaFechasDTO);
+        } else {
+            List<AulaDTO> aulasDTODefinitivas = convertirAulasADTO(aulas);
+            resultadoDTO.setListaAulasDisponibles(aulasDTODefinitivas);
         }
-        if(aulas.isEmpty()) {}
-        //Actualizar ResultadoDTO con las aulas disponibles
-        resultadoDTO.setListaAulasDisponibles(aulasDTO);
         return resultadoDTO;
-    }*/
+    }
 
     public List<Aula> getAulas(TipoAula tipo, Integer capacidad) {
         return aulaDAO.getAulasByCapacidadYTipo(capacidad, tipo);
@@ -85,4 +71,36 @@ public class GestorAula {
                 })
                 .collect(Collectors.toList());
     }
+
+    public AulaDTO getAulaByNombre(String nombreAula) {
+        Aula a = aulaDAO.getAulaByNombreAula(nombreAula);
+        AulaDTO aulaDTO = new AulaDTO(
+                a.getIdAula(),
+                a.getNombre(),
+                a.getUbicacion(),
+                a.getCapacidad(),
+                a.getTipo(),
+                a.getNro_aula(),
+                a.getPiso(),
+                a.getCantidad_pcs(),
+                a.getCanion(),
+                a.getAire_acondicionado(),
+                a.getVentiladores(),
+                a.getTipo_pizarron()
+        );
+        return aulaDTO;
+    }
+
+    public void asignarAulaAFechasDelPeriodo(ReservaDTO reserva,FechaDTO fechaDTO,Long idAula) {
+        List<FechaDTO> fechasDelPeriodo = FechaUtils.crearListaFechas(reserva,fechaDTO);
+        for(FechaDTO f : fechasDelPeriodo) {
+            f.setIdAula(idAula);
+        }
+        if(reserva.getListaFechasDTO() == null){
+            reserva.setListaFechasDTO(fechasDelPeriodo);
+        }else {
+            reserva.getListaFechasDTO().addAll(fechasDelPeriodo);
+        }
+    }
 }
+

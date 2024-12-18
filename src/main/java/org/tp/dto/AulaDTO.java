@@ -3,6 +3,7 @@ package org.tp.dto;
 import org.tp.utils.TipoAula;
 
 public class AulaDTO {
+    private Long idAula;
     private String nombre;
     private String ubicacion;
     private Integer capacidad;
@@ -13,7 +14,41 @@ public class AulaDTO {
     private Boolean canion;
     private Boolean aire_acondicionado;
     private Boolean ventiladores;
+    private String tipoPizarron;
 
+
+    public AulaDTO(){};
+
+    public AulaDTO(Long idAula, String nombre, String ubicacion, Integer capacidad, TipoAula tipo, Integer nro_aula, String piso, Integer cantidad_pcs, Boolean canion, Boolean aire_acondicionado, Boolean ventiladores, String tipoPizarron) {
+        this.idAula = idAula;
+        this.nombre = nombre;
+        this.ubicacion = ubicacion;
+        this.capacidad = capacidad;
+        this.tipo = tipo;
+        this.nro_aula = nro_aula;
+        this.piso = piso;
+        this.cantidad_pcs = cantidad_pcs;
+        this.canion = canion;
+        this.aire_acondicionado = aire_acondicionado;
+        this.ventiladores = ventiladores;
+        this.tipoPizarron = tipoPizarron;
+    }
+
+    public void setTipoPizarron(String tipoPizarron) {
+        this.tipoPizarron = tipoPizarron;
+    }
+
+    public Long getIdAula() {
+        return idAula;
+    }
+
+    public void setIdAula(Long idAula) {
+        this.idAula = idAula;
+    }
+
+    public String getTipoPizarron() {
+        return tipoPizarron;
+    }
 
     public String getNombre() {
         return nombre;

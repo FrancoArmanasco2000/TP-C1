@@ -5,6 +5,7 @@ import org.tp.dto.FechaDTO;
 import org.tp.dto.ReservaDTO;
 import org.tp.entity.*;
 import org.tp.utils.FechaUtils;
+import org.tp.utils.HorarioUtils;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
@@ -38,9 +39,10 @@ public class GestorReserva {
         r.setCantidadAlumnos(reservaDTO.getCantAlumnos());
         r.setTipoAula(reservaDTO.getTipoAula());
         r.setCorreoContacto(reservaDTO.getCorreoContacto());
-
-        Long idCurso = reservaDAO.obtenerOCrearAsignatura(reservaDTO.getAsignatura());
-        Long idDocente = reservaDAO.obtenerOCrearDocente(reservaDTO.getNombreDocente());
+        //Long idCurso = reservaDAO.obtenerOCrearAsignatura(reservaDTO.getAsignatura());
+        //Long idDocente = reservaDAO.obtenerOCrearDocente(reservaDTO.getNombreDocente());
+        Long idCurso = 6L; //hardcodeado
+        Long idDocente = 5L; //hardcodeado
         r.setIdCurso(idCurso);
         r.setIdDocente(idDocente);
         Long idUsuario = usuarioDAO.getBedelByUsuario(reservaDTO.getNombreUsuario()).getIdUsuario();
@@ -51,8 +53,8 @@ public class GestorReserva {
             PeriodoDAO periodoDAO = new PeriodoDAO();
             Periodo p = periodoDAO.getPeriodoById(reservaDTO.getIdPeriodo());
             r.setIdPeriodo(p);
-            reservaDTO.setListaFechasDTO(calcularFechasDelPeriodo(reservaDTO));
         }
+
 
         reservaDAO.crearReserva(r);
 
@@ -76,26 +78,17 @@ public class GestorReserva {
         for(FechaDTO fecha: reserva.getListaFechasDTO()){
             fechasDelPeriodo.addAll(FechaUtils.crearListaFechas(reserva,fecha));
         }
-        for(FechaDTO fechaP: fechasDelPeriodo){ //hardcodeado
-            fechaP.setIdAula(5L);
-        }
         return fechasDelPeriodo;
     }
 
 
-    public Integer calcularDuracion (String horarioInicio, String horarioFin) {
-        Integer horaInicio = Integer.parseInt(horarioInicio.substring(0,2));
-        Integer horaFin = Integer.parseInt(horarioFin.substring(0,2));
-        Integer minutosInicio = Integer.parseInt(horarioInicio.substring(3,5));
-        Integer minutosFin = Integer.parseInt(horarioFin.substring(3,5));
-        return (horaFin - horaInicio) * 60 + (minutosFin - minutosInicio);
-    }
+
 
     public FechaDTO generarFechaDTOPeriodica(List<Object> datosFecha) {
         FechaDTO fechaDTO = new FechaDTO();
         fechaDTO.setDia((String) datosFecha.get(0));
         fechaDTO.setHorarioInicio((String) datosFecha.get(1));
-        Integer duracion = calcularDuracion((String) datosFecha.get(1), (String) datosFecha.get(2));
+        Integer duracion = HorarioUtils.calcularDuracion((String) datosFecha.get(1), (String) datosFecha.get(2));
         fechaDTO.setDuracion(duracion);
         return fechaDTO;
     }

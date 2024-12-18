@@ -22,4 +22,11 @@ public class HorarioUtils {
         return !(minutos % 30 == 0);
     }
 
+    public static Integer calcularDuracion (String horarioInicio, String horarioFin) {
+        Integer horaInicio = Integer.parseInt(horarioInicio.substring(0,2));
+        Integer horaFin = Integer.parseInt(horarioFin.substring(0,2));
+        Integer minutosInicio = Integer.parseInt(horarioInicio.substring(3,5));
+        Integer minutosFin = Integer.parseInt(horarioFin.substring(3,5));
+        return (horaFin - horaInicio) * 60 + (minutosFin - minutosInicio);
+    }
 }
