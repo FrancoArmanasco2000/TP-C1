@@ -87,10 +87,6 @@ public class AgregarFecha extends JFrame {
 
                 FechaDTO fechaDTO = new FechaDTO(fecha, horarioInicio, HorarioUtils.calcularDuracion(horarioInicio,horarioFin), FechaUtils.obtenerDiaDeLaSemana(fecha));
 
-                //DefaultTableModel model = (DefaultTableModel) tablaFechasReserva.getModel();
-
-                //model.addRow(new Object[]{fechaTexto, horarioInicio, horarioFin});
-
                 new AsignarAula(parentFrame, tablaFechasReserva,reservaDTO,fechaDTO);
 
                 dispose();

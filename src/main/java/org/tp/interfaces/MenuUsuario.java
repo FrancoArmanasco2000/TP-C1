@@ -51,6 +51,12 @@ public class MenuUsuario extends JFrame {
                 JOptionPane.showMessageDialog(MenuUsuario.this, "No implementado por no ser parte de la entrega.");
             }
         });
+        buscarAulaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(MenuUsuario.this, "No implementado por no ser parte de la entrega.");
+            }
+        });
     }
 
 }
