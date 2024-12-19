@@ -66,8 +66,8 @@ public class AsignarAula extends JFrame{
             Set<Long> idsReservasProcesadas = new HashSet<>();
 
             for (ReservaDTO reserva : reservasSolapada) {
-                reserva.setAsignatura(reservaDTO.getAsignatura());
-                reserva.setNombreDocente(reservaDTO.getNombreDocente());
+                /*reserva.setAsignatura(reservasSolapada.getAsignatura());
+                reserva.setNombreDocente(reservasSolapada.getNombreDocente());*/// Acá hay un error
                 if (!idsReservasProcesadas.contains(reserva.getIdReserva())) {
                     idsReservasProcesadas.add(reserva.getIdReserva()); // Marca el id como procesado
                     // Crear y mostrar el diálogo para esta reserva
