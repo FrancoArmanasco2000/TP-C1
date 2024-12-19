@@ -132,5 +132,9 @@ public class FechaUtils {
 
     }
 
+    public static String convertirLocalDateATexto(LocalDate fecha) {
+        return fecha.format(formatter);
+    }
+
 
 }

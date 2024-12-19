@@ -5,11 +5,16 @@ import org.tp.dto.ReservaDTO;
 import org.tp.dto.FechaDTO;
 import org.tp.dto.ResultadoDTO;
 import org.tp.gestores.GestorAula;
+import org.tp.utils.FechaUtils;
+import org.tp.utils.HorarioUtils;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,7 +26,7 @@ public class AsignarAula extends JFrame{
     private JButton cancelarButton;
     private static GestorAula gestorAula = new GestorAula();
 
-    public AsignarAula(ReservaDTO reservaDTO, FechaDTO fechaDTO) {
+    public AsignarAula(JFrame parentFrame, JTable tablaDiasReserva, ReservaDTO reservaDTO, FechaDTO fechaDTO) {
         this.setContentPane(asignarAulaPanel);
         this.setTitle("Asignar Aula");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -58,17 +63,24 @@ public class AsignarAula extends JFrame{
         } else {
             List<ReservaDTO> reservasSolapada = resultadoDTO.getReservasSolapadas();
             double horasSolapadas = resultadoDTO.getMinimaCantidadSolapada();
-            ReservasSolapadas dialog = new ReservasSolapadas(reservasSolapada.getFirst(), horasSolapadas);
-            dialog.setModal(true);
-            dialog.setVisible(true); // Bloquea hasta que el usuario cierre la ventana
+            dispose();
+            Set<Long> idsReservasProcesadas = new HashSet<>();
 
-            /*for (ReservaDTO reserva : reservasSolapada) { //Para esporadicas
-                SwingUtilities.invokeLater(() -> {
-                    ReservasSolapadas dialog = new ReservasSolapadas(reserva, horasSolapadas);
-                    dialog.setModal(true);
-                    dialog.setVisible(true); // Bloquea hasta que el usuario cierre la ventana
-                });
-            }*/
+            for (ReservaDTO reserva : reservasSolapada) {
+                reserva.setAsignatura(reservaDTO.getAsignatura());
+                reserva.setNombreDocente(reservaDTO.getNombreDocente());
+                if (!idsReservasProcesadas.contains(reserva.getIdReserva())) {
+                    idsReservasProcesadas.add(reserva.getIdReserva()); // Marca el id como procesado
+                    // Crear y mostrar el diálogo para esta reserva
+                    SwingUtilities.invokeLater(() -> {
+                        ReservasSolapadas dialog = new ReservasSolapadas(reserva, horasSolapadas);
+                        dialog.setModal(true); // Hace que el JDialog sea modal
+                        dialog.setVisible(true); // Bloquea hasta que el usuario cierre la ventana
+                    });
+                }
+            }
+
+            dispose();
         }
 
         asignarButton.addActionListener(new ActionListener() {
@@ -89,6 +101,20 @@ public class AsignarAula extends JFrame{
                    gestorAula.asignarAulaAFechasDelPeriodo(reservaDTO,fechaDTO,idAula);
                } else {
                    gestorAula.asignarAulaAFecha(reservaDTO,fechaDTO,idAula);
+               }
+
+               DefaultTableModel model = (DefaultTableModel) tablaDiasReserva.getModel();
+
+               if(reservaDTO.getIdPeriodo() == null) {
+                   String fecha = FechaUtils.convertirLocalDateATexto(fechaDTO.getFecha());
+                   String horarioInicio = fechaDTO.getHorarioInicio();
+                   String horarioFin = HorarioUtils.getHorarioFin(horarioInicio,fechaDTO.getDuracion());
+                   model.addRow(new Object[]{fecha, horarioInicio, horarioFin});
+               } else{
+                   String dia = fechaDTO.getDia();
+                   String horarioInicio = fechaDTO.getHorarioInicio();
+                   String horarioFin = HorarioUtils.getHorarioFin(horarioInicio,fechaDTO.getDuracion());
+                   model.addRow(new Object[]{dia, horarioInicio, horarioFin});
                }
 
                dispose();
