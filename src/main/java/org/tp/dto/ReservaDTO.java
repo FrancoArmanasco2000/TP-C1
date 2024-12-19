@@ -83,6 +83,9 @@ public class ReservaDTO {
         this.idAula = idAula;
         this.fecha = fecha;
     }
+    public Long getIdReserva() {
+        return idReserva;
+    }
 
     public Long getIdUsuario() {
         return idUsuario;
@@ -111,6 +114,12 @@ public class ReservaDTO {
     public String getNombreDocente() {
         return nombreDocente;
     }
+
+    public void setAsignatura(String asignatura) {
+        this.asignatura=asignatura;
+    }
+
+    public void setNombreDocente(String nombreDocente) {this.nombreDocente = nombreDocente;}
 
     public int getCantAlumnos() {
         return cantAlumnos;

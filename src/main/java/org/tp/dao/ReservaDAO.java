@@ -128,7 +128,6 @@ public class ReservaDAO implements ReservaDAOImpl {
                 .map(Aula::getIdAula)
                 .collect(Collectors.toList());
 
-        // Consulta HQL para obtener las reservas relevantes
         String hql = "SELECT r.idReserva, r.cantidadAlumnos, r.correoContacto, "
                 + "f.horarioInicio, f.duracion, f.aula.idAula, r.idPeriodo.idPeriodo, f.fecha "
                 + "FROM Reserva r "
@@ -183,7 +182,6 @@ public class ReservaDAO implements ReservaDAOImpl {
                 reservasMenosSolapadasDTO = new ArrayList<>(reservasSolapadas);
 
             } else if (cantidadSolapada == minimaCantidad) {
-                // Aquí aseguramos que no se acumulen duplicados
                 for (ReservaDTO reserva : reservasSolapadas) {
                     if (!reservasMenosSolapadasDTO.contains(reserva)) {
                         reservasMenosSolapadasDTO.add(reserva);
@@ -193,7 +191,6 @@ public class ReservaDAO implements ReservaDAOImpl {
             resultadoMenosSolapadasDTO.setMinimaCantidadSolapada(minimaCantidad);
         }
 
-        // Establecer el resultado final
         resultadoMenosSolapadasDTO.setReservasSolapadas(reservasMenosSolapadasDTO);
 
         return resultadoMenosSolapadasDTO;

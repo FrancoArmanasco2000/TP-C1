@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import java.text.ParseException;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 
 public class HorarioUtils {
 
@@ -42,6 +44,19 @@ public class HorarioUtils {
             horarioTextField.setFormatterFactory(new DefaultFormatterFactory(mascara));
         } catch (ParseException e) {
             throw new RuntimeException("Error al configurar el formato de horario: " + e.getMessage(), e);
+        }
+    }
+
+    public static String getHorarioFin(String horarioInicio, int duracion) {
+        if (horarioInicio == null || horarioInicio.isEmpty()) {
+            throw new IllegalArgumentException("El horario de inicio no puede ser nulo o vacío");
+        }
+        try {
+            LocalTime horaInicio = LocalTime.parse(horarioInicio);
+            LocalTime horaFin = horaInicio.plusMinutes(duracion);
+            return horaFin.toString();
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("El horario de inicio debe estar en formato HH:mm", e);
         }
     }
 

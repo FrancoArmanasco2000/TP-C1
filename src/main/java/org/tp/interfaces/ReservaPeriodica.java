@@ -101,9 +101,9 @@ public class ReservaPeriodica extends JFrame {
         confirmarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //System.out.println(reservaDTO.toString());
                 GestorReserva gr = new GestorReserva();
                 gr.RegistrarReserva(reservaDTO);
+                dispose();
             }
         });
     }

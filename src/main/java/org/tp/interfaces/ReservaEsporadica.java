@@ -97,6 +97,7 @@ public class ReservaEsporadica extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 GestorReserva gr = new GestorReserva();
                 gr.RegistrarReserva(reservaDTO);
+                dispose();
             }
         });
 
