@@ -75,7 +75,7 @@ public class AgregarDia extends JFrame {
 
                 FechaDTO fechaDTO = new FechaDTO(dia,HorarioUtils.calcularDuracion(horarioInicio,horarioFin),horarioInicio);
 
-                new AsignarAula(parentFrame, tablaDiasReserva,reservaDTO,fechaDTO);
+                AsignarAula aa = new AsignarAula(parentFrame, tablaDiasReserva,reservaDTO,fechaDTO);
                 dispose();
             }
         });
