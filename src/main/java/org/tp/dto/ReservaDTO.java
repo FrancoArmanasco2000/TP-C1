@@ -74,7 +74,7 @@ public class ReservaDTO {
     }
 
 
-    public ReservaDTO(Long idReserva, int cantAlumnos, String correoContacto, String horarioInicio, int duracion, Long idAula, LocalDate fecha) {
+    public ReservaDTO(Long idReserva, int cantAlumnos, String correoContacto, String horarioInicio, int duracion, Long idAula, LocalDate fecha) {//NO va mas
         this.idReserva = idReserva;
         this.cantAlumnos = cantAlumnos;
         this.correoContacto = correoContacto;
