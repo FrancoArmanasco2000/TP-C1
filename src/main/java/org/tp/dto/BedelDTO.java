@@ -10,6 +10,8 @@ public class BedelDTO {
     private Boolean borrado;
     private String turno;
 
+    public BedelDTO(){}
+
     public BedelDTO(String nombre, String apellido, String usuario, String contrasenia, String turno) {
         this.nombre = nombre;
         this.apellido = apellido;

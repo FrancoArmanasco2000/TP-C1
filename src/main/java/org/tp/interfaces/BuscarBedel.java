@@ -3,11 +3,14 @@ package org.tp.interfaces;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+
+import org.tp.dto.BedelDTO;
 import org.tp.entity.Bedel;
 import org.tp.gestores.GestorUsuario;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BuscarBedel extends JFrame {
@@ -116,8 +119,20 @@ public class BuscarBedel extends JFrame {
             resultados = gestorUsuario.obtenerTodosLosBedeles();
         }
 
+        List<BedelDTO> bedelesDTO = new ArrayList<>();
+
+        for(Bedel bedel: resultados) {
+            BedelDTO bedelDTO = new BedelDTO();
+            bedelDTO.setIdUsuario(bedel.getIdUsuario());
+            bedelDTO.setNombre(bedel.getNombre());
+            bedelDTO.setApellido(bedel.getApellido());
+            bedelDTO.setTurno(bedel.getTurno());
+            bedelDTO.setUsuario(bedel.getUsuario());
+            bedelesDTO.add(bedelDTO);
+        }
+
         modeloTabla.setRowCount(0);
-        for (Bedel bedel : resultados) {
+        for (BedelDTO bedel : bedelesDTO) {
             modeloTabla.addRow(new Object[]{
                     bedel.getIdUsuario(),
                     bedel.getNombre(),

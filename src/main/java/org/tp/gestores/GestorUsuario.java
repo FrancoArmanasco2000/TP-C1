@@ -53,8 +53,6 @@ public class GestorUsuario {
             throw new ContraseniaInvalidaException(gestorPoliticas.comprobarTODO(bedel.getContrasenia()));
         }
 
-        usuarioDAO.actualizarBedel(bedelModificado);
-
         return bedelModificado;
     }
 

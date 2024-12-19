@@ -51,7 +51,7 @@ public class ModificarBedel extends JFrame {
         confirmarContrasenia.setText(bedel.getContrasenia());
 
         cancelarButton.addActionListener(e -> {
-            MensajeDeAlerta ma = new MensajeDeAlerta("¿Estas seguro que deseas cancelar la modificación del registro?", ModificarBedel.this);
+           new MensajeDeAlerta("¿Estas seguro que deseas cancelar la modificación del registro?", ModificarBedel.this);
         });
         confirmarButton.addActionListener(e -> {
             if (!(inputApellido.getText().isBlank() || inputNombre.getText().isBlank() || inputContrasenia.getText().isBlank() || confirmarContrasenia.getText().isBlank() || inputUsuario.getText().isBlank() || seleccionarTurno.getSelectedIndex() == 0)) {
@@ -65,6 +65,7 @@ public class ModificarBedel extends JFrame {
                     bedelActual.setIdUsuario(idBedel);
                     actualizarBedel(bedelActual);
                     dispose();
+
                 } catch (ContraseniaInvalidaException | ContraseniasNoCoincidenException |
                          IllegalArgumentException ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

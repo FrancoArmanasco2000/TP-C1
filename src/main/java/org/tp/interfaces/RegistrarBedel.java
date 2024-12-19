@@ -67,6 +67,8 @@ public class RegistrarBedel extends JFrame {
                          ContraseniasNoCoincidenException | IllegalArgumentException ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
