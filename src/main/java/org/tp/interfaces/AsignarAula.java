@@ -11,7 +11,6 @@ import org.tp.utils.HorarioUtils;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -121,17 +120,6 @@ public class AsignarAula extends JFrame{
 
            }
         });
-
-        //Consultar la disponibilidad de la fecha
-        /*List<ReservaDTO> listaReservasSolapadas = gestorAula.obtenerDisponibilidadAulas(reservaDTO, listaFechasDTO);
-        for (ReservaDTO reserva : listaReservasSolapadas) {
-        SwingUtilities.invokeLater(() -> {
-            ReservasSolapadas dialog = new ReservasSolapadas(reserva);
-            dialog.setModal(true); // Hace que el JDialog sea modal
-            dialog.setVisible(true); // Bloquea hasta que el usuario cierre la ventana
-        });
-        }
-        */
 
         cancelarButton.addActionListener(new ActionListener() {
             @Override
