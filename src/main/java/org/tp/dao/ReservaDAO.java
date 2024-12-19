@@ -129,7 +129,7 @@ public class ReservaDAO implements ReservaDAOImpl {
                 .collect(Collectors.toList());
 
         String hql = "SELECT r.idReserva, r.cantidadAlumnos, r.correoContacto, "
-                + "f.horarioInicio, f.duracion, f.aula.idAula, r.idPeriodo.idPeriodo, f.fecha "
+                + "f.horarioInicio, f.duracion, f.aula.idAula, r.idPeriodo.idPeriodo, f.fecha, r.asignatura, r.nombreDocente "
                 + "FROM Reserva r "
                 + "JOIN r.idPeriodo p "
                 + "JOIN Fecha f ON f.aula.idAula IN :idsAulas AND r.idReserva = f.reserva.idReserva "
@@ -155,13 +155,18 @@ public class ReservaDAO implements ReservaDAOImpl {
             Integer duracion = (Integer) row[4];
             Long idAula = (Long) row[5];
             LocalDate fecha = (LocalDate) row[7];
+            String asignatura = (String) row[8];
+            String nombreDocente = (String) row[9];
 
             // Convertir el horario de la reserva a intervalos de tiempo
             List<Integer> horariosB = FechaUtils.convertirHoras(horarioInicio, duracion);
 
             // Verificar si los horarios solapan
             if (FechaUtils.solapa(horariosA, horariosB)) {
+
                 ReservaDTO dto = new ReservaDTO(idReserva, cantidadAlumnos, correoContacto, horarioInicio, duracion, idAula, fecha);
+                dto.setNombreDocente(nombreDocente);
+                dto.setAsignatura(asignatura);
                 reservasPorAula.computeIfAbsent(idAula, k -> new ArrayList<>()).add(dto);
             }
         }
@@ -173,7 +178,7 @@ public class ReservaDAO implements ReservaDAOImpl {
 
             for (ReservaDTO reserva : reservasSolapadas) {
                 List<Integer> horariosB = FechaUtils.convertirHoras(reserva.getHorarioInicio(), reserva.getDuracion());
-                cantidadSolapada = FechaUtils.calcularSolapamiento(horariosA, horariosB);
+                cantidadSolapada=FechaUtils.calcularSolapamiento(horariosA, horariosB);
             }
 
             // Actualizar las reservas con menor solapamiento
