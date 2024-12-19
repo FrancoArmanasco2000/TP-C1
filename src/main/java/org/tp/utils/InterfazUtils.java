@@ -18,8 +18,8 @@ public class InterfazUtils {
         }
         // Asignatura tiene que ser una sola palabra
 
-        if (!asignaturaTexto.matches("[A-ZÑÁÉÍÓÚa-zñáéíóú]*")) {
-            JOptionPane.showMessageDialog(null, "El campo Asignatura debe ser una sola palabra.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+        if (!asignaturaTexto.matches("[A-ZÑÁÉÍÓÚa-záéíóú]*")) {
+            JOptionPane.showMessageDialog(null, "El campo Asignatura debe ser una palabra al menos.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         // Formato de email
