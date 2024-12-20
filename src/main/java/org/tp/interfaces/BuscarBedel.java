@@ -29,6 +29,7 @@ public class BuscarBedel extends JFrame {
     private final JTable tablaBedeles;
     private final DefaultTableModel modeloTabla;
     private final GestorUsuario gestorUsuario;
+    private  List<BedelDTO> bedelesDTO;
 
     public BuscarBedel() {
         this.setTitle("Buscar Bedel");
@@ -55,7 +56,7 @@ public class BuscarBedel extends JFrame {
         JScrollPane scrollPane = new JScrollPane(tablaBedeles);
         buscarBedel.add(scrollPane, BorderLayout.CENTER);
 
-        cargarDatosBedeles();
+        this.cargarDatosBedeles();
 
         buscarButton.addActionListener(e -> buscarBedeles());
         limpiarButton.addActionListener(e -> limpiarBusqueda());
@@ -67,9 +68,7 @@ public class BuscarBedel extends JFrame {
                 return;
             }
 
-            Long idBedel = (Long) modeloTabla.getValueAt(filaSeleccionada, 0);
-
-            ModificarBedel modificarBedel = new ModificarBedel(idBedel);
+            ModificarBedel modificarBedel = new ModificarBedel(bedelesDTO.get(filaSeleccionada));
             modificarBedel.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
@@ -85,62 +84,28 @@ public class BuscarBedel extends JFrame {
 
     private void cargarDatosBedeles() {
         modeloTabla.setRowCount(0);
-        List<Bedel> bedeles = gestorUsuario.obtenerTodosLosBedeles();
+        List<BedelDTO> bedeles = gestorUsuario.obtenerTodosLosUsuarios();
 
         if (bedeles == null || bedeles.isEmpty()) {
             System.out.println("No se encontraron bedeles.");
             return;
         }
 
-        for (Bedel bedel : bedeles) {
+        this.bedelesDTO = new ArrayList<>();
+        for (BedelDTO bedelDTO : bedeles) {
             modeloTabla.addRow(new Object[]{
-                    bedel.getIdUsuario(),
-                    bedel.getNombre(),
-                    bedel.getApellido(),
-                    bedel.getTurno(),
-                    bedel.getUsuario()
+                    bedelDTO.getIdUsuario(),
+                    bedelDTO.getNombre(),
+                    bedelDTO.getApellido(),
+                    bedelDTO.getTurno(),
+                    bedelDTO.getUsuario()
             });
+            bedelesDTO.add(bedelDTO);
+            System.out.println(bedelDTO);
         }
     }
 
     private void buscarBedeles() {
-        String criterio = buscadorTextField.getText();
-        if (criterio.isEmpty()) {
-            cargarDatosBedeles();
-            return;
-        }
-
-        List<Bedel> resultados;
-        if (nombreRadioButton.isSelected()) {
-            resultados = gestorUsuario.buscarBedelesPorNombre(criterio);
-        } else if (turnoRadioButton.isSelected()) {
-            resultados = gestorUsuario.buscarBedelesPorTurno(criterio);
-        } else {
-            resultados = gestorUsuario.obtenerTodosLosBedeles();
-        }
-
-        List<BedelDTO> bedelesDTO = new ArrayList<>();
-
-        for(Bedel bedel: resultados) {
-            BedelDTO bedelDTO = new BedelDTO();
-            bedelDTO.setIdUsuario(bedel.getIdUsuario());
-            bedelDTO.setNombre(bedel.getNombre());
-            bedelDTO.setApellido(bedel.getApellido());
-            bedelDTO.setTurno(bedel.getTurno());
-            bedelDTO.setUsuario(bedel.getUsuario());
-            bedelesDTO.add(bedelDTO);
-        }
-
-        modeloTabla.setRowCount(0);
-        for (BedelDTO bedel : bedelesDTO) {
-            modeloTabla.addRow(new Object[]{
-                    bedel.getIdUsuario(),
-                    bedel.getNombre(),
-                    bedel.getApellido(),
-                    bedel.getTurno(),
-                    bedel.getUsuario()
-            });
-        }
     }
 
     private void limpiarBusqueda() {
@@ -158,6 +123,10 @@ public class BuscarBedel extends JFrame {
 
         Long idUsuario = (Long) modeloTabla.getValueAt(filaSeleccionada, 0);
 
+        BedelDTO bedelDTO = new BedelDTO();
+        bedelDTO.setIdUsuario(idUsuario);
+        gestorUsuario.eliminarBedel(bedelDTO);
+
         // Confirmación antes de eliminar
         int confirm = JOptionPane.showConfirmDialog(this,
                 "¿Está seguro de que desea eliminar este bedel?",
@@ -165,7 +134,7 @@ public class BuscarBedel extends JFrame {
                 JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
-            gestorUsuario.eliminarBedel(idUsuario);
+            //gestorUsuario.eliminarBedel(idUsuario);
 
             cargarDatosBedeles();
             JOptionPane.showMessageDialog(this, "Bedel eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);

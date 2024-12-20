@@ -3,35 +3,29 @@ package org.tp.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name = "periodo")
 public class Periodo {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPeriodo;
-    @Column
+
     private String nombre;
-    @Column
-    private LocalDate fechaInicio;
-    @Column
-    private LocalDate fechaFin;
-    @Column
-    private Integer anio;
+    private Date fechaInicio;
+    private Date fechaFin;
 
-    public Periodo() {
+    @OneToMany(mappedBy = "periodo")
+    private List<Reserva> reservas;
+
+    public Long getIdPeriodo() {
+        return idPeriodo;
     }
 
-    public Periodo(Integer anio, String nombre, Long idPeriodo, LocalDate fechaInicio, LocalDate fechaFin) {
-        this.anio = anio;
-        this.nombre = nombre;
+    public void setIdPeriodo(Long idPeriodo) {
         this.idPeriodo = idPeriodo;
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
     }
-
 
     public String getNombre() {
         return nombre;
@@ -41,23 +35,28 @@ public class Periodo {
         this.nombre = nombre;
     }
 
-    public LocalDate getFechaInicio() {
+    public Date getFechaInicio() {
         return fechaInicio;
     }
 
-    public LocalDate getFechaFin() {
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public Date getFechaFin() {
         return fechaFin;
     }
 
-    @Override
-    public String toString() {
-        return "Periodo{" +
-                "anio=" + anio +
-                ", idPeriodo=" + idPeriodo +
-                ", nombre='" + nombre + '\'' +
-                ", fechaInicio=" + fechaInicio +
-                ", fechaFin=" + fechaFin +
-                '}';
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+    public List<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
     }
 }
 

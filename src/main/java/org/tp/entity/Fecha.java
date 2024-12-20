@@ -1,55 +1,28 @@
 package org.tp.entity;
 
 import jakarta.persistence.*;
-import org.tp.entity.PKSCompuestas.PkFecha;
 import org.tp.utils.FechaInterface;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
-@Table (name = "fecha")
-@IdClass(PkFecha.class)
-public class Fecha implements FechaInterface{
-
+public class Fecha {
     @Id
-    private LocalDate fecha;
-    @Id
-    private String horarioInicio;
-    @Id
-    @ManyToOne
-    @JoinColumn(name="idReserva")
-    private Reserva reserva;
-    @Id
-    @ManyToOne
-    @JoinColumn(name="idAula")
-    private Aula aula;
-    private String dia;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idFecha;
+    private Date fecha;
+    private Integer horario;
     private Integer duracion;
+    @ManyToOne
+    @JoinColumn(name = "idReserva")
+    private Reserva reserva;
+    @ManyToOne
+    @JoinColumn(name = "idAula")
+    private Aula aula;
 
-    public Fecha() {
-    }
 
-    public Fecha(Aula aula, LocalDate fecha, String horarioInicio, Reserva reserva, String dia, Integer duracion) {
-        this.aula = aula;
-        this.fecha = fecha;
-        this.horarioInicio = horarioInicio;
-        this.reserva = reserva;
-        this.dia = dia;
-        this.duracion = duracion;
-    }
 
-    public void setDia(String dia) {
-        this.dia = dia;
-    }
-
-    @Override
-    public Integer getDuracion() {
-        return duracion;
-    }
-
-    public void setDuracion(Integer duracion) {
-        this.duracion = duracion;
-    }
 
     public Aula getAula() {
         return aula;
@@ -57,6 +30,14 @@ public class Fecha implements FechaInterface{
 
     public void setAula(Aula aula) {
         this.aula = aula;
+    }
+
+    public Long getIdFecha() {
+        return idFecha;
+    }
+
+    public void setIdFecha(Long idFecha) {
+        this.idFecha = idFecha;
     }
 
     public Reserva getReserva() {
@@ -67,21 +48,27 @@ public class Fecha implements FechaInterface{
         this.reserva = reserva;
     }
 
-    @Override
-    public String getHorarioInicio() {
-        return horarioInicio;
+    public Integer getDuracion() {
+        return duracion;
     }
 
-    public void setHorarioInicio(String horarioInicio) {
-        this.horarioInicio = horarioInicio;
+    public void setDuracion(Integer duracion) {
+        this.duracion = duracion;
     }
 
-    public LocalDate getFecha() {
+    public Integer getHorario() {
+        return horario;
+    }
+
+    public void setHorario(Integer horario) {
+        this.horario = horario;
+    }
+
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-
 }

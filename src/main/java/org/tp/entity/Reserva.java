@@ -1,81 +1,103 @@
 package org.tp.entity;
 
 import jakarta.persistence.*;
-import org.tp.utils.TipoAula;
+import java.util.List;
 
 @Entity
-@Table(name="Reserva")
 public class Reserva {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idReserva;
-    @Column
+
     private Integer cantidadAlumnos;
-    @Column
-    private TipoAula tipoAula;
-    @Column
-    private String nombreDocente;
-    @Column
-    private String asignatura;
-    @Column
+    private String tipoAula;
+    private Integer idDocente;
+    private Integer idCurso;
     private String correoContacto;
     @ManyToOne
-    @JoinColumn(name="idPeriodo")
-    private Periodo idPeriodo;
+    @JoinColumn(name = "idBedel")
+    private Bedel Bedel;
+
     @ManyToOne
-    @JoinColumn(name="idUsuario")
-    private Bedel idUsuario;
+    @JoinColumn(name = "idPeriodo")
+    private Periodo periodo;
 
-    public Reserva() {
+    @OneToMany(mappedBy = "reserva")
+    private List<Fecha> fechas;
+
+
+
+
+
+    public Bedel getBedel() {
+        return Bedel;
     }
 
-    public Reserva(Integer cantidadAlumnos, TipoAula tipoAula, Bedel idUsuario, Long idReserva, Periodo idPeriodo, String nombreDocente, String asignatura, String correoContacto) {
-        this.cantidadAlumnos = cantidadAlumnos;
-        this.tipoAula = tipoAula;
-        this.idUsuario = idUsuario;
-        this.idReserva = idReserva;
-        this.idPeriodo = idPeriodo;
-        this.nombreDocente = nombreDocente;
-        this.asignatura = asignatura;
-        this.correoContacto = correoContacto;
-    }
-
-    public void setCorreoContacto(String correoContacto) {
-        this.correoContacto = correoContacto;
-    }
-
-    public void setCantidadAlumnos(Integer cantidadAlumnos) {
-        this.cantidadAlumnos = cantidadAlumnos;
-    }
-
-    public void setAsignatura(String asignatura) {
-        this.asignatura = asignatura;
-    }
-
-    public void setDocente(String nombreDocente) {
-        this.nombreDocente = nombreDocente;
-    }
-
-    public void setIdPeriodo(Periodo idPeriodo) {
-        this.idPeriodo = idPeriodo;
+    public void setBedel(Bedel bedel) {
+        Bedel = bedel;
     }
 
     public Long getIdReserva() {
         return idReserva;
     }
 
-    public Bedel getIdUsuario() {
-        return idUsuario;
+    public void setIdReserva(Long idReserva) {
+        this.idReserva = idReserva;
     }
 
-    public void setIdUsuario(Bedel idUsuario) {
-        this.idUsuario = idUsuario;
+    public Integer getCantidadAlumnos() {
+        return cantidadAlumnos;
     }
 
-    public void setTipoAula(TipoAula tipoAula) {
+    public void setCantidadAlumnos(Integer cantidadAlumnos) {
+        this.cantidadAlumnos = cantidadAlumnos;
+    }
+
+    public String getTipoAula() {
+        return tipoAula;
+    }
+
+    public void setTipoAula(String tipoAula) {
         this.tipoAula = tipoAula;
     }
 
+    public Integer getIdDocente() {
+        return idDocente;
+    }
+
+    public void setIdDocente(Integer idDocente) {
+        this.idDocente = idDocente;
+    }
+
+    public Integer getIdCurso() {
+        return idCurso;
+    }
+
+    public void setIdCurso(Integer idCurso) {
+        this.idCurso = idCurso;
+    }
+
+    public String getCorreoContacto() {
+        return correoContacto;
+    }
+
+    public void setCorreoContacto(String correoContacto) {
+        this.correoContacto = correoContacto;
+    }
+
+    public Periodo getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(Periodo periodo) {
+        this.periodo = periodo;
+    }
+
+    public List<Fecha> getFechas() {
+        return fechas;
+    }
+
+    public void setFechas(List<Fecha> fechas) {
+        this.fechas = fechas;
+    }
 }

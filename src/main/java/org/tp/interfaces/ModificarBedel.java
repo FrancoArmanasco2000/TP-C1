@@ -25,12 +25,11 @@ public class ModificarBedel extends JFrame {
     private JButton ojoButton2;
     private JButton ojoButton;
     private final GestorUsuario gestorUsuario;
-    private final Bedel bedel;
 
     private static Boolean mostrar;
     private static Boolean mostrar2;
 
-    public ModificarBedel(Long idBedel) {
+    public ModificarBedel(BedelDTO bedelDTOtb) {
         mostrar = true;
         mostrar2 = true;
         this.gestorUsuario = new GestorUsuario();
@@ -41,30 +40,36 @@ public class ModificarBedel extends JFrame {
         this.setVisible(true);
         inputUsuario.setEditable(false);
 
-        bedel = getUsuarioById(idBedel);
 
-        inputNombre.setText(bedel.getNombre());
-        inputApellido.setText(bedel.getApellido());
-        seleccionarTurno.setSelectedItem(bedel.getTurno().substring(0, 1).toUpperCase() + bedel.getTurno().substring(1));
-        inputUsuario.setText(bedel.getUsuario());
-        inputContrasenia.setText(bedel.getContrasenia());
-        confirmarContrasenia.setText(bedel.getContrasenia());
+        inputNombre.setText(bedelDTOtb.getNombre());
+        inputApellido.setText(bedelDTOtb.getApellido());
+        seleccionarTurno.setSelectedItem(bedelDTOtb.getTurno().substring(0, 1).toUpperCase() + bedelDTOtb.getTurno().substring(1));
+        inputUsuario.setText(bedelDTOtb.getUsuario());
+        inputContrasenia.setText(bedelDTOtb.getContrasenia());
+        confirmarContrasenia.setText(bedelDTOtb.getContrasenia());
 
         cancelarButton.addActionListener(e -> {
            new MensajeDeAlerta("¿Estas seguro que deseas cancelar la modificación del registro?", ModificarBedel.this);
         });
+
+
+
         confirmarButton.addActionListener(e -> {
             if (!(inputApellido.getText().isBlank() || inputNombre.getText().isBlank() || inputContrasenia.getText().isBlank() || confirmarContrasenia.getText().isBlank() || inputUsuario.getText().isBlank() || seleccionarTurno.getSelectedIndex() == 0)) {
-                try {
-                    String nombre = inputNombre.getText().substring(0,1).toUpperCase() + inputNombre.getText().substring(1).toLowerCase();
-                    String turno = seleccionarTurno.getSelectedItem().toString().substring(0,1).toUpperCase() + seleccionarTurno.getSelectedItem().toString().substring(1).toLowerCase();
-                    String apellido = inputApellido.getText().substring(0,1).toUpperCase() + inputApellido.getText().substring(1).toLowerCase();
 
-                    BedelDTO bedel = new BedelDTO(nombre, apellido, inputUsuario.getText(), inputContrasenia.getText(), turno);
-                    Bedel bedelActual = modificarBedel(bedel);
-                    bedelActual.setIdUsuario(idBedel);
-                    actualizarBedel(bedelActual);
+                String nombre = inputNombre.getText().substring(0,1).toUpperCase() + inputNombre.getText().substring(1).toLowerCase();
+                String turno = seleccionarTurno.getSelectedItem().toString().substring(0,1).toUpperCase() + seleccionarTurno.getSelectedItem().toString().substring(1).toLowerCase();
+                String apellido = inputApellido.getText().substring(0,1).toUpperCase() + inputApellido.getText().substring(1).toLowerCase();
+
+
+                BedelDTO bedelDTO = new BedelDTO(nombre, apellido, inputUsuario.getText(), inputContrasenia.getText(), turno);
+                bedelDTO.setIdUsuario(bedelDTOtb.getIdUsuario());
+
+                try {
+                    System.out.println(bedelDTO);
+                    gestorUsuario.modificarBedel(bedelDTO);
                     dispose();
+                    JOptionPane.showMessageDialog(this, "Modificado con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
 
                 } catch (ContraseniaInvalidaException | ContraseniasNoCoincidenException |
                          IllegalArgumentException ex) {
@@ -80,21 +85,7 @@ public class ModificarBedel extends JFrame {
 
     }
 
-    private void actualizarBedel(Bedel bedel) {
-        this.gestorUsuario.actualizarBedel(bedel);
-    }
 
-
-    private Bedel modificarBedel(BedelDTO bedel) throws ContraseniaInvalidaException, ContraseniasNoCoincidenException, IllegalArgumentException {
-        if (!confirmarContrasenia.getText().equals(inputContrasenia.getText())) {
-            throw new ContraseniasNoCoincidenException();
-        }
-        return this.gestorUsuario.modificarBedel(bedel);
-    }
-
-    private Bedel getUsuarioById(Long idBedel) {
-        return this.gestorUsuario.getUsuarioById(idBedel);
-    }
 
     public static void cambiar(JPasswordField password) {
         if (mostrar) {

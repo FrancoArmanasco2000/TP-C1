@@ -1,37 +1,49 @@
 package org.tp.entity;
 
-
 import jakarta.persistence.*;
+import org.tp.dto.BedelDTO;
 
 @Entity
-@Table(name = "bedel")
-public class Bedel {
+public class Bedel extends Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idusuario", nullable = false)
-    private Long idUsuario;
-    @Column(name = "nombre", nullable = false, length = 30)
     private String nombre;
-    @Column(name = "apellido", nullable = false, length = 30)
     private String apellido;
-    @Column(name = "usuario", nullable = false, length = 20, unique = true)
-    private String usuario;
-    @Column(name = "contrasenia", nullable = false, length = 24)
-    private String contrasenia;
-    @Column(name = "borrado", nullable = false)
-    private Boolean borrado = false;
-    @Column(name = "turno", nullable = false, length = 10)
     private String turno;
+    private Boolean borrado;
 
-    public Bedel () {}
-
-    public Bedel (String nombre, String apellido, String usuario, String contrasenia, Boolean borrado, String turno) {
+    public Bedel(String usuario, String contrasenia ,String nombre, String apellido, String turno, Boolean borrado) {
+        super(usuario, contrasenia);
         this.nombre = nombre;
         this.apellido = apellido;
-        this.usuario = usuario;
-        this.contrasenia = contrasenia;
+        this.turno = turno;
         this.borrado = borrado;
+    }
+
+    public Bedel(){
+        super();
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Boolean getBorrado() {
+        return borrado;
+    }
+
+    public void setBorrado(Boolean borrado) {
+        this.borrado = borrado;
+    }
+
+    public String getTurno() {
+        return turno;
+    }
+
+    public void setTurno(String turno) {
         this.turno = turno;
     }
 
@@ -43,51 +55,12 @@ public class Bedel {
         this.apellido = apellido;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public void modificarBedel (BedelDTO bedelDTO) {
+        this.setContrasena(bedelDTO.getContrasenia());
+        this.setNombre(bedelDTO.getNombre());
+        this.setApellido(bedelDTO.getApellido());
+        this.setTurno(bedelDTO.getTurno());
+        this.setUsuario(bedelDTO.getUsuario());
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getTurno() {
-        return turno;
-    }
-
-    public void setTurno(String turno) {
-        this.turno = turno;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public Long getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(Long idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    public String getContrasenia() {
-        return contrasenia;
-    }
-
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
-    }
-
-    public Boolean getBorrado() {
-        return borrado;
-    }
-
-    public void setBorrado(Boolean borrado) {
-        this.borrado = borrado;
-    }
 }

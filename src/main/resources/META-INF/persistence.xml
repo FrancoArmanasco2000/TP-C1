@@ -13,6 +13,7 @@
         <class>org.tp.entity.Reserva</class>
         <class>org.tp.entity.Aula</class>
         <class>org.tp.entity.Fecha</class>
+        <class>org.tp.entity.Usuario</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />

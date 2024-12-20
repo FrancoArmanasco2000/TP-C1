@@ -21,6 +21,8 @@ public class BedelDTO {
         this.borrado = false;
     }
 
+
+
     public String getApellido() {
         return apellido;
     }
@@ -35,6 +37,10 @@ public class BedelDTO {
 
     public String getContrasenia() {
         return contrasenia;
+    }
+
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
     }
 
     public Long getIdUsuario() {
@@ -67,5 +73,18 @@ public class BedelDTO {
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;
+    }
+
+    @Override
+    public String toString() {
+        return "BedelDTO{" +
+                "idUsuario=" + idUsuario +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", usuario='" + usuario + '\'' +
+                ", contrasenia='" + contrasenia + '\'' +
+                ", borrado=" + borrado +
+                ", turno='" + turno + '\'' +
+                '}';
     }
 }

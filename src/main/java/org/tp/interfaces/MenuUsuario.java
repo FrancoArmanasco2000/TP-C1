@@ -36,7 +36,7 @@ public class MenuUsuario extends JFrame {
         registrarReservaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RegistrarReserva rr = new RegistrarReserva(usuario);
+               // RegistrarReserva rr = new RegistrarReserva(usuario);
             }
         });
         reservasParaUnDiaButton.addActionListener(new ActionListener() {

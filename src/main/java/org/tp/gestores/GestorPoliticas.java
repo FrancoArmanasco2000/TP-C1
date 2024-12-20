@@ -4,7 +4,7 @@ public class GestorPoliticas {
 
     public GestorPoliticas() {}
 
-    public String comprobarTODO(String password) {
+    public String validarContrasenia(String password)  {
         StringBuilder respuesta = new StringBuilder();
 
         String longitud = comprobarLongitud(password);
