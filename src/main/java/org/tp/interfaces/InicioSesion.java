@@ -37,7 +37,7 @@ public class InicioSesion extends JFrame {
                 MenuAdministrador mu = new MenuAdministrador();
             }else if(gestorUsuario.validarSesion(usuarioInput.getText(), contraseniaInput.getText())) {
                 dispose();
-                //MenuUsuario mu = new MenuUsuario(usuarioInput.getText());
+                MenuUsuario mu = new MenuUsuario(usuarioInput.getText());
             } else{
                 JOptionPane.showMessageDialog(null, "Usuario o contraseña ingresados incorrectos.");
             }
@@ -50,6 +50,7 @@ public class InicioSesion extends JFrame {
         });
 
     }
+
     public static void cambiar (JPasswordField password) {
         if(mostrar){
             password.setEchoChar((char) 0);
@@ -64,15 +65,4 @@ public class InicioSesion extends JFrame {
         new InicioSesion();
     }
 
-    public double calcularSolapamiento(int inicio1, int fin1, int inicio2, int fin2) {
-        int inicioSolapamiento = Math.max(inicio1, inicio2);
-        int finSolapamiento = Math.min(fin1, fin2);
-
-        if (inicioSolapamiento < finSolapamiento) {
-            int duracionMinutos = finSolapamiento - inicioSolapamiento;
-            return duracionMinutos;
-        } else {
-            return 0.0;
-        }
-    }
 }

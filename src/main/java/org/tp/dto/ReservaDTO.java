@@ -8,10 +8,10 @@ import java.util.List;
 public class ReservaDTO {
     private Long idReserva;
     private Long idPeriodo;
-    private int cantAlumnos;
-    private TipoAula tipoAula;
-    private String nombreDocente;
-    private String asignatura;
+    private Integer cantAlumnos;
+    private String tipoAula;
+    private Integer idDocente;
+    private Integer idCurso;
     private String correoContacto;
     private List<FechaDTO> listaFechasDTO;
     private Long idUsuario;
@@ -23,114 +23,68 @@ public class ReservaDTO {
 
     public ReservaDTO() {}
 
-    public ReservaDTO(Long idPeriodo, int cantAlumnos, TipoAula tipoAula, String nombreDocente, String asignatura, String correoContacto, String nombreUsuario, List<FechaDTO> listaFechasDTO) {
-        this.idPeriodo = idPeriodo;
-        this.cantAlumnos = cantAlumnos;
-        this.tipoAula = tipoAula;
-        this.asignatura = asignatura;
-        this.nombreDocente = nombreDocente;
-        this.correoContacto = correoContacto;
+    public ReservaDTO(String nombreUsuario, Long idReserva, int duracion, String horarioInicio, LocalDate fecha, Long idAula, Long idUsuario, List<FechaDTO> listaFechasDTO, String correoContacto, Integer idCurso, Integer idDocente, String tipoAula, Integer cantAlumnos, Long idPeriodo) {
         this.nombreUsuario = nombreUsuario;
+        this.idReserva = idReserva;
+        this.duracion = duracion;
+        this.horarioInicio = horarioInicio;
+        this.fecha = fecha;
+        this.idAula = idAula;
+        this.idUsuario = idUsuario;
         this.listaFechasDTO = listaFechasDTO;
-    }
-
-    public ReservaDTO(Long idPeriodo, int cantAlumnos, TipoAula tipoAula, String nombreDocente, String asignatura, String correoContacto, String nombreUsuario) {
+        this.correoContacto = correoContacto;
+        this.idCurso = idCurso;
+        this.idDocente = idDocente;
+        this.tipoAula = tipoAula;
+        this.cantAlumnos = cantAlumnos;
         this.idPeriodo = idPeriodo;
-        this.cantAlumnos = cantAlumnos;
-        this.tipoAula = tipoAula;
-        this.asignatura = asignatura;
-        this.nombreDocente = nombreDocente;
-        this.correoContacto = correoContacto;
-        this.nombreUsuario = nombreUsuario;
     }
 
-    public ReservaDTO(int cantAlumnos, TipoAula tipoAula, String nombreDocente, String asignatura, String correoContacto, String nombreUsuario) {
-        this.cantAlumnos = cantAlumnos;
-        this.tipoAula = tipoAula;
-        this.nombreDocente = nombreDocente;
-        this.asignatura = asignatura;
-        this.correoContacto = correoContacto;
-        this.nombreUsuario = nombreUsuario;
-    }
-
-    @Override
-    public String toString() {
-        return "ReservaDTO{" +
-                "idReserva=" + idReserva +
-                ", idPeriodo=" + idPeriodo +
-                ", cantAlumnos=" + cantAlumnos +
-                ", tipoAula=" + tipoAula +
-                ", nombreDocente=" + nombreDocente +
-                ", idCurso=" + asignatura +
-                ", correoContacto='" + correoContacto + '\'' +
-                ", asignatura='" + asignatura + '\'' +
-                ", listaFechasDTO=" + listaFechasDTO +
-                ", idUsuario=" + idUsuario +
-                ", idAula=" + idAula +
-                ", fecha=" + fecha +
-                ", horarioInicio='" + horarioInicio + '\'' +
-                ", duracion=" + duracion +
-                '}';
-    }
-
-
-    public ReservaDTO(Long idReserva, int cantAlumnos, String correoContacto, String horarioInicio, int duracion, Long idAula, LocalDate fecha) {
+    public ReservaDTO (Long idReserva, Integer cantAlumnos, String correoContacto, String horarioInicio, Integer duracion, Long idAula,  LocalDate fecha) {
         this.idReserva = idReserva;
         this.cantAlumnos = cantAlumnos;
-        this.correoContacto = correoContacto;
         this.horarioInicio = horarioInicio;
         this.duracion = duracion;
         this.idAula = idAula;
         this.fecha = fecha;
+        this.correoContacto = correoContacto;
     }
+
+    public void setIdCurso(Integer idCurso) {
+        this.idCurso = idCurso;
+    }
+
+
     public Long getIdReserva() {
         return idReserva;
     }
 
-    public Long getIdUsuario() {
-        return idUsuario;
+    public void setIdReserva(Long idReserva) {
+        this.idReserva = idReserva;
     }
 
-    public void setIdUsuario(Long idUsuario) {
-        this.idUsuario = idUsuario;
+    public String getNombreUsuario() {
+        return nombreUsuario;
     }
 
-    public String getCorreoContacto() {
-        return correoContacto;
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
-    public List<FechaDTO> getListaFechasDTO() {
-        return listaFechasDTO;
+    public int getDuracion() {
+        return duracion;
     }
 
-    public void setListaFechasDTO(List<FechaDTO> listaFechasDTO) {
-        this.listaFechasDTO = listaFechasDTO;
+    public void setDuracion(int duracion) {
+        this.duracion = duracion;
     }
 
-    public String getAsignatura() {
-        return asignatura;
+    public String getHorarioInicio() {
+        return horarioInicio;
     }
 
-    public String getNombreDocente() {
-        return nombreDocente;
-    }
-
-    public void setAsignatura(String asignatura) {
-        this.asignatura=asignatura;
-    }
-
-    public void setNombreDocente(String nombreDocente) {this.nombreDocente = nombreDocente;}
-
-    public int getCantAlumnos() {
-        return cantAlumnos;
-    }
-
-    public TipoAula getTipoAula() {
-        return tipoAula;
-    }
-
-    public Long getIdPeriodo() {
-        return idPeriodo;
+    public void setHorarioInicio(String horarioInicio) {
+        this.horarioInicio = horarioInicio;
     }
 
     public LocalDate getFecha() {
@@ -141,21 +95,99 @@ public class ReservaDTO {
         this.fecha = fecha;
     }
 
-    public String getHorarioInicio() {
-        return horarioInicio;
+    public Long getIdAula() {
+        return idAula;
     }
 
-    public Integer getDuracion() {return duracion;}
-
-    public String getNombreUsuario() {
-        return nombreUsuario;
+    public void setIdAula(Long idAula) {
+        this.idAula = idAula;
     }
 
-    public String getHoraA(){
-        return horarioInicio;
+    public Long getIdUsuario() {
+        return idUsuario;
     }
 
-    public String getHoraB(){
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public List<FechaDTO> getListaFechasDTO() {
+        return listaFechasDTO;
+    }
+
+    public void setListaFechasDTO(List<FechaDTO> listaFechasDTO) {
+        this.listaFechasDTO = listaFechasDTO;
+    }
+
+    public String getCorreoContacto() {
+        return correoContacto;
+    }
+
+    public void setCorreoContacto(String correoContacto) {
+        this.correoContacto = correoContacto;
+    }
+
+    public Integer getIdCurso() {
+        return idCurso;
+    }
+
+    public void setAsignatura(Integer idCurso) {
+        this.idCurso = idCurso;
+    }
+
+    public Integer getIdDocente() {
+        return idDocente;
+    }
+
+    public void setIdDocente(Integer idDocente) {
+        this.idDocente = idDocente;
+    }
+
+    public String getTipoAula() {
+        return tipoAula;
+    }
+
+    public void setTipoAula(String tipoAula) {
+        this.tipoAula = tipoAula;
+    }
+
+    public Integer getCantAlumnos() {
+        return cantAlumnos;
+    }
+
+    public void setCantAlumnos(Integer cantAlumnos) {
+        this.cantAlumnos = cantAlumnos;
+    }
+
+    public Long getIdPeriodo() {
+        return idPeriodo;
+    }
+
+    public void setIdPeriodo(Long idPeriodo) {
+        this.idPeriodo = idPeriodo;
+    }
+
+    @Override
+    public String toString() {
+        return "ReservaDTO{" +
+                "idReserva=" + idReserva +
+                ", idPeriodo=" + idPeriodo +
+                ", cantAlumnos=" + cantAlumnos +
+                ", tipoAula='" + tipoAula + '\'' +
+                ", idDocente=" + idDocente +
+                ", idCurso=" + idCurso +
+                ", correoContacto='" + correoContacto + '\'' +
+                ", listaFechasDTO=" + listaFechasDTO +
+                ", idUsuario=" + idUsuario +
+                ", idAula=" + idAula +
+                ", fecha=" + fecha +
+                ", horarioInicio='" + horarioInicio + '\'' +
+                ", duracion=" + duracion +
+                ", nombreUsuario='" + nombreUsuario + '\'' +
+                '}';
+    }
+
+    public String getHorarioFin(){
         int horaInicioF = Integer.parseInt(horarioInicio.substring(0, 2));
         int minutosInicioF = Integer.parseInt(horarioInicio.substring(horarioInicio.length() - 2));
         int horarioInicioEnMinutos = horaInicioF * 60 + minutosInicioF;

@@ -1,7 +1,6 @@
 package org.tp.entity;
 
 import jakarta.persistence.*;
-import org.tp.utils.FechaInterface;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -11,8 +10,8 @@ public class Fecha {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idFecha;
-    private Date fecha;
-    private Integer horario;
+    private LocalDate fecha;
+    private String horarioInicio;
     private Integer duracion;
     @ManyToOne
     @JoinColumn(name = "idReserva")
@@ -56,19 +55,19 @@ public class Fecha {
         this.duracion = duracion;
     }
 
-    public Integer getHorario() {
-        return horario;
+    public String getHorarioInicio() {
+        return horarioInicio;
     }
 
-    public void setHorario(Integer horario) {
-        this.horario = horario;
+    public void setHorarioInicio(String horario) {
+        this.horarioInicio = horario;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 }

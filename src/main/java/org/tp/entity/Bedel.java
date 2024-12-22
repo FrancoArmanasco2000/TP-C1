@@ -3,6 +3,9 @@ package org.tp.entity;
 import jakarta.persistence.*;
 import org.tp.dto.BedelDTO;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Bedel extends Usuario {
 
@@ -11,12 +14,23 @@ public class Bedel extends Usuario {
     private String turno;
     private Boolean borrado;
 
+    @OneToMany(mappedBy = "bedel", fetch = FetchType.EAGER)
+    private List<Reserva> reservas;
+
     public Bedel(String usuario, String contrasenia ,String nombre, String apellido, String turno, Boolean borrado) {
         super(usuario, contrasenia);
         this.nombre = nombre;
         this.apellido = apellido;
         this.turno = turno;
         this.borrado = borrado;
+    }
+
+    public List<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
     }
 
     public Bedel(){
@@ -53,6 +67,17 @@ public class Bedel extends Usuario {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    @Override
+    public String toString() {
+        return "Bedel{" +
+                "nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", turno='" + turno + '\'' +
+                ", borrado=" + borrado +
+                ", reservas=" + reservas +
+                '}';
     }
 
     public void modificarBedel (BedelDTO bedelDTO) {

@@ -3,12 +3,11 @@ package org.tp.gestores;
 import org.tp.dao.UsuarioDAO;
 import org.tp.dto.BedelDTO;
 import org.tp.entity.Bedel;
-import org.tp.excepciones.ContraseniaInvalidaException;
-import org.tp.excepciones.ContraseniasNoCoincidenException;
-import org.tp.excepciones.UsuarioYaRegistradoException;
+import org.tp.excepciones.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GestorUsuario {
 
@@ -19,17 +18,7 @@ public class GestorUsuario {
 
     public void registrarBedel (BedelDTO bedelDTO) throws UsuarioYaRegistradoException, ContraseniaInvalidaException, ContraseniasNoCoincidenException, IllegalArgumentException {
 
-        this.validarUsuario(bedelDTO.getUsuario());
-
-        if(!gestorPoliticas.validarContrasenia(bedelDTO.getContrasenia()).isEmpty()) {
-            throw new ContraseniaInvalidaException(gestorPoliticas.validarContrasenia(bedelDTO.getContrasenia()));
-        }
-
-        Bedel bedel = usuarioDAO.getUsuario(bedelDTO.getUsuario());
-
-        if(bedel != null) {
-            throw new UsuarioYaRegistradoException();
-        }
+       validarUsuario(bedelDTO);
 
         Bedel b = new Bedel();
         b.setNombre(bedelDTO.getNombre());
@@ -38,13 +27,14 @@ public class GestorUsuario {
         b.setUsuario(bedelDTO.getUsuario());
         b.setContrasena(bedelDTO.getContrasenia());
         b.setBorrado(bedelDTO.getBorrado());
+        b.setReservas(new ArrayList<>());
 
         usuarioDAO.crearUsuario(b);
     }
 
-    public void eliminarBedel (BedelDTO bedelDTO) {
+    public void eliminarBedel (Long idUsuario) {
 
-        Bedel bedel = usuarioDAO.getUsuarioById(bedelDTO.getIdUsuario());
+        Bedel bedel = usuarioDAO.getUsuarioById(idUsuario);
         bedel.setBorrado(true);
         usuarioDAO.actualizarUsuario(bedel);
 
@@ -64,8 +54,6 @@ public class GestorUsuario {
 
     }
 
-
-
     public List<BedelDTO> obtenerTodosLosUsuarios() {
       List<Bedel> bedeles = usuarioDAO.obtenerTodosLosUsuarios();
       List<BedelDTO> bedelesDTO = new ArrayList<>();
@@ -84,39 +72,63 @@ public class GestorUsuario {
       return bedelesDTO;
     }
 
-    public List<Bedel> buscarBedelesPorNombre(String nombre) {
-        return usuarioDAO.buscarBedelesPorNombre(nombre);
+    public List<BedelDTO> buscarBedel (String apellido, String turno) throws BedelPorApellidoNoEncontradoException, BedelPorTurnoNoEncontradoException {
+        List<Bedel> bedeles;
+
+        if(apellido.isBlank()) {
+            bedeles = usuarioDAO.getBedeles("", turno);
+        } else {
+            bedeles = usuarioDAO.getBedeles(apellido, "");
+        }
+
+        if(bedeles.isEmpty() && turno.isBlank()) {
+            throw new BedelPorApellidoNoEncontradoException();
+        }
+
+        if(bedeles.isEmpty() && apellido.isBlank()) {
+            throw new BedelPorTurnoNoEncontradoException();
+        }
+
+        List<BedelDTO> bedelesDTO = new ArrayList<>();
+
+        for(Bedel b: bedeles){
+            if(!b.getBorrado()) {
+                BedelDTO bedelDTO = new BedelDTO();
+                bedelDTO.setIdUsuario(b.getIdUsuario());
+                bedelDTO.setUsuario(b.getUsuario());
+                bedelDTO.setApellido(b.getApellido());
+                bedelDTO.setNombre(b.getNombre());
+                bedelDTO.setTurno(b.getTurno());
+                bedelDTO.setContrasenia(b.getContrasena());
+                bedelesDTO.add(bedelDTO);
+            }
+        }
+
+        return bedelesDTO;
     }
 
-    public List<Bedel> buscarBedelesPorTurno(String turno) {
-        return usuarioDAO.buscarBedelesPorTurno(turno);
-    }
+    private void validarUsuario(BedelDTO bedelDTO) throws IllegalArgumentException, ContraseniaInvalidaException, UsuarioYaRegistradoException {
 
+        if(!gestorPoliticas.validarContrasenia(bedelDTO.getContrasenia()).isEmpty()) {
+            throw new ContraseniaInvalidaException(gestorPoliticas.validarContrasenia(bedelDTO.getContrasenia()));
+        }
 
-    private void validarUsuario(String usuario) throws IllegalArgumentException {
-//        if (bedel.getNombre() == null || bedel.getNombre().length() >= 30) {
-//            throw new IllegalArgumentException("El nombre no puede estar vacío y debe tener como máximo 30 caracteres.");
-//        }
-//
-//        if (bedel.getApellido() == null || bedel.getApellido().length() >= 30) {
-//            throw new IllegalArgumentException("El apellido no puede estar vacío y debe tener como máximo 30 caracteres.");
-//        }
-
-        if (usuario == null || usuario.length() >= 20) {
+        if (bedelDTO.getUsuario() == null || bedelDTO.getUsuario().length() >= 20) {
             throw new IllegalArgumentException("El usuario no puede estar vacío y debe tener como máximo 20 caracteres.");
         }
 
-//        if (bedel.getContrasenia() == null || bedel.getContrasenia().length() >= 24) {
-//            throw new IllegalArgumentException("La contraseña no puede estar vacía y debe tener como máximo 24 caracteres.");
-//        }
+        Bedel bedel = usuarioDAO.getUsuario(bedelDTO.getUsuario());
 
-//        if (bedel.getTurno() == null || bedel.getTurno().length() >= 10) {
-//            throw new IllegalArgumentException("El turno no puede estar vacío y debe tener como máximo 10 caracteres.");
-//        }
+        if(bedel != null) {
+            throw new UsuarioYaRegistradoException();
+        }
     }
 
     public boolean validarSesion(String usuario, String contrasenia) {
-        return usuarioDAO.getUsuario(usuario) != null && usuarioDAO.getUsuario(usuario).getContrasena().equals(contrasenia);
+        System.out.println(usuarioDAO.getUsuario(usuario).toString());
+        Bedel bedel = usuarioDAO.getUsuario(usuario);
+        System.out.println(bedel);
+        return Objects.equals(bedel.getUsuario(), usuario) && bedel.getContrasena().equals(contrasenia);
     }
 
     private void validarDatos(BedelDTO bedelDTO) throws IllegalArgumentException {

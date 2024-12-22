@@ -66,7 +66,6 @@ public class ModificarBedel extends JFrame {
                 bedelDTO.setIdUsuario(bedelDTOtb.getIdUsuario());
 
                 try {
-                    System.out.println(bedelDTO);
                     gestorUsuario.modificarBedel(bedelDTO);
                     dispose();
                     JOptionPane.showMessageDialog(this, "Modificado con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);

@@ -6,13 +6,14 @@ import org.tp.utils.FechaInterface;
 public class FechaDTO implements FechaInterface {
     private LocalDate fecha;
     private String horarioInicio;
+    private String horarioFin;
     private Integer duracion;
     private String dia;
     private Long idAula;
 
     public FechaDTO(){}
 
-    public FechaDTO(String dia, Integer duracion, String horarioInicio) {
+    public FechaDTO(String dia, Integer duracion, String horarioInicio, String horarioFin) {
         this.dia = dia;
         this.duracion = duracion;
         this.horarioInicio = horarioInicio;
@@ -23,6 +24,18 @@ public class FechaDTO implements FechaInterface {
         this.horarioInicio = horarioInicio;
         this.duracion = duracion;
         this.dia = dia;
+    }
+
+    public String getHorarioFin() {
+        return horarioFin;
+    }
+
+    public void setHorarioFin(String horarioFin) {
+        this.horarioFin = horarioFin;
+    }
+
+    public void setDuracion(Integer duracion) {
+        this.duracion = duracion;
     }
 
     public Long getIdAula() {

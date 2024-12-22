@@ -58,7 +58,10 @@ public class RegistrarBedel extends JFrame {
         confirmarButton.addActionListener(e -> {
             if (!(inputApellido.getText().isBlank() || inputNombre.getText().isBlank() || inputContrasenia.getText().isBlank() || confirmarContrasenia.getText().isBlank() || inputUsuario.getText().isBlank() || seleccionarTurno.getSelectedIndex() == 0)) {
 
-                BedelDTO bedelDTO = new BedelDTO(inputNombre.getText(), inputApellido.getText(), inputUsuario.getText(), inputContrasenia.getText(), seleccionarTurno.getSelectedItem().toString());
+                String nombre = inputNombre.getText().substring(0,1).toUpperCase() + inputNombre.getText().substring(1).toLowerCase();
+                String apellido = inputApellido.getText().substring(0, 1).toUpperCase() + inputApellido.getText().substring(1).toLowerCase();
+
+                BedelDTO bedelDTO = new BedelDTO(nombre, apellido, inputUsuario.getText(), inputContrasenia.getText(), seleccionarTurno.getSelectedItem().toString());
 
                 try {
 
@@ -68,6 +71,8 @@ public class RegistrarBedel extends JFrame {
 
                     gestorUsuario = new GestorUsuario();
                     this.gestorUsuario.registrarBedel(bedelDTO);
+
+
                     JOptionPane.showMessageDialog(this, "Bedel creado con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
                     dispose();
 

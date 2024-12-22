@@ -35,7 +35,6 @@ public class GestorPoliticas {
         return respuesta.toString();
     }
 
-
     public String comprobarLongitud(String password) {
         if(password.length() < 8)
             return "Longitud mínima 8 caracteres.";

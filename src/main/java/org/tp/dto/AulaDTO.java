@@ -1,15 +1,14 @@
 package org.tp.dto;
 
-import org.tp.utils.TipoAula;
 
 public class AulaDTO {
     private Long idAula;
     private String nombre;
     private String ubicacion;
     private Integer capacidad;
-    private TipoAula tipo;
+    private String tipo;
     private Integer nro_aula;
-    private String piso;
+    private Integer piso;
     private Integer cantidad_pcs;
     private Boolean canion;
     private Boolean aire_acondicionado;
@@ -19,7 +18,7 @@ public class AulaDTO {
 
     public AulaDTO(){}
 
-    public AulaDTO(Long idAula, String nombre, String ubicacion, Integer capacidad, TipoAula tipo, Integer nro_aula, String piso, Integer cantidad_pcs, Boolean canion, Boolean aire_acondicionado, Boolean ventiladores, String tipoPizarron) {
+    public AulaDTO(Long idAula, String nombre, String ubicacion, Integer capacidad, String tipo, Integer nro_aula, Integer piso, Integer cantidad_pcs, Boolean canion, Boolean aire_acondicionado, Boolean ventiladores, String tipoPizarron) {
         this.idAula = idAula;
         this.nombre = nombre;
         this.ubicacion = ubicacion;
@@ -54,11 +53,11 @@ public class AulaDTO {
         return capacidad;
     }
 
-    public TipoAula getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
-    public String getPiso() {
+    public Integer getPiso() {
         return piso;
     }
 
@@ -74,6 +73,8 @@ public class AulaDTO {
         return ventiladores;
     }
 
+    public void setIdAula(Long idAula) {this.idAula = idAula;}
+
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
     }
@@ -82,7 +83,7 @@ public class AulaDTO {
         this.nombre = nombre;
     }
 
-    public void setTipo(TipoAula tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
@@ -94,7 +95,7 @@ public class AulaDTO {
         this.nro_aula = nro_aula;
     }
 
-    public void setPiso(String piso) {
+    public void setPiso(Integer piso) {
         this.piso = piso;
     }
 

@@ -16,13 +16,11 @@ public class Reserva {
     private String correoContacto;
     @ManyToOne
     @JoinColumn(name = "idBedel")
-    private Bedel Bedel;
-
+    private Bedel bedel;
     @ManyToOne
     @JoinColumn(name = "idPeriodo")
     private Periodo periodo;
-
-    @OneToMany(mappedBy = "reserva")
+    @OneToMany(mappedBy = "reserva", fetch = FetchType.EAGER)
     private List<Fecha> fechas;
 
 
@@ -30,11 +28,11 @@ public class Reserva {
 
 
     public Bedel getBedel() {
-        return Bedel;
+        return bedel;
     }
 
     public void setBedel(Bedel bedel) {
-        Bedel = bedel;
+        this.bedel = bedel;
     }
 
     public Long getIdReserva() {
@@ -100,4 +98,6 @@ public class Reserva {
     public void setFechas(List<Fecha> fechas) {
         this.fechas = fechas;
     }
+
+
 }

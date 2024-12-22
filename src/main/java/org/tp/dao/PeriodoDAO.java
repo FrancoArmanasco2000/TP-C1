@@ -6,14 +6,14 @@ import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
 import org.tp.entity.Periodo;
 
-public class PeriodoDAO implements PeriodoDAOImpl{
+public class PeriodoDAO{
 
     private static EntityManager manager;
     private static EntityManagerFactory factory;
 
     public PeriodoDAO () {}
 
-    @Override
+
     public Periodo getPeriodoByNombre (String nombrePeriodo) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
@@ -39,8 +39,8 @@ public class PeriodoDAO implements PeriodoDAOImpl{
         }
     }
 
-    @Override
-    public Periodo getPeriodoById (Long idPeriodo) {
+
+    public Periodo getPeriodo (Long idPeriodo) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
 
@@ -49,10 +49,10 @@ public class PeriodoDAO implements PeriodoDAOImpl{
             String hql = "SELECT p FROM Periodo p WHERE p.idPeriodo = :idPeriodo";
             Query query = manager.createQuery(hql);
             query.setParameter("idPeriodo", idPeriodo);
-
-            Periodo periodoByIdUsuario = (Periodo) query.getSingleResult();
+            Periodo periodo = (Periodo) query.getSingleResult();
             manager.getTransaction().commit();
-            return periodoByIdUsuario;
+            System.out.println(periodo);
+            return periodo;
         } catch (Exception e){
             if (manager.getTransaction().isActive()) {
                 manager.getTransaction().rollback();

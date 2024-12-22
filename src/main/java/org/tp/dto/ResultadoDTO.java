@@ -5,6 +5,7 @@ import java.util.List;
 public class ResultadoDTO {
     private List<AulaDTO> listaAulasDisponibles;
     private List<ReservaDTO> reservasSolapadas;
+    private List<FechaDTO> fechasDTO;
     private double minimaCantidadSolapada;
 
     public double getMinimaCantidadSolapada() {
@@ -28,4 +29,10 @@ public class ResultadoDTO {
         this.reservasSolapadas = reservasSolapadas;
     }
 
+    public List<FechaDTO> getFechasDTO() {
+        return fechasDTO;
+    }
+    public void setFechasDTO(List<FechaDTO> fechasDTO) {
+        this.fechasDTO = fechasDTO;
+    }
 }

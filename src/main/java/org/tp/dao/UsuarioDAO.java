@@ -17,6 +17,7 @@ public class UsuarioDAO implements UsuarioDAOImpl{
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
         try {
+            manager.getTransaction().begin();
             String hql = "SELECT b FROM Bedel b WHERE b.usuario = :usuario";
             Query query = manager.createQuery(hql);
             query.setParameter("usuario", usuario);
@@ -27,10 +28,13 @@ public class UsuarioDAO implements UsuarioDAOImpl{
         } catch (Exception e) {
             if (manager.getTransaction().isActive()) {
                 manager.getTransaction().rollback();
+                e.printStackTrace();
+                return null;
             }
-            e.printStackTrace();
-            return null;
+        } finally {
+            manager.close();
         }
+        return null;
     }
 
     public void crearUsuario(Bedel bedel) {
@@ -100,31 +104,6 @@ public class UsuarioDAO implements UsuarioDAOImpl{
         }
     }
 
-    public List<String> listaNombreUsuarios() {
-        factory = Persistence.createEntityManagerFactory("Aplicacion");
-        manager = factory.createEntityManager();
-        try {
-            manager.getTransaction().begin();
-
-            String hql = "SELECT usuario FROM Bedel";
-            Query query = manager.createQuery(hql);
-
-            List<String> nombreUsuarios = query.getResultList();
-            manager.getTransaction().commit();
-            System.out.println( nombreUsuarios );
-            return nombreUsuarios;
-        }catch (Exception e) {
-            if(manager.getTransaction().isActive()) {
-                manager.getTransaction().rollback();
-                return null;
-            }
-        } finally {
-            manager.close();
-            factory.close();
-        }
-        return null;
-    }
-
     public List<Bedel> obtenerTodosLosUsuarios() {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
@@ -145,54 +124,35 @@ public class UsuarioDAO implements UsuarioDAOImpl{
         return bedeles;
     }
 
-    public List<Bedel> buscarBedelesPorNombre(String nombre) {
+    public List<Bedel> getBedeles (String apellido , String turno) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
-        List<Bedel> bedeles = null;
 
         try {
             manager.getTransaction().begin();
-            TypedQuery<Bedel> query = manager.createQuery(
-                    "SELECT b FROM Bedel b WHERE LOWER(b.nombre) LIKE :nombre AND b.borrado = false",
-                    Bedel.class
-            );
-            query.setParameter("nombre", nombre.toLowerCase() + "%");
-            bedeles = query.getResultList();
+            String hql;
+            Query query;
+            if(apellido.isBlank()) {
+                hql = "SELECT b FROM Bedel b WHERE b.turno = :turno";
+                query = manager.createQuery(hql);
+                query.setParameter("turno", turno);
+            } else {
+                hql = "SELECT b FROM Bedel b WHERE b.apellido = :apellido";
+                query = manager.createQuery(hql);
+                query.setParameter("apellido", apellido);
+            }
+
+            List<Bedel> bedeles = query.getResultList();
             manager.getTransaction().commit();
+            return bedeles;
         } catch (Exception e) {
             manager.getTransaction().rollback();
             e.printStackTrace();
+            return null;
         } finally {
             manager.close();
         }
-
-        return bedeles;
     }
-
-    public List<Bedel> buscarBedelesPorTurno(String turno) {
-        factory = Persistence.createEntityManagerFactory("Aplicacion");
-        manager = factory.createEntityManager();
-        List<Bedel> bedeles = null;
-
-        try {
-            manager.getTransaction().begin();
-            TypedQuery<Bedel> query = manager.createQuery(
-                    "SELECT b FROM Bedel b WHERE LOWER(b.turno) LIKE :turno AND b.borrado = false",
-                    Bedel.class
-            );
-            query.setParameter("turno", turno.toLowerCase() + "%");
-            bedeles = query.getResultList();
-            manager.getTransaction().commit();
-        } catch (Exception e) {
-            manager.getTransaction().rollback();
-            e.printStackTrace();
-        } finally {
-            manager.close();
-        }
-
-        return bedeles;
-    }
-
 
 
 }

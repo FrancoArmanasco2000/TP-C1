@@ -9,14 +9,13 @@ import org.tp.utils.TipoAula;
 
 import java.util.List;
 
-public class AulaDAO implements AulaDAOImpl {
+public class AulaDAO {
 
     private static EntityManager manager;
     private static EntityManagerFactory factory;
 
     public AulaDAO () {}
 
-    @Override
     public Aula getAulaByNombreAula (String nombreAula) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
@@ -41,8 +40,8 @@ public class AulaDAO implements AulaDAOImpl {
             factory.close();
         }
     }
-    @Override
-    public Aula getAulaById (Long idAula) {
+
+    public Aula getAula (Long idAula) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
 
@@ -68,8 +67,7 @@ public class AulaDAO implements AulaDAOImpl {
     }
 
 
-    @Override
-    public List<Aula> getAulasByCapacidadYTipo (Integer capacidad, TipoAula tipo) {
+    public List<Aula> getAulas (String tipo, Integer capacidad) {
         factory = Persistence.createEntityManagerFactory("Aplicacion");
         manager = factory.createEntityManager();
 
@@ -94,5 +92,6 @@ public class AulaDAO implements AulaDAOImpl {
             factory.close();
         }
     }
+
 }
 

@@ -23,9 +23,6 @@ public class Aula {
     private Boolean canion;
     private Boolean ventiladores;
     private String tipoPizarron;
-    @OneToMany(mappedBy = "aula")
-    private List<Fecha> fechas;
-
 
 
     public Long getIdAula() {
@@ -34,14 +31,6 @@ public class Aula {
 
     public void setIdAula(Long idAula) {
         this.idAula = idAula;
-    }
-
-    public List<Fecha> getFechas() {
-        return fechas;
-    }
-
-    public void setFechas(List<Fecha> fechas) {
-        this.fechas = fechas;
     }
 
     public Boolean getUtilidades() {
