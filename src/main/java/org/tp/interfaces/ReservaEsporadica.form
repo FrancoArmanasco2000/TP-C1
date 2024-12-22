@@ -137,26 +137,7 @@
         </constraints>
         <properties>
           <font name="Segoe UI" size="14" style="0"/>
-        </properties>
-      </component>
-      <component id="367f4" class="javax.swing.JTextField" binding="inputNombreApellido">
-        <constraints>
-          <grid row="7" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="137" height="34"/>
-          </grid>
-        </constraints>
-        <properties>
-          <font name="Segoe UI" size="14" style="0"/>
-        </properties>
-      </component>
-      <component id="e879f" class="javax.swing.JTextField" binding="inputAsignatura">
-        <constraints>
-          <grid row="9" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="137" height="34"/>
-          </grid>
-        </constraints>
-        <properties>
-          <font name="Segoe UI" size="14" style="0"/>
+          <model/>
         </properties>
       </component>
       <component id="229a5" class="javax.swing.JTextField" binding="inputCorreo">
@@ -298,6 +279,26 @@
         <properties>
           <font name="Segoe UI" size="14" style="0"/>
           <text value="Cancelar"/>
+        </properties>
+      </component>
+      <component id="533db" class="javax.swing.JComboBox" binding="inputDocente">
+        <constraints>
+          <grid row="7" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="137" height="34"/>
+          </grid>
+        </constraints>
+        <properties>
+          <font name="Segoe UI" size="14" style="0"/>
+        </properties>
+      </component>
+      <component id="e68" class="javax.swing.JComboBox" binding="inputAsignatura">
+        <constraints>
+          <grid row="9" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="137" height="34"/>
+          </grid>
+        </constraints>
+        <properties>
+          <font name="Segoe UI" size="14" style="0"/>
         </properties>
       </component>
     </children>

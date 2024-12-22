@@ -44,7 +44,7 @@ public class GestorAula {
         List<Aula> aulas = filtrarAulasReservadas(aulasFiltradas, listaFechasDTO);
 
         ResultadoDTO reservasMenosSolapadas;
-        if (aulas == null) {
+        if (aulas.isEmpty()) {
             reservasMenosSolapadas = reservaDAO.menosSolapadas(aulasFiltradas, listaFechasDTO);
             return reservasMenosSolapadas;
         } else {
@@ -85,7 +85,7 @@ public class GestorAula {
     public List<FechaDTO> crearListaFechas (ReservaDTO reservaDTO, FechaDTO fechaDTO , Periodo periodo) {
 
         List<FechaDTO> listaFechasDTO = new ArrayList<>();
-        if(fechaDTO.getDia().isEmpty()) {
+        if(fechaDTO.getDia() == null) {
             listaFechasDTO.add(fechaDTO);
         }else{
             LocalDate fechaInicio = periodo.getFechaInicio();

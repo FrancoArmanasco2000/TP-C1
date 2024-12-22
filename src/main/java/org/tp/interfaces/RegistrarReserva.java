@@ -46,8 +46,8 @@ public class RegistrarReserva extends JFrame {
                     RegistrarReserva.super.dispose();
                     ReservaPeriodica rp = new ReservaPeriodica(usuario);
                 } else if (esporadicaRadioButton.isSelected()) {
-                    //RegistrarReserva.super.dispose();
-                    //ReservaEsporadica re = new ReservaEsporadica(usuario);
+                    RegistrarReserva.super.dispose();
+                    ReservaEsporadica re = new ReservaEsporadica(usuario);
                 }
             }
         });

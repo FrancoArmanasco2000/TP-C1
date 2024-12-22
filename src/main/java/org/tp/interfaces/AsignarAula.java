@@ -8,6 +8,7 @@ import org.tp.utils.FechaUtils;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.DayOfWeek;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
@@ -44,7 +45,7 @@ public class AsignarAula extends JFrame{
         ResultadoDTO resultadoDTO = gestorAula.obtenerDisponibilidad(reservaDTO,fechaDTO);
         List<AulaDTO> listaAulasDisponibles = new ArrayList<>();
 
-        if(!(resultadoDTO.getListaAulasDisponibles().isEmpty())){
+        if(!(resultadoDTO.getListaAulasDisponibles() == null)){
            for(AulaDTO aulaDTO: resultadoDTO.getListaAulasDisponibles()) {
                modeloTabla.addRow(new Object[]{
                        aulaDTO.getNombre(),
@@ -59,25 +60,24 @@ public class AsignarAula extends JFrame{
            }
         } else {
 
-
             List<ReservaDTO> reservasSolapada = resultadoDTO.getReservasSolapadas();
             double horasSolapadas = resultadoDTO.getMinimaCantidadSolapada();
             dispose();
 
-            Map<ReservaDTO, List<String>> listaReservasSolapadas = new HashMap<>();
-
+            Map<Long, List<DayOfWeek>> listaReservasSolapadas = new HashMap<>();
 
             for (ReservaDTO reservaDTOSolapada : reservasSolapada) {
-                if(!listaReservasSolapadas.containsKey(reservaDTOSolapada)){
-                    listaReservasSolapadas.put(reservaDTOSolapada,new ArrayList<>());
-                    listaReservasSolapadas.get(reservaDTOSolapada).add(reservaDTOSolapada.getListaFechasDTO().get(0).getDia());
+                if(!listaReservasSolapadas.containsKey(reservaDTOSolapada.getIdReserva())){
+                    listaReservasSolapadas.put(reservaDTOSolapada.getIdReserva(),new ArrayList<>());
+                    System.out.println(reservaDTOSolapada.toString());
+                    listaReservasSolapadas.get(reservaDTOSolapada.getIdReserva()).add(reservaDTOSolapada.getFecha().getDayOfWeek());
                     SwingUtilities.invokeLater(() -> {
                         ReservasSolapadas dialog = new ReservasSolapadas(reservaDTOSolapada, horasSolapadas);
                         dialog.setModal(true);
                         dialog.setVisible(true);
                     });
-                }else if(!listaReservasSolapadas.get(reservaDTOSolapada).contains(reservaDTOSolapada.getListaFechasDTO().get(0).getDia())){
-                    listaReservasSolapadas.get(reservaDTOSolapada).add(reservaDTOSolapada.getListaFechasDTO().get(0).getDia());
+                }else if(!listaReservasSolapadas.get(reservaDTOSolapada.getIdReserva()).contains(reservaDTOSolapada.getFecha().getDayOfWeek())){
+                    listaReservasSolapadas.get(reservaDTOSolapada.getIdReserva()).add(reservaDTOSolapada.getFecha().getDayOfWeek());
                     SwingUtilities.invokeLater(() -> {
                         ReservasSolapadas dialog = new ReservasSolapadas(reservaDTOSolapada, horasSolapadas);
                         dialog.setModal(true);
@@ -104,8 +104,16 @@ public class AsignarAula extends JFrame{
 
                reservaDTO.setListaFechasDTO(listaFechas);
 
+
+               String columna1;
+               if(fechaDTO.getDia() == null) {
+                   columna1 = fechaDTO.getFecha().toString();
+               } else {
+                   columna1 = fechaDTO.getDia();
+               }
+
                modeloTablaDiasReserva.addRow(new Object[]{
-                       fechaDTO.getDia(),
+                       columna1,
                        fechaDTO.getHorarioInicio(),
                        fechaDTO.getHorarioFin()
                });

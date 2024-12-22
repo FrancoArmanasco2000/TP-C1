@@ -12,6 +12,7 @@ import org.tp.utils.FechaUtils;
 
 import javax.swing.*;
 import java.time.DayOfWeek;
+import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.List;
@@ -20,39 +21,20 @@ import java.util.stream.Collectors;
 public class GestorReserva {
 
     public void validarHorario(ReservaDTO reservaDTO) throws HorarioException, DuracionException {
-        String[] partes;
-        int horas;
-        int minutos;
+
         List<LocalDate> fechasNoValidasPorHorario = new ArrayList<>();
         List<LocalDate> fechasNoValidasPorDuracion = new ArrayList<>();
 
         for(FechaDTO f : reservaDTO.getListaFechasDTO()) {
-
-            //validamos horario inicio
-            partes = f.getHorarioInicio().split(":");
-            horas = Integer.parseInt(partes[0]);
-            minutos = Integer.parseInt(partes[1]);
-
-            if(horas < 0 || horas > 23 || minutos < 0 || minutos > 59) {
-                fechasNoValidasPorHorario.add(f.getFecha());
-            }
-
-            //validamos horario fin
-            partes = f.getHorarioFin().split(":");
-            horas = Integer.parseInt(partes[0]);
-            minutos = Integer.parseInt(partes[1]);
-
-            if(horas < 0 || horas > 23 || minutos < 0 || minutos > 59) {
-                fechasNoValidasPorHorario.add(f.getFecha());
-            }
-
-            //validamos duracion
-            if( f.getDuracion() % 30 != 0){
+            if(f.getDuracion() % 30 != 0) {
                 fechasNoValidasPorDuracion.add(f.getFecha());
-            };
+            }
+            if(LocalDate.now().isAfter(f.getFecha())) {
+                fechasNoValidasPorHorario.add(f.getFecha());
+            }
         }
 
-        if(fechasNoValidasPorHorario.size() > 0) {
+        if(!fechasNoValidasPorHorario.isEmpty()) {
             String fechasStr = "";
             for(LocalDate fecha : fechasNoValidasPorHorario) {
                 fechasStr += fecha.toString() + "\n";
@@ -60,12 +42,12 @@ public class GestorReserva {
             throw new HorarioException(fechasStr);
         }
 
-        if(fechasNoValidasPorDuracion.size() > 0) {
+        if(!fechasNoValidasPorDuracion.isEmpty()) {
             String fechasStr = "";
             for(LocalDate fecha : fechasNoValidasPorDuracion) {
                 fechasStr += fecha.toString() + "\n";
             }
-            throw new HorarioException(fechasStr);
+            throw new DuracionException(fechasStr);
         }
 
     }
@@ -95,28 +77,16 @@ public class GestorReserva {
         }
     }
 
-    public void validarDatos(ReservaDTO reservaDTO) throws DatosException {
-
-        // Cant alumnos es un número
-        if (!reservaDTO.getCantAlumnos().toString().matches("\\d+")) {
-            throw new DatosException("La cantidad de alumnos debe ser un número entero.");
-        }
-        // Formato de email
-        if (!reservaDTO.getCorreoContacto().matches("[A-ZÑÁÉÍÓÚa-zñáéíóú0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")) {
-            throw new DatosException("El correo electrónico debe tener un formato válido, como ejemplo@dominio.com.");
-        }
-
-    }
-
 
     public void registrarReserva(ReservaDTO reservaDTO) throws DuracionException, HorarioException, FechaException, DatosException {
 
         PeriodoDAO periodoDAO = new PeriodoDAO();
 
+
         validarHorario(reservaDTO);
         validarDia(reservaDTO);
-        validarDatos(reservaDTO);
-        //verificarDiponibilidad(reservaDTO);
+
+
 
         Reserva reserva = new Reserva();
         reserva.setFechas(new ArrayList<>());
@@ -129,6 +99,8 @@ public class GestorReserva {
         if(reservaDTO.getIdPeriodo() != null) {
             Periodo periodo = periodoDAO.getPeriodo(reservaDTO.getIdPeriodo());
             reserva.setPeriodo(periodo);
+        }
+
             List<FechaDTO> listaFechasPeriodo = reservaDTO.getListaFechasDTO();
 
             AulaDAO aulaDAO = new AulaDAO();
@@ -159,20 +131,6 @@ public class GestorReserva {
                 fecha.setReserva(reserva);
                 fechaDAO.crearFecha(fecha);
             }
-        }
-
-    }
-
-
-    private DayOfWeek convertirTextoADayOfWeek(String diaTexto) {
-        return switch (diaTexto) {
-            case "Lunes" -> DayOfWeek.MONDAY;
-            case "Martes" -> DayOfWeek.TUESDAY;
-            case "Miércoles" -> DayOfWeek.WEDNESDAY;
-            case "Jueves" -> DayOfWeek.THURSDAY;
-            case "Viernes" -> DayOfWeek.FRIDAY;
-            default -> throw new IllegalArgumentException("El día " + diaTexto + " no es válido");
-        };
     }
 
 }
